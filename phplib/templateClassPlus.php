@@ -20,7 +20,7 @@ class phplib_templateClassPlus {
 	}
 
 
-	public function out_HTML () {
+	public function getFinish () {
 		$replaceVar = $this->tpl->getUndefined("index", "_");
 		foreach($replaceVar as $varName){
 			$tmp = explode("_", $varName);
@@ -55,13 +55,7 @@ class phplib_templateClassPlus {
 		$this->tpl->parse("out", "index");
 		$page = $this->tpl->getVar("out");
 
-		echo $page;
-		flush();
-		
-		if ($GLOBALS[G_E_FW_VAR]["CACHE"]["type"] != "none"){
-			$objCache = E_FW::load_Class("EFW_Cache", true, $GLOBALS[G_E_FW_VAR]["CACHE"]);
-			$objCache->saveCache($page);
-		}
+		return $page;
 	}
 }
 ?>

@@ -1,60 +1,122 @@
 <?php
 class EFW_Cache {
-	public $type = null;
-	public $dir  = null;
-	public $path = null;
+	public $cacheDir = null;
+	public $cacheType = null;
+	public $cacheTime = 0;
+	public $isSerialize = false;
 	
-	function __construct($Params) {
-		$this->type = $Params["type"];
-		$this->dir 	= $Params["cacheDir"];
-		
-		$uri = $_SERVER['REQUEST_URI'];
-		$cacheFile = strtolower(urlencode($uri));
-		
-		$this->path = $this->dir.DS.date("Y", time()).DS.date("m-d", time()).DS.date("H", time()).DS.$cacheFile;
-		$this->chkDir();
-	}
-
+	protected $exCacheTime = array();
 	
-	public function run () {
-		clearstatcache();
-		
-		switch ($this->type){
-			case "html":
-				if (is_file($this->path)){
-					$pageContent = file_get_contents($this->path);
-					echo $pageContent;
-					
-					return true;
-				}
-				else{
-					return false;
-				}
-				
-				break;
-				
-			case "database":
-				break;
+	function __construct($Params = null) {
+		if (!is_null($Params)){
+			$this->cacheDir	 	= $Params["cacheDir"] ? $Params["cacheDir"] : null;
+			$this->cacheType 	= $Params["cacheType"] ? $Params["cacheType"] : null;
+			$this->cacheTime 	= $Params["cacheTime"] ? $Params["cacheTime"] : 3600;
+			$this->isSerialize 	= $Params["isSerialize"] ? $Params["isSerialize"] : false;
 		}
 	}
 	
 	
-	public function saveCache ($content) {
-		return file_put_contents($this->path, $content);
+	public function chkCache ($cacheID) {
+		switch ($this->cacheType){
+			case "file":
+				clearstatcache();
+				
+				$cacheFile = $this->cacheDir.DS.$cacheID.".E-FW-Cache";
+				
+				if (!file_exists($cacheFile)){
+					return false;
+				}
+				else{
+					if (isset($this->exCacheTime[$cacheID])) {
+						$overTime = $this->exCacheTime[$cacheID];
+					}
+					else{
+						$overTime = $this->cacheTime;
+					}
+					
+					if ( (time() - filemtime($cacheFile)) <= $overTime){
+						return true;
+					}
+					else{
+						return false;
+					}
+				}
+				
+				break;
+				
+			default:
+		}
 	}
 	
 	
-	private function chkDir () {
-		$hashDir = str_replace($this->dir, "", $this->path);
-		$tmp 	 = explode(DS, $hashDir);
-		$folder	 = $this->dir;
-		
-		for ($i = 1; $i < count($tmp) - 1; $i++){
-			$folder.= DS.$tmp[$i];
-			
-			if (!is_readable($folder)){
-				mkdir($folder, 0777);
-			}
+	public function getCache ($cacheID, $unserialize = false) {
+		switch ($this->cacheType){
+			case "file":
+				clearstatcache();
+				
+				$cacheFile = $this->cacheDir.DS.$cacheID.".E-FW-Cache";
+				
+				if (!file_exists($cacheFile)){
+					return false;
+				}
+				else{
+					if (isset($this->exCacheTime[$cacheID])) {
+						$overTime = $this->exCacheTime[$cacheID];
+					}
+					else{
+						$overTime = $this->cacheTime;
+					}
+					
+					if ( (time() - filemtime($cacheFile)) <= $overTime){
+						$cache = file_get_contents($cacheFile);
+						if ( ($this->isSerialize) or ($unserialize) ){
+							$cache = unserialize($cache);
+						}
+						
+						return $cache;
+					}
+					else{
+						return false;
+					}
+				}
+				
+				break;
+				
+			default:
+		}
+	}
+	
+	
+	public function setCache ($cacheID, $cacheData, $cacheTime = 0, $serialize = false){
+		switch ($this->cacheType){
+			case "file":
+				if ( ($this->isSerialize) or ($serialize) ){
+					$cacheData = serialize($cacheData);
+				}
+				
+				$cacheFile = $this->cacheDir.DS.$cacheID.".E-FW-Cache";
+				file_put_contents($cacheFile, $cacheData);
+				
+				if ($cacheTime > 0) {
+					$this->exCacheTime[$cacheID] = $cacheTime;
+				}
+				
+				break;
+				
+			default:
+		}
+	}
+	
+	
+	public function delCache ($cacheID) {
+		switch ($this->cacheType){
+			case "file":
+				@unlink($this->cacheDir.DS.$cacheID.".E-FW-Cache");
+				
+				break;
+				
+			default:
 		}
 	}
 }

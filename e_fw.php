@@ -26,9 +26,6 @@ $GLOBALS[G_E_FW_VAR] = array(
 	"CONTROLLER" => array(),
 	"CLASS_OBJ" => array(),
 	"VIEW" => array(),
-	"CACHE" => array(
-		"type" => "none"
-	)
 );
 
 $GLOBALS[G_E_FW_VAR]['FILE_PATH'][] = dirname(__FILE__).DS;
@@ -47,35 +44,26 @@ class E_FW {
 		
 		header('Content-Type: text/'.$GLOBALS[G_E_FW_VAR]["HTTP"]["HTTP_HEADER"].'; charset='.$GLOBALS[G_E_FW_VAR]["HTTP"]["HTTP_CHARSET"]);
 		
-		if ($GLOBALS[G_E_FW_VAR]["CACHE"]["type"] != "none"){
-			E_FW::load_File("class/efw-cache.php");
-			
-			$objCache = E_FW::load_Class("EFW_Cache", true, $GLOBALS[G_E_FW_VAR]["CACHE"]);
-			$isCache = $objCache->run();
+		$controllerAccessor = $GLOBALS[G_E_FW_VAR]["CONTROLLER"]["controllerAccessor"];
+		$actionAccessor		= $GLOBALS[G_E_FW_VAR]["CONTROLLER"]["actionAccessor"];
+
+		$r = array_change_key_case($_GET, CASE_LOWER);
+		$data = array('controller' => null, 'action' => null);
+
+		if (isset($r[$controllerAccessor])) {
+			$controllerName = $_GET[$controllerAccessor];
 		}
-		
-		if (!$isCache) {
-			$controllerAccessor = $GLOBALS[G_E_FW_VAR]["CONTROLLER"]["controllerAccessor"];
-			$actionAccessor		= $GLOBALS[G_E_FW_VAR]["CONTROLLER"]["actionAccessor"];
-	
-			$r = array_change_key_case($_GET, CASE_LOWER);
-			$data = array('controller' => null, 'action' => null);
-	
-			if (isset($r[$controllerAccessor])) {
-				$controllerName = $_GET[$controllerAccessor];
-			}
-			else{
-				$controllerName = $GLOBALS[G_E_FW_VAR]['CONTROLLER']["defaultController"];
-			}
-			if (isset($r[$actionAccessor])) {
-				$actionName = $_GET[$actionAccessor];
-			}
-			else{
-				$actionName = $GLOBALS[G_E_FW_VAR]['CONTROLLER']["defaultaction"];
-			}
-	
-			E_FW::executeAction($controllerName, $actionName);
+		else{
+			$controllerName = $GLOBALS[G_E_FW_VAR]['CONTROLLER']["defaultController"];
 		}
+		if (isset($r[$actionAccessor])) {
+			$actionName = $_GET[$actionAccessor];
+		}
+		else{
+			$actionName = $GLOBALS[G_E_FW_VAR]['CONTROLLER']["defaultaction"];
+		}
+
+		E_FW::executeAction($controllerName, $actionName);
 		
 		if ($GLOBALS[G_E_FW_VAR]["DEBUG"]){
 			echo "Run Time:".(microtime()-$_load_time);
