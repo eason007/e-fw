@@ -1,5 +1,5 @@
 <?php
-class EFW_Cache {
+class Class_Cache {
 	public $cacheDir = null;
 	public $cacheType = null;
 	public $cacheTime = 0;
