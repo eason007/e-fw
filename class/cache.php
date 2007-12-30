@@ -2,10 +2,9 @@
 class Class_Cache {
 	public $cacheDir = null;
 	public $cacheType = null;
-	public $cacheTime = 0;
+	public $cacheTime = 3600;
+	public $cacheData = null;
 	public $isSerialize = false;
-	
-	protected $exCacheTime = array();
 	
 	function __construct($Params = null) {
 		if (!is_null($Params)){
@@ -13,39 +12,6 @@ class Class_Cache {
 			$this->cacheType 	= $Params["cacheType"] ? $Params["cacheType"] : null;
 			$this->cacheTime 	= $Params["cacheTime"] ? $Params["cacheTime"] : 3600;
 			$this->isSerialize 	= $Params["isSerialize"] ? $Params["isSerialize"] : false;
-		}
-	}
-	
-	
-	public function chkCache ($cacheID) {
-		switch ($this->cacheType){
-			case "file":
-				clearstatcache();
-				
-				$cacheFile = $this->cacheDir.DS.$cacheID.".E-FW-Cache";
-				
-				if (!file_exists($cacheFile)){
-					return false;
-				}
-				else{
-					if (isset($this->exCacheTime[$cacheID])) {
-						$overTime = $this->exCacheTime[$cacheID];
-					}
-					else{
-						$overTime = $this->cacheTime;
-					}
-					
-					if ( (time() - filemtime($cacheFile)) <= $overTime){
-						return true;
-					}
-					else{
-						return false;
-					}
-				}
-				
-				break;
-				
-			default:
 		}
 	}
 	
@@ -61,18 +27,13 @@ class Class_Cache {
 					return false;
 				}
 				else{
-					if (isset($this->exCacheTime[$cacheID])) {
-						$overTime = $this->exCacheTime[$cacheID];
-					}
-					else{
-						$overTime = $this->cacheTime;
-					}
-					
-					if ( (time() - filemtime($cacheFile)) <= $overTime){
-						$cache = file_get_contents($cacheFile);
+					if ( time() <= filemtime($cacheFile) ){
+						$cache = @file_get_contents($cacheFile);
 						if ( ($this->isSerialize) or ($unserialize) ){
 							$cache = unserialize($cache);
 						}
+						
+						$this->cacheData = $cache;
 						
 						return $cache;
 					}
@@ -96,11 +57,12 @@ class Class_Cache {
 				}
 				
 				$cacheFile = $this->cacheDir.DS.$cacheID.".E-FW-Cache";
-				file_put_contents($cacheFile, $cacheData);
+				@file_put_contents($cacheFile, $cacheData);
 				
-				if ($cacheTime > 0) {
-					$this->exCacheTime[$cacheID] = $cacheTime;
+				if ($cacheTime == 0) {
+					$cacheTime = $this->cacheTime;
 				}
+				@touch($cacheFile, time() + $cacheTime);
 				
 				break;
 				
