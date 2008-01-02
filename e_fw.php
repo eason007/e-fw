@@ -202,7 +202,7 @@ class E_FW {
 		}
 		else{
 			foreach ($GLOBALS[G_E_FW_VAR]["FILE_PATH"] as $classdir) {
-				$path = $classdir.DS.$filename;
+				$path = $classdir.$filename;
 				if (is_file($path)) {
 					$GLOBALS[G_E_FW_VAR]["SEARCH_FILE_NAME"][$id] = $path;
 					return $path;
