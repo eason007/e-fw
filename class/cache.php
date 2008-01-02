@@ -3,16 +3,20 @@ class Class_Cache {
 	public $cacheDir = null;
 	public $cacheType = null;
 	public $cacheTime = 3600;
-	public $cacheData = null;
 	public $cacheFileExt = ".EFW-Cache";
 	public $isSerialize = false;
+	public $HashFile = 2;
+	
+	public $cacheData = null;
 	
 	function __construct($Params = null) {
 		if (!is_null($Params)){
 			$this->cacheDir	 	= $Params["cacheDir"] ? $Params["cacheDir"] : null;
 			$this->cacheType 	= $Params["cacheType"] ? $Params["cacheType"] : null;
 			$this->cacheTime 	= $Params["cacheTime"] ? $Params["cacheTime"] : 3600;
+			$this->cacheFileExt	= $Params["cacheFileExt"] ? $Params["cacheFileExt"] : ".EFW-Cache";
 			$this->isSerialize 	= $Params["isSerialize"] ? $Params["isSerialize"] : false;
+			$this->HashFile 	= $Params["HashFile"] ? $Params["HashFile"] : 2;
 		}
 	}
 	
@@ -22,7 +26,7 @@ class Class_Cache {
 			case "file":
 				clearstatcache();
 				
-				$cacheFile = $this->cacheDir.DS.$cacheID.$this->cacheFileExt;
+				$cacheFile = $this->_getHashPath($cacheID);
 				
 				if (!file_exists($cacheFile)){
 					return false;
@@ -57,7 +61,7 @@ class Class_Cache {
 					$cacheData = serialize($cacheData);
 				}
 				
-				$cacheFile = $this->cacheDir.DS.$cacheID.$this->cacheFileExt;
+				$cacheFile = $this->_getHashPath($cacheID);
 				@file_put_contents($cacheFile, $cacheData);
 				
 				if ($cacheTime == 0) {
@@ -75,11 +79,33 @@ class Class_Cache {
 	public function delCache ($cacheID) {
 		switch ($this->cacheType){
 			case "file":
-				@unlink($this->cacheDir.DS.$cacheID.$this->cacheFileExt);
+				$cacheFile = $this->_getHashPath($cacheID);
+				@unlink($cacheFile);
 				
 				break;
 				
 			default:
+		}
+	}
+	
+	
+	private function _getHashPath ($cacheID) {
+		if ($this->HashFile > 0){
+			$hashName = md5($cacheID);
+			$path = $this->cacheDir.DS;
+			
+			for ($i = 0;$i < $this->HashFile; $i++){
+				$path.= $hashName{$i}.DS;
+				
+				if (!is_readable($path)){
+					@mkdir($path, 0777);
+				}
+			}
+			
+			return $path.$hashName.$this->cacheFileExt;
+		}
+		else{
+			return $this->cacheDir.DS.$cacheID.$this->cacheFileExt;
 		}
 	}
 }
