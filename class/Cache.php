@@ -67,7 +67,7 @@ class Class_Cache {
 					$cacheData = serialize($cacheData);
 				}
 				
-				$cacheFile = $this->_getHashPath($cacheID);
+				$cacheFile = $this->_getHashPath($cacheID, false);
 				@file_put_contents($cacheFile, $cacheData);
 				
 				if ($cacheTime == 0) {
@@ -95,7 +95,7 @@ class Class_Cache {
 	}
 	
 	
-	private function _getHashPath ($cacheID) {
+	private function _getHashPath ($cacheID, $isRead = true) {
 		if ($this->hashFile > 0){
 			$hashName = md5($cacheID);
 			$path = $this->cacheDir.DS;
@@ -103,8 +103,10 @@ class Class_Cache {
 			for ($i = 0;$i < $this->hashFile; $i++){
 				$path.= $hashName{$i}.DS;
 				
-				if (!is_readable($path)){
-					@mkdir($path, 0777);
+				if (!$isRead){
+					if (!is_readable($path)){
+						@mkdir($path, 0777);
+					}
 				}
 			}
 			
