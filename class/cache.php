@@ -4,6 +4,7 @@ class Class_Cache {
 	public $cacheType = null;
 	public $cacheTime = 3600;
 	public $cacheData = null;
+	public $cacheFileExt = ".EFW-Cache";
 	public $isSerialize = false;
 	
 	function __construct($Params = null) {
@@ -21,7 +22,7 @@ class Class_Cache {
 			case "file":
 				clearstatcache();
 				
-				$cacheFile = $this->cacheDir.DS.$cacheID.".E-FW-Cache";
+				$cacheFile = $this->cacheDir.DS.$cacheID.$this->cacheFileExt;
 				
 				if (!file_exists($cacheFile)){
 					return false;
@@ -56,7 +57,7 @@ class Class_Cache {
 					$cacheData = serialize($cacheData);
 				}
 				
-				$cacheFile = $this->cacheDir.DS.$cacheID.".E-FW-Cache";
+				$cacheFile = $this->cacheDir.DS.$cacheID.$this->cacheFileExt;
 				@file_put_contents($cacheFile, $cacheData);
 				
 				if ($cacheTime == 0) {
@@ -74,7 +75,7 @@ class Class_Cache {
 	public function delCache ($cacheID) {
 		switch ($this->cacheType){
 			case "file":
-				@unlink($this->cacheDir.DS.$cacheID.".E-FW-Cache");
+				@unlink($this->cacheDir.DS.$cacheID.$this->cacheFileExt);
 				
 				break;
 				
