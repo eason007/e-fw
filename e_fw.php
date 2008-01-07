@@ -47,11 +47,11 @@ $GLOBALS[E_FW_VAR]["FILE_PATH"][] = dirname(__FILE__).DS;
 
 class E_FW {
 	public function run () {
-		setlocale(LC_TIME, $GLOBALS[E_FW_VAR]["TIME_FORMAT"]);
-		date_default_timezone_set($GLOBALS[E_FW_VAR]["TIME_ZONE"]);
+		setlocale(LC_TIME, E_FW::get_Config("TIME_FORMAT"));
+		date_default_timezone_set(E_FW::get_Config("TIME_ZONE"));
 
-		$controllerAccessor = $GLOBALS[E_FW_VAR]["CONTROLLER"]["controllerAccessor"];
-		$actionAccessor		= $GLOBALS[E_FW_VAR]["CONTROLLER"]["actionAccessor"];
+		$controllerAccessor = E_FW::get_Config("CONTROLLER/controllerAccessor");
+		$actionAccessor		= E_FW::get_Config("CONTROLLER/actionAccessor");
 
 		$r = array_change_key_case($_GET, CASE_LOWER);
 		$data = array("controller" => null, "action" => null);
@@ -60,24 +60,24 @@ class E_FW {
 			$controllerName = $_GET[$controllerAccessor];
 		}
 		else{
-			$controllerName = $GLOBALS[E_FW_VAR]["CONTROLLER"]["defaultController"];
+			$controllerName = E_FW::get_Config("CONTROLLER/defaultController");
 		}
 		if (isset($r[$actionAccessor])) {
 			$actionName = $_GET[$actionAccessor];
 		}
 		else{
-			$actionName = $GLOBALS[E_FW_VAR]["CONTROLLER"]["defaultaction"];
+			$actionName = E_FW::get_Config("CONTROLLER/defaultaction");
 		}
 
 		E_FW::executeAction($controllerName, $actionName);
 	}
 
 	public function executeAction ($controllerName, $actionName) {
-		$actionPrefix = $GLOBALS[E_FW_VAR]["CONTROLLER"]["actionMethodPrefix"];
+		$actionPrefix = E_FW::get_Config("CONTROLLER/actionMethodPrefix");
 		if ($actionPrefix != "") {
 			$actionName = ucfirst($actionName);
 		}
-		$actionMethod = $actionPrefix.$actionName.$GLOBALS[E_FW_VAR]["CONTROLLER"]["actionMethodSuffix"];
+		$actionMethod = $actionPrefix.$actionName.E_FW::get_Config("CONTROLLER/actionMethodSuffix");
 
 		$controller = E_FW::load_Class($controllerName);
 		if (!$controller) {
@@ -104,23 +104,25 @@ class E_FW {
 
 	public function import($dir)
     {
-		if (array_search($dir, $GLOBALS[E_FW_VAR]["FILE_PATH"], true)) {
+		if (array_search($dir, E_FW::get_Config("FILE_PATH"), true)) {
 			return;
 		}
-		$GLOBALS[E_FW_VAR]["FILE_PATH"][] = $dir;
+		E_FW::set_Config(array("FILE_PATH" => array($dir)));
     }
 
 	public function load_Class($className, $isLoad = true, $loadParams = null)
     {
-		if ( (isset($GLOBALS[E_FW_VAR]["CLASS_OBJ"][$className])) && (is_object($GLOBALS[E_FW_VAR]["CLASS_OBJ"][$className])) ){
-			return $GLOBALS[E_FW_VAR]["CLASS_OBJ"][$className];
+    	$v = E_FW::get_Config("CLASS_OBJ/".$className);
+    	
+		if ( (isset($v)) && (is_object($v)) ){
+			return $v;
 		}
 
 		if (class_exists($className, false)) {
 			if ($isLoad){
 				$t = new $className($loadParams);
-				$GLOBALS[E_FW_VAR]["CLASS_OBJ"][$className] = $t;
-
+				E_FW::set_Config(array("CLASS_OBJ" => array($className => $t)));
+				
 				return $t;
 			}
 		}
@@ -129,7 +131,7 @@ class E_FW {
 			if (class_exists($className, false)) {
 				if ($isLoad){
 					$t = new $className;
-					$GLOBALS[E_FW_VAR]["CLASS_OBJ"][$className] = $t;
+					E_FW::set_Config(array("CLASS_OBJ" => array($className => $t)));
 
 					return $t;
 				}
@@ -147,7 +149,7 @@ class E_FW {
 		$path = E_FW::get_FilePath($filename);
 
 		if ($path != "") {
-			if (isset($GLOBALS[E_FW_VAR]["LOAD_FILE_NAME"][$path])) {
+			if (E_FW::get_Config("LOAD_FILE_NAME/".$path)) {
 				return true;
 			}
 
@@ -166,7 +168,7 @@ class E_FW {
 		else if (is_array($params)){
 			foreach($params as $key => $val){
 				if (is_array($val)){
-					if (isset($GLOBALS[E_FW_VAR][$key])){
+					if (E_FW::get_Config($key)){
 						$GLOBALS[E_FW_VAR][$key] = array_merge($GLOBALS[E_FW_VAR][$key], $val);
 					}
 					else{
@@ -180,14 +182,33 @@ class E_FW {
 		}
 	}
 	
+	public function get_Config ($path = null) {
+		if (is_null($path)){
+			return $GLOBALS[E_FW_VAR];
+		}
+		else{
+			$fullPath = explode("/", $path);
+			$rt = $GLOBALS[E_FW_VAR];
+			
+			foreach($fullPath as $val){
+				if (!isset($rt[$val])){
+					return false;
+				}
+				$rt = $rt[$val];
+			}
+			
+			return $rt;
+		}
+	}
+	
 	public function get_view() {
-		return E_FW::load_Class($GLOBALS[E_FW_VAR]["VIEW"]["class"]);
+		return E_FW::load_Class(E_FW::get_Config("VIEW/class"));
 	}
 
 	private function get_FilePath($filename)
     {
-		if (isset($GLOBALS[E_FW_VAR]["SEARCH_FILE_NAME"][$filename])) {
-			return $GLOBALS[E_FW_VAR]["SEARCH_FILE_NAME"][$filename];
+		if (E_FW::get_Config("SEARCH_FILE_NAME/".$filename)) {
+			return E_FW::get_Config("SEARCH_FILE_NAME/".$filename);
 		}
 
 		$id = $filename;
@@ -198,20 +219,20 @@ class E_FW {
 		}
 
 		if (is_file($filename)) {
-			$GLOBALS[E_FW_VAR]["SEARCH_FILE_NAME"][$id] = $filename;
+			E_FW::set_Config(array("SEARCH_FILE_NAME" => array($id => $filename)));
 			return $filename;
 		}
 		else{
-			foreach ($GLOBALS[E_FW_VAR]["FILE_PATH"] as $classdir) {
+			foreach (E_FW::get_Config("FILE_PATH") as $classdir) {
 				$path = $classdir.$filename;
 				if (is_file($path)) {
-					$GLOBALS[E_FW_VAR]["SEARCH_FILE_NAME"][$id] = $path;
+					E_FW::set_Config(array("SEARCH_FILE_NAME" => array($id => $path)));
 					return $path;
 				}
 			}
 		}
 
-		$GLOBALS[E_FW_VAR]["SEARCH_FILE_NAME"][$id] = false;
+		E_FW::set_Config(array("SEARCH_FILE_NAME" => array($id => false)));
 		return false;
     }
 }
