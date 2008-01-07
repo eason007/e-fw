@@ -14,7 +14,7 @@ class phplib_templateClassPlus {
 	public $tpl = null;
 
 	public function __construct () {
-		$this->TEMPLATE_PATH = $GLOBALS[G_E_FW_VAR]["VIEW"]["templateDir"];
+		$this->TEMPLATE_PATH = E_FW::get_Config("VIEW/templateDir");
 
 		$this->tpl = new TEMPLATE_PHPLIB_CLASS($this->TEMPLATE_PATH);
 	}
