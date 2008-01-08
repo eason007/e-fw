@@ -120,11 +120,12 @@ class E_FW {
 	 * 导入包含文件路径
 	 *
 	 * @param string $dir
+	 * @return null
 	 */
 	public function import($dir)
     {
 		if (array_search($dir, E_FW::get_Config("FILE_PATH"), true)) {
-			return;
+			return false;
 		}
 		E_FW::set_Config(array("FILE_PATH" => array($dir)));
     }
@@ -133,13 +134,14 @@ class E_FW {
     /**
      * 加载类
      * 
-     * 如果该类曾经已被实例化，则调用该实例
-     * 如没有，则按照一定的规则，
+     * 首先检查全局变量中，是否已有该类的实例
+     * 如没有，则先加载文件，然后实例化该类
+     * 并保存到全局变量中，以便下次调用
      *
      * @param string $className
      * @param bool $isLoad
-     * @param unknown_type $loadParams
-     * @return unknown
+     * @param array $loadParams
+     * @return object/bool
      */
 	public function load_Class($className, $isLoad = true, $loadParams = null)
     {
@@ -176,6 +178,15 @@ class E_FW {
 		}
     }
 
+    
+    /**
+     * 包含文件
+     * 
+     * 
+     *
+     * @param string $filename
+     * @return var
+     */
 	public function load_File ($filename) {
 		$path = E_FW::get_FilePath($filename);
 
@@ -267,5 +278,4 @@ class E_FW {
 		return false;
     }
 }
-
 ?>
