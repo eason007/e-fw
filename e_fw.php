@@ -135,8 +135,8 @@ class E_FW {
      * 加载类
      * 
      * 首先检查全局变量中，是否已有该类的实例
-     * 如没有，则先加载文件，然后实例化该类
-     * 并保存到全局变量中，以便下次调用
+     * 如没有，则先调用 load_File 方法加载文件
+     * 然后实例化该类，并保存到全局变量中，以便下次调用
      *
      * @param string $className
      * @param bool $isLoad
@@ -182,9 +182,11 @@ class E_FW {
     /**
      * 包含文件
      * 
-     * 首先在全局变量中检查是否已包含该文件
+     * 先调用 get_FilePath 方法解释路径
+     * 然后在全局变量中检查是否已包含该文件
      * 如没有，则按照一定的规则，解释文件路径，并包含
      * 然后保存到全局变量，以便下次使用时无需重复包含
+     * 
      *
      * @param string $filename
      * @return var
@@ -293,11 +295,12 @@ class E_FW {
 	 * 分析文件路径
 	 * 
 	 * 按一定规则拆分输入的字符串参数为目录路径
-	 * 当检测到存在该文件时，返回正确的路径地址。
+	 * 当检测到存在该文件时，返回正确的路径地址
+	 * 文件后缀必须为 .php
+	 * 在 linux 下，区分路径大小写
 	 * 如：
 	 * get_FilePath("class_cache");		//返回class/cache.php
-	 * get_FilePath("class_Cache");		//返回class/Cache.php
-	 * 在 linux 下，区分路径大小写。
+	 * get_FilePath("db_Mysql5.php");	//返回db/Mysql5.php
 	 *
 	 * @param string $filename
 	 * @return string
