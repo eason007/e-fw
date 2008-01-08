@@ -1,6 +1,4 @@
 <?php
-E_FW::load_File("base/efw-db-DriversMysql5.php");
-
 class Class_TableDataGateway {
 	public $tableName = null;
 	public $primaryKey = null;
@@ -29,7 +27,7 @@ class Class_TableDataGateway {
 		if ( (is_null($this->db)) or ($isReload) ) {
 			switch ($dbParams["dbType"]) {
 				case "Mysqli":
-					$this->db = new EFW_DB_Mysql5($dbParams);
+					$this->db = E_FW::load_Class("db_Mysql5", true, $dbParams);
 					break;
 			}
 		}
