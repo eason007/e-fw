@@ -46,6 +46,11 @@ $GLOBALS[E_FW_VAR] = array(
 $GLOBALS[E_FW_VAR]["FILE_PATH"][] = dirname(__FILE__).DS;
 
 class E_FW {
+	/**
+	 * 启动框架
+	 * 
+	 * 目前只支持 URL 重写方法。
+	 */
 	public function run () {
 		setlocale(LC_TIME, E_FW::get_Config("TIME_FORMAT"));
 		date_default_timezone_set(E_FW::get_Config("TIME_ZONE"));
@@ -72,6 +77,14 @@ class E_FW {
 		E_FW::executeAction($controllerName, $actionName);
 	}
 
+	
+	/**
+	 * 执行控制器调用
+	 *
+	 * @param string $controllerName 控制器名称
+	 * @param string $actionName 方法名称
+	 * @return object
+	 */
 	public function executeAction ($controllerName, $actionName) {
 		$actionPrefix = E_FW::get_Config("CONTROLLER/actionMethodPrefix");
 		if ($actionPrefix != "") {
@@ -102,6 +115,12 @@ class E_FW {
 		}
 	}
 
+	
+	/**
+	 * 导入包含文件路径
+	 *
+	 * @param string $dir
+	 */
 	public function import($dir)
     {
 		if (array_search($dir, E_FW::get_Config("FILE_PATH"), true)) {
@@ -110,6 +129,18 @@ class E_FW {
 		E_FW::set_Config(array("FILE_PATH" => array($dir)));
     }
 
+    
+    /**
+     * 加载类
+     * 
+     * 如果该类曾经已被实例化，则调用该实例
+     * 如没有，则按照一定的规则，
+     *
+     * @param string $className
+     * @param bool $isLoad
+     * @param unknown_type $loadParams
+     * @return unknown
+     */
 	public function load_Class($className, $isLoad = true, $loadParams = null)
     {
     	$v = E_FW::get_Config("CLASS_OBJ/".$className);
@@ -130,7 +161,7 @@ class E_FW {
 		if (E_FW::load_File($className.".php")) {
 			if (class_exists($className, false)) {
 				if ($isLoad){
-					$t = new $className;
+					$t = new $className($loadParams);
 					E_FW::set_Config(array("CLASS_OBJ" => array($className => $t)));
 
 					return $t;
