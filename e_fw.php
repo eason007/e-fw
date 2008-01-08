@@ -8,7 +8,7 @@
  * @package Core
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.0.20080107
+ * @version 1.0.0.20080108
  */
 
 //标记文件启动时间
@@ -182,7 +182,9 @@ class E_FW {
     /**
      * 包含文件
      * 
-     * 
+     * 首先在全局变量中检查是否已包含该文件
+     * 如没有，则按照一定的规则，解释文件路径，并包含
+     * 然后保存到全局变量，以便下次使用时无需重复包含
      *
      * @param string $filename
      * @return var
@@ -200,7 +202,18 @@ class E_FW {
 		}
 	}
 	
-	public function set_Config ($params = null) {
+	
+	/**
+	 * 设定全局变量
+	 * 
+	 * 当传入一个字符串时，则假定为文件路径，程序会试图包含该文件
+	 * 并将该文件内的内容，追加到全局变量中。
+	 * 因此该文件内容必须为数组形式。
+	 * 如传入参数为数组时，则追加或覆盖全局变量
+	 *
+	 * @param string/array $params
+	 */
+	public function set_Config ($params) {
 		if ( (!is_array($params)) and (is_string($params)) ){
 			if (is_readable($params)){
 				$tmp = require($params);
@@ -224,6 +237,28 @@ class E_FW {
 		}
 	}
 	
+	
+	/**
+	 * 获取全局变量
+	 * 
+	 * 可以获取所有的全局变量，或部分变量
+	 * 根据传入的数据路径决定，如在多层结点下，利用 / 号分隔。
+	 * 如全局变量是：
+	 * array(
+	 * 		"DSN" => array(
+	 * 			"name" => "a",
+	 * 			"pwd" => "b"
+	 * 		),
+	 * 		"CACHE" => true
+	 * )
+	 * 则：
+	 * get_Config();			//获取所有
+	 * get_Config("DSN");		//仅获取 DSN 结点
+	 * get_Config("DSN/name");	//仅获取 DSN 结点下的 name
+	 *
+	 * @param string $path
+	 * @return var
+	 */
 	public function get_Config ($path = null) {
 		if (is_null($path)){
 			return $GLOBALS[E_FW_VAR];
@@ -243,10 +278,23 @@ class E_FW {
 		}
 	}
 	
+	
+	/**
+	 * 获取当前设定的模版类
+	 *
+	 * @return object
+	 */
 	public function get_view() {
 		return E_FW::load_Class(E_FW::get_Config("VIEW/class"));
 	}
 
+	
+	/**
+	 * Enter description here...
+	 *
+	 * @param unknown_type $filename
+	 * @return unknown
+	 */
 	private function get_FilePath($filename)
     {
 		if (E_FW::get_Config("SEARCH_FILE_NAME/".$filename)) {
