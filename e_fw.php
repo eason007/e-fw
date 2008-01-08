@@ -291,6 +291,13 @@ class E_FW {
 	
 	/**
 	 * 分析文件路径
+	 * 
+	 * 按一定规则拆分输入的字符串参数为目录路径
+	 * 当检测到存在该文件时，返回正确的路径地址。
+	 * 如：
+	 * get_FilePath("class_cache");		//返回class/cache.php
+	 * get_FilePath("class_Cache");		//返回class/Cache.php
+	 * 在 linux 下，区分路径大小写。
 	 *
 	 * @param string $filename
 	 * @return string
