@@ -290,10 +290,10 @@ class E_FW {
 
 	
 	/**
-	 * Enter description here...
+	 * 分析文件路径
 	 *
-	 * @param unknown_type $filename
-	 * @return unknown
+	 * @param string $filename
+	 * @return string
 	 */
 	private function get_FilePath($filename)
     {
@@ -322,7 +322,6 @@ class E_FW {
 			}
 		}
 
-		E_FW::set_Config(array("SEARCH_FILE_NAME" => array($id => false)));
 		return false;
     }
 }
