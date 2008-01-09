@@ -49,7 +49,9 @@ class E_FW {
 	/**
 	 * 启动框架
 	 * 
-	 * 目前只支持 URL 重写方法。
+	 * 目前只支持 URL 重写使用 GET 方法。
+	 * 如：
+	 * ?controller=abc&action=123
 	 */
 	public function run () {
 		setlocale(LC_TIME, E_FW::get_Config("TIME_FORMAT"));
