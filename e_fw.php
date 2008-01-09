@@ -74,7 +74,7 @@ class E_FW {
 			$actionName = E_FW::get_Config("CONTROLLER/defaultaction");
 		}
 
-		E_FW::executeAction($controllerName, $actionName);
+		E_FW::execute_Action($controllerName, $actionName);
 	}
 
 	
@@ -85,7 +85,7 @@ class E_FW {
 	 * @param string $actionName 方法名称
 	 * @return object
 	 */
-	public function executeAction ($controllerName, $actionName) {
+	public function execute_Action ($controllerName, $actionName) {
 		$actionPrefix = E_FW::get_Config("CONTROLLER/actionMethodPrefix");
 		if ($actionPrefix != "") {
 			$actionName = ucfirst($actionName);
