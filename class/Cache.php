@@ -76,6 +76,7 @@ class Class_Cache {
 	 */
 	public $cacheData = null;
 	
+	
 	function __construct($Params = null) {
 		if (!is_null($Params)){
 			$this->cacheDir	 	= $Params["cacheDir"] ? $Params["cacheDir"] : null;
