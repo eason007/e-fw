@@ -8,7 +8,7 @@
  * @package Core
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.0.20080108
+ * @version 1.0.0.20080110
  */
 
 //标记文件启动时间
@@ -85,9 +85,10 @@ class E_FW {
 	 *
 	 * @param string $controllerName 控制器名称
 	 * @param string $actionName 方法名称
+	 * @param array $loadParam 加载类时的传递参数
 	 * @return object
 	 */
-	public function execute_Action ($controllerName, $actionName) {
+	public function execute_Action ($controllerName, $actionName, $loadParam = null) {
 		$actionPrefix = E_FW::get_Config("CONTROLLER/actionMethodPrefix");
 		if ($actionPrefix != "") {
 			$actionName = ucfirst($actionName);
@@ -107,7 +108,7 @@ class E_FW {
 				$controller->_beforeExecute($actionMethod);
 			}
 
-			$ret = $controller->{$actionMethod}();
+			$ret = $controller->{$actionMethod}($loadParam);
 
 			if (method_exists($controller, "_afterExecute")) {
 				$controller->_afterExecute($actionMethod);
