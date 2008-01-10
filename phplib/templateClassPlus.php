@@ -37,7 +37,7 @@ class phplib_templateClassPlus {
 					
 				default:
 					if (count($tmp) == 3){
-						E_FW::executeAction("Controller_".$tmp[1], "".$tmp[2]);
+						E_FW::execute_Action("Controller_".$tmp[1], "".$tmp[2]);
 
 						$this->tpl->parse($varName, "_".strtolower($tmp[2])."Content"); 
 
