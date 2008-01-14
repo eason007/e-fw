@@ -60,7 +60,10 @@ class Class_Cache {
 	public $isSerialize = false;
 	
 	/**
-	 * 是否调试模式。是则缓存不启动
+	 * 是否启动缓存
+	 * 
+	 * 主要用于临时调试使用。
+	 * 如设为是，则 getCache 方法永远返回 false
 	 *
 	 * @var bool
 	 */
@@ -69,7 +72,7 @@ class Class_Cache {
 	/**
 	 * 缓存内容
 	 * 
-	 * getCache 方法后，缓存数据除通过get方法返回
+	 * 调用 getCache 方法后，缓存数据除直接返回外，
 	 * 同时亦保存到这里
 	 *
 	 * @var var
@@ -77,6 +80,21 @@ class Class_Cache {
 	public $cacheData = null;
 	
 	
+	/**
+	 * 类的初始化
+	 * 
+	 * 可以在实例化缓存类时，同时把设置参数以数组形式传递入内
+	 * 可以对类的属性进行全部、部分或不设置
+	 * 如：
+	 * new Class_Cache();			//不设置
+	 * new Class_Cache(array(		//只设置两个类属性
+	 * 	"cacheDir" => "./Tmp",
+	 * 	"cacheTime" => 86400
+	 * 	)
+	 * );
+	 *
+	 * @param array $Params
+	 */
 	function __construct($Params = null) {
 		if (!is_null($Params)){
 			$this->cacheDir	 	= $Params["cacheDir"] ? $Params["cacheDir"] : null;
