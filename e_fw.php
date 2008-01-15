@@ -122,7 +122,7 @@ class E_FW {
 	/**
 	 * 导入包含文件路径
 	 *
-	 * @param string $dir
+	 * @param string $dir 目录地址
 	 * @return null
 	 */
 	public function import($dir)
@@ -141,9 +141,9 @@ class E_FW {
      * 如没有，则先调用 load_File 方法加载文件
      * 然后实例化该类，并保存到全局变量中，以便下次调用
      *
-     * @param string $className
-     * @param bool $isLoad
-     * @param array $loadParams
+     * @param string $className 类名
+     * @param bool $isLoad 是否马上实例化该类
+     * @param array $loadParams 实例化参数
      * @return object/bool
      */
 	public function load_Class($className, $isLoad = true, $loadParams = null)
@@ -191,7 +191,7 @@ class E_FW {
      * 然后保存到全局变量，以便下次使用时无需重复包含
      * 
      *
-     * @param string $filename
+     * @param string $filename 文件名
      * @return var
      */
 	public function load_File ($filename) {
