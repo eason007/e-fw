@@ -108,6 +108,15 @@ class Class_Cache {
 	}
 	
 	
+	/**
+	 * 获取缓存/检查缓存是否存在
+	 * 
+	 * 
+	 *
+	 * @param string $cacheID 缓存标记名
+	 * @param bool $unserialize 是否反序列化
+	 * @return var
+	 */
 	public function getCache ($cacheID, $unserialize = false) {
 		if ($this->isDebug){
 			return false;
