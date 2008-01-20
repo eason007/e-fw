@@ -140,12 +140,11 @@ class helper_XML {
 
 	
 	private function objectToArray($object){
-
 	   $return = NULL;	       
 
 	   if(is_array($object)){
 	       foreach($object as $key => $value){
-	           $return[$key] = self::object2array($value);
+	           $return[$key] = self::objectToArray($value);
 	       }
 	   } 
 	   else {
@@ -153,7 +152,7 @@ class helper_XML {
 
 	       if($var) {
 	           foreach($var as $key => $value){
-	               $return[$key] = self::object2array($value);
+	               $return[$key] = self::objectToArray($value);
 	           }
 	       } 
 	       else {
