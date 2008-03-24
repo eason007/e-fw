@@ -40,7 +40,8 @@ $GLOBALS[E_FW_VAR] = array(
 	"CLASS_OBJ" => array(),
 	"VIEW" => array(),
 	"TIME_FORMAT" => "zh_CN",
-	"TIME_ZONE" => "Asia/Hong_Kong"
+	"TIME_ZONE" => "Asia/Hong_Kong",
+	"URL_MODEL" => 0
 );
 
 $GLOBALS[E_FW_VAR]["FILE_PATH"][] = dirname(__FILE__).DS;
@@ -57,24 +58,58 @@ class E_FW {
 		setlocale(LC_TIME, E_FW::get_Config("TIME_FORMAT"));
 		date_default_timezone_set(E_FW::get_Config("TIME_ZONE"));
 
-		$controllerAccessor = E_FW::get_Config("CONTROLLER/controllerAccessor");
-		$actionAccessor		= E_FW::get_Config("CONTROLLER/actionAccessor");
+		switch (E_FW::get_Config("URL_MODEL")){
+			case 1:
+				$controllerAccessor = E_FW::get_Config("CONTROLLER/controllerAccessor");
+				$actionAccessor		= E_FW::get_Config("CONTROLLER/actionAccessor");
 
-		$r = array_change_key_case($_GET, CASE_LOWER);
-		$data = array("controller" => null, "action" => null);
+				$r = array_change_key_case($_GET, CASE_LOWER);
+				$data = array("controller" => null, "action" => null);
 
-		if (isset($r[$controllerAccessor])) {
-			$controllerName = $_GET[$controllerAccessor];
+				if (isset($r[$controllerAccessor])) {
+					$controllerName = $_GET[$controllerAccessor];
+				}
+				if (isset($r[$actionAccessor])) {
+					$actionName = $_GET[$actionAccessor];
+				}
+
+				break;
+
+			case 2:
+				$parts = explode('/', substr($_SERVER["PATH_INFO"]));
+
+				$controllerName = isset($parts[0]) ? $parts[0] : '';
+				$actionName = isset($parts[1]) ? $parts[1] : '';
+
+				$style = E_FW::get_Config("URL_ParameterSPLIT");
+				if ($style == '/') {
+					for ($i = 2; $i < count($parts); $i += 2) {
+						if (isset($parts[$i + 1])) {
+							$_GET[$parts[$i]] = $parts[$i + 1];
+						}
+					}
+				}
+				else {
+					for ($i = 2; $i < count($parts); $i++) {
+						$p = $parts[$i];
+						$arr = explode($style, $p);
+						if (isset($arr[1])) {
+							$_GET[$arr[0]] = $arr[1];
+						}
+					}
+				}
+
+				break;
 		}
-		else{
+
+
+		if strlen($controllerName) <= 0 {
 			$controllerName = E_FW::get_Config("CONTROLLER/defaultController");
 		}
-		if (isset($r[$actionAccessor])) {
-			$actionName = $_GET[$actionAccessor];
-		}
-		else{
+		if strlen($actionName) <= 0{
 			$actionName = E_FW::get_Config("CONTROLLER/defaultaction");
 		}
+		
 
 		E_FW::execute_Action($controllerName, $actionName);
 	}
