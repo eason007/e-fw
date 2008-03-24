@@ -41,7 +41,7 @@ $GLOBALS[E_FW_VAR] = array(
 	"VIEW" => array(),
 	"TIME_FORMAT" => "zh_CN",
 	"TIME_ZONE" => "Asia/Hong_Kong",
-	"URL_MODEL" => 0
+	"URL_MODEL" => 1
 );
 
 $GLOBALS[E_FW_VAR]["FILE_PATH"][] = dirname(__FILE__).DS;
@@ -59,7 +59,7 @@ class E_FW {
 		date_default_timezone_set(E_FW::get_Config("TIME_ZONE"));
 
 		switch (E_FW::get_Config("URL_MODEL")){
-			case 1:
+			case 0:
 				$controllerAccessor = E_FW::get_Config("CONTROLLER/controllerAccessor");
 				$actionAccessor		= E_FW::get_Config("CONTROLLER/actionAccessor");
 
@@ -75,8 +75,8 @@ class E_FW {
 
 				break;
 
-			case 2:
-				$parts = explode('/', substr($_SERVER["PATH_INFO"]));
+			case 1:
+				$parts = explode('/', substr($_SERVER["REQUEST_URI"], 1));
 
 				$controllerName = isset($parts[0]) ? $parts[0] : '';
 				$actionName = isset($parts[1]) ? $parts[1] : '';
@@ -103,10 +103,10 @@ class E_FW {
 		}
 
 
-		if strlen($controllerName) <= 0 {
+		if (strlen($controllerName) <= 0) {
 			$controllerName = E_FW::get_Config("CONTROLLER/defaultController");
 		}
-		if strlen($actionName) <= 0{
+		if (strlen($actionName) <= 0) {
 			$actionName = E_FW::get_Config("CONTROLLER/defaultaction");
 		}
 		
