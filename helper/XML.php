@@ -3,6 +3,8 @@
  * XML生成类
  * 
  * @package helper
+ * @author eason007<eason007@163.com>
+ * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
  */
 class helper_XML {
 	/**
