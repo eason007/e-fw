@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package class
+ * @author eason007<eason007@163.com>
+ * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
+ */
+
 class Class_TableDataGateway {
 	public $tableName = null;
 	public $primaryKey = null;
