@@ -4,8 +4,15 @@ E_FW::load_File("smarty/Smarty.class.php");
 class smarty_templateClassPlus extends Smarty {
 
 	public function __construct () {
-		$this->template_dir		= E_FW::get_Config("VIEW/templateDir");
-		$this->compile_dir		= E_FW::get_Config("VIEW/compile_dir");
+		$viewConfig = E_FW::get_Config("VIEW");
+
+        if (is_array($viewConfig)) {
+            foreach ($viewConfig as $key => $value) {
+                if (isset($this->$key)) {
+                    $this->$key = $value;
+                }
+            }
+        }
 	}
 }
 ?>
