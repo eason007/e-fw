@@ -1,10 +1,10 @@
 <?php
 class DB_Mysql5 {
-	private $dbServer = "";
-	private $dbUser = "";
-	private $dbPassword = "";
-	private $dbName = "";
-	private $dbPort = "";
+	private $dbServer = '';
+	private $dbUser = '';
+	private $dbPassword = '';
+	private $dbName = '';
+	private $dbPort = '';
 
 	private $db = null;
 	
@@ -13,14 +13,14 @@ class DB_Mysql5 {
 	public $rowCount = 0;
 
 	function __construct ($dbParams) {
-		$this->dbServer = $dbParams["dbServer"];
-		$this->dbPort	= $dbParams["dbPort"];
-		$this->dbName	= $dbParams["dbName"];
-		$this->dbUser	= $dbParams["dbUser"];
-		$this->dbPassword = $dbParams["dbPassword"];
+		$this->dbServer = $dbParams['dbServer'];
+		$this->dbPort	= $dbParams['dbPort'];
+		$this->dbName	= $dbParams['dbName'];
+		$this->dbUser	= $dbParams['dbUser'];
+		$this->dbPassword = $dbParams['dbPassword'];
 
-		switch ($dbParams["dbType"]) {
-			case "Mysqli":
+		switch ($dbParams['dbType']) {
+			case 'Mysqli':
 				$this->db = new DB_Driver_Mysqli($this->dbServer,
 													$this->dbPort,
 													$this->dbName,
@@ -29,7 +29,7 @@ class DB_Mysql5 {
 				);
 
 				break;
-			case "PDO":
+			case 'PDO':
 				$this->db = new DB_Driver_PDO($this->dbServer,
 													$this->dbPort,
 													$this->dbName,
@@ -40,7 +40,7 @@ class DB_Mysql5 {
 				break;
 		}
 
-		$this->query("SET NAMES 'utf8'", 1);
+		$this->query('SET NAMES \'utf8\'', 1);
 	}
 
 	public function query ($TSQL, $type = 0) {

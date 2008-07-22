@@ -1,16 +1,16 @@
 <?php
 
 $dsn = array(
-			"dbServer" => "localhost",
-			"dbPort" => "3306",
-			"dbName" => "test",
-			"dbUser" => "root",
-			"dbPassword" => "",
-			"dbType" => "Mysqli"
+			'dbServer' => 'localhost',
+			'dbPort' => '3306',
+			'dbName' => 'test',
+			'dbUser' => 'root',
+			'dbPassword' => '',
+			'dbType' => 'Mysqli'
 );
 
 require('./e_fw.php');
-require_once ("class/efw-db-TableDataGateway.php");
+require_once ('class/efw-db-TableDataGateway.php');
 
 
 class user extends EFW_DB_TableDataGateway
@@ -19,23 +19,23 @@ class user extends EFW_DB_TableDataGateway
     var $primaryKey = 'id';
 
     var $hasOne = array(
-						"tableClass" => "userinfo",
-						"joinKey" => "u_id",
-						"mappingName" => "UserProfile"
+						'tableClass' => 'userinfo',
+						'joinKey' => 'u_id',
+						'mappingName' => 'UserProfile'
     );
 
 	var $hasMany = array(
-						"tableClass" => "userorder",
-						"joinKey" => "u_id",
-						"mappingName" => "UserOrder"
+						'tableClass' => 'userorder',
+						'joinKey' => 'u_id',
+						'mappingName' => 'UserOrder'
     );
 
 	var $manyToMany = array(
-						"tableClass" => "usergroup",
-						"joinTable" => "user_group",
-						"linkKey" => "g_id",
-						"joinKey" => "u_id",
-						"mappingName" => "UserGroup"
+						'tableClass' => 'usergroup',
+						'joinTable' => 'user_group',
+						'linkKey' => 'g_id',
+						'joinKey' => 'u_id',
+						'mappingName' => 'UserGroup'
     );
 
 	var $autoLink = true;
@@ -64,21 +64,21 @@ $user = new user();
 $user->setDB($dsn);
 
 $insert = array(
-				"name" => "111",
-				"hasOne" => array(
-								"email" => "1@1.com"
+				'name' => '111',
+				'hasOne' => array(
+								'email' => '1@1.com'
 				),
-				"hasMany" => array(
+				'hasMany' => array(
 								array(
-									"price" => 1
+									'price' => 1
 								),
 								array(
-									"price" => 100
+									'price' => 100
 								),
 				),
-				"manyToMany" => array(
+				'manyToMany' => array(
 								array(
-									"g_id" => 1
+									'g_id' => 1
 								)
 				),
 );
@@ -86,33 +86,33 @@ $insert = array(
 
 
 $update = array(
-				"id" => 1,
-				"name" => "eason2",
-				"hasOne" => array(
-								"email" => "eason@1.com"
+				'id' => 1,
+				'name' => 'eason2',
+				'hasOne' => array(
+								'email' => 'eason@1.com'
 				),
-				"hasMany" => array(
+				'hasMany' => array(
 								array(
-									"id" => 1,
-									"price" => 19
+									'id' => 1,
+									'price' => 19
 								),
 								array(
-									"id" => 2,
-									"price" => 14
+									'id' => 2,
+									'price' => 14
 								),
 				),
 );
 print_r($user->update($update));
 
 
-//$user->where = "id < 9";
+//$user->where = 'id < 9';
 //$user->autoLink = false;
-//$user->del("hasMany");
+//$user->del('hasMany');
 
 
 print_r($user->select());
 
-echo "=========================================================";
+echo '=========================================================';
 
 
 ?>

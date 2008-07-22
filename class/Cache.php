@@ -50,7 +50,7 @@ class Class_Cache {
 	 *
 	 * @var string
 	 */
-	public $cacheFileExt = ".EFW-Cache";
+	public $cacheFileExt = '.EFW-Cache';
 	
 	/**
 	 * 是否将缓存数据序列化后保存
@@ -88,8 +88,8 @@ class Class_Cache {
 	 * 如：
 	 * new Class_Cache();			//不设置
 	 * new Class_Cache(array(		//只设置两个类属性
-	 * 	"cacheDir" => "./Tmp",
-	 * 	"cacheTime" => 86400
+	 * 	'cacheDir' => './Tmp',
+	 * 	'cacheTime' => 86400
 	 * 	)
 	 * );
 	 *
@@ -97,13 +97,13 @@ class Class_Cache {
 	 */
 	function __construct($Params = null) {
 		if (!is_null($Params)){
-			$this->cacheDir	 	= $Params["cacheDir"] ? $Params["cacheDir"] : null;
-			$this->cacheType 	= $Params["cacheType"] ? $Params["cacheType"] : null;
-			$this->cacheTime 	= $Params["cacheTime"] ? $Params["cacheTime"] : 3600;
-			$this->cacheFileExt	= $Params["cacheFileExt"] ? $Params["cacheFileExt"] : ".EFW-Cache";
-			$this->isSerialize 	= $Params["isSerialize"] ? $Params["isSerialize"] : false;
-			$this->hashFile 	= $Params["hashFile"] ? $Params["hashFile"] : 2;
-			$this->isDebug 		= $Params["isDebug"] ? $Params["isDebug"] : false;
+			$this->cacheDir	 	= $Params['cacheDir'] ? $Params['cacheDir'] : null;
+			$this->cacheType 	= $Params['cacheType'] ? $Params['cacheType'] : null;
+			$this->cacheTime 	= $Params['cacheTime'] ? $Params['cacheTime'] : 3600;
+			$this->cacheFileExt	= $Params['cacheFileExt'] ? $Params['cacheFileExt'] : '.EFW-Cache';
+			$this->isSerialize 	= $Params['isSerialize'] ? $Params['isSerialize'] : false;
+			$this->hashFile 	= $Params['hashFile'] ? $Params['hashFile'] : 2;
+			$this->isDebug 		= $Params['isDebug'] ? $Params['isDebug'] : false;
 		}
 	}
 	
@@ -123,7 +123,7 @@ class Class_Cache {
 		}
 		
 		switch ($this->cacheType){
-			case "file":
+			case 'file':
 				clearstatcache();
 				
 				$cacheFile = $this->_getHashPath($cacheID);
@@ -156,7 +156,7 @@ class Class_Cache {
 	
 	public function setCache ($cacheID, $cacheData, $cacheTime = 0, $serialize = false){
 		switch ($this->cacheType){
-			case "file":
+			case 'file':
 				if ( ($this->isSerialize) or ($serialize) ){
 					$cacheData = serialize($cacheData);
 				}
@@ -178,7 +178,7 @@ class Class_Cache {
 	
 	public function delCache ($cacheID) {
 		switch ($this->cacheType){
-			case "file":
+			case 'file':
 				$cacheFile = $this->_getHashPath($cacheID);
 				@unlink($cacheFile);
 				
