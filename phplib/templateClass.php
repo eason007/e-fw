@@ -1,22 +1,22 @@
 <?php
 class TEMPLATE_PHPLIB_CLASS {
 
-	var $classname = 'Template';
+	var $classname = "Template";
 	var $debug    = false;
-	var $root     = '.';
+	var $root     = ".";
 	var $file     = array();
 	var $varkeys  = array();
 	var $varvals  = array();
-	var $unknowns = 'keep';
-	var $halt_on_error  = 'yes';
-	var $lastError     = '';
+	var $unknowns = "keep";
+	var $halt_on_error  = "yes";
+	var $lastError     = "";
 
 	/******************************************************************************
 	* Class constructor. May be called with two optional parameters.
 	* The first parameter sets the template directory the second parameter
 	* sets the policy regarding handling of unknown variables.
 	*
-	* usage: Template([string $root = '.'], [string $unknowns = 'remove'])
+	* usage: Template([string $root = "."], [string $unknowns = "remove"])
 	*
 	* @param     $root        path to template directory
 	* @param     $string      what to do with undefined variables
@@ -25,9 +25,9 @@ class TEMPLATE_PHPLIB_CLASS {
 	* @access    public
 	* @return    void
 	*/
-	function __construct($root = '.', $unknowns = 'remove') {
+	function __construct($root = ".", $unknowns = "remove") {
 		if ($this->debug & 4) {
-			echo '<p><b>Template:</b> root = $root, unknowns = $unknowns</p>\n';
+			echo "<p><b>Template:</b> root = $root, unknowns = $unknowns</p>\n";
 		}
 		$this->setRoot($root);
 		$this->setUnknowns($unknowns);
@@ -50,10 +50,10 @@ class TEMPLATE_PHPLIB_CLASS {
 	*/
 	function setRoot($root) {
 		if ($this->debug & 4) {
-			echo '<p><b>setRoot:</b> root = $root</p>\n';
+			echo "<p><b>setRoot:</b> root = $root</p>\n";
 		}
 		if (!is_dir($root)) {
-			$this->halt('setRoot: $root is not a directory.');
+			$this->halt("setRoot: $root is not a directory.");
 			return false;
 		}
 
@@ -66,11 +66,11 @@ class TEMPLATE_PHPLIB_CLASS {
 	* Sets the policy for dealing with unresolved variable names.
 	*
 	* unknowns defines what to do with undefined template variables
-	* 'remove'   = remove undefined variables
-	* 'comment'  = replace undefined variables with comments
-	* 'keep'     = keep undefined variables
+	* "remove"   = remove undefined variables
+	* "comment"  = replace undefined variables with comments
+	* "keep"     = keep undefined variables
 	*
-	* Note: 'comment' can cause unexpected results when the variable tag is embedded
+	* Note: "comment" can cause unexpected results when the variable tag is embedded
 	* inside an HTML tag, for example a tag which is expected to be replaced with a URL.
 	*
 	* usage: setUnknowns(string $unknowns)
@@ -80,9 +80,9 @@ class TEMPLATE_PHPLIB_CLASS {
 	* @access    public
 	* @return    void
 	*/
-	function setUnknowns($unknowns = 'remove') {
+	function setUnknowns($unknowns = "remove") {
 		if ($this->debug & 4) {
-			echo '<p><b>unknowns:</b> unknowns = $unknowns</p>\n';
+			echo "<p><b>unknowns:</b> unknowns = $unknowns</p>\n";
 		}
 		$this->unknowns = $unknowns;
 	}
@@ -109,13 +109,13 @@ class TEMPLATE_PHPLIB_CLASS {
 	* @access    public
 	* @return    boolean
 	*/
-	function setFile($varname, $filename = '') {
+	function setFile($varname, $filename = "") {
 		if (!is_array($varname)) {
 			if ($this->debug & 4) {
-				echo '<p><b>setFile:</b> (with scalar) varname = $varname, filename = $filename</p>\n';
+				echo "<p><b>setFile:</b> (with scalar) varname = $varname, filename = $filename</p>\n";
 			}
-			if ($filename == '') {
-				$this->halt('setFile: For varname $varname filename is empty.');
+			if ($filename == "") {
+				$this->halt("setFile: For varname $varname filename is empty.");
 				return false;
 			}
 			$this->file[$varname] = $this->filename($filename);
@@ -123,10 +123,10 @@ class TEMPLATE_PHPLIB_CLASS {
 			reset($varname);
 			while(list($v, $f) = each($varname)) {
 				if ($this->debug & 4) {
-					echo '<p><b>setFile:</b> (with array) varname = $v, filename = $f</p>\n';
+					echo "<p><b>setFile:</b> (with array) varname = $v, filename = $f</p>\n";
 				}
-				if ($f == '') {
-					$this->halt('setFile: For varname $v filename is empty.');
+				if ($f == "") {
+					$this->halt("setFile: For varname $v filename is empty.");
 					return false;
 				}
 				$this->file[$v] = $this->filename($f);
@@ -148,7 +148,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	*
 	* Returns true on success, false on error.
 	*
-	* usage: setBlock(string $parent, string $varname, [string $name = ''])
+	* usage: setBlock(string $parent, string $varname, [string $name = ""])
 	*
 	* @param     $parent       a string containing the name of the parent variable
 	* @param     $varname      a string containing the name of the block to be extracted
@@ -156,22 +156,22 @@ class TEMPLATE_PHPLIB_CLASS {
 	* @access    public
 	* @return    boolean
 	*/
-	function setBlock($parent, $varname, $name = '') {
+	function setBlock($parent, $varname, $name = "") {
 		if ($this->debug & 4) {
-			echo '<p><b>setBlock:</b> parent = $parent, varname = $varname, name = $name</p>\n';
+			echo "<p><b>setBlock:</b> parent = $parent, varname = $varname, name = $name</p>\n";
 		}
 		if (!$this->loadfile($parent)) {
-			$this->halt('setBlock: unable to load $parent.');
+			$this->halt("setBlock: unable to load $parent.");
 			return false;
 		}
-		if ($name == '') {
+		if ($name == "") {
 			$name = $varname;
 		}
 
 		$str = $this->getVar($parent);
-		$reg = '/[ \t]*<!--\s+BEGIN $varname\s+-->\s*?\n?(\s*.*?\n?)\s*<!--\s+END $varname\s+-->\s*?\n?/sm';
+		$reg = "/[ \t]*<!--\s+BEGIN $varname\s+-->\s*?\n?(\s*.*?\n?)\s*<!--\s+END $varname\s+-->\s*?\n?/sm";
 		preg_match_all($reg, $str, $m);
-		$str = preg_replace($reg, '{' . '$name}', $str);
+		$str = preg_replace($reg, "{" . "$name}", $str);
 		$this->setVar($varname, $m[1][0]);
 		$this->setVar($parent, $str);
 		return true;
@@ -194,7 +194,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* This feature was introduced after the 7.2d release.
 	*
 	*
-	* usage: setVar(string $varname, [string $value = ''], [boolean $append = false])
+	* usage: setVar(string $varname, [string $value = ""], [boolean $append = false])
 	* or
 	* usage: setVar(array $varname = (string $varname => string $value), [mixed $dummy_var], [boolean $append = false])
 	*
@@ -204,13 +204,13 @@ class TEMPLATE_PHPLIB_CLASS {
 	* @access    public
 	* @return    void
 	*/
-	function setVar($varname, $value = '', $append = false) {
+	function setVar($varname, $value = "", $append = false) {
 		if (!is_array($varname)) {
 			if (!empty($varname)) {
 				if ($this->debug & 1) {
-					printf('<b>setVar:</b> (with scalar) <b>%s</b> = '%s'<br>\n', $varname, htmlentities($value));
+					printf("<b>setVar:</b> (with scalar) <b>%s</b> = '%s'<br>\n", $varname, htmlentities($value));
 				}
-				$this->varkeys[$varname] = '/'.$this->varname($varname).'/';
+				$this->varkeys[$varname] = "/".$this->varname($varname)."/";
 				if ($append && isset($this->varvals[$varname])) {
 					$this->varvals[$varname] .= $value;
 				} else {
@@ -222,9 +222,9 @@ class TEMPLATE_PHPLIB_CLASS {
 			while(list($k, $v) = each($varname)) {
 				if (!empty($k)) {
 					if ($this->debug & 1) {
-						printf('<b>setVar:</b> (with array) <b>%s</b> = '%s'<br>\n', $k, htmlentities($v));
+						printf("<b>setVar:</b> (with array) <b>%s</b> = '%s'<br>\n", $k, htmlentities($v));
 					}
-					$this->varkeys[$k] = '/'.$this->varname($k).'/';
+					$this->varkeys[$k] = "/".$this->varname($k)."/";
 					if ($append && isset($this->varvals[$k])) {
 						$this->varvals[$k] .= $v;
 					} else {
@@ -243,7 +243,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* values being the varnames to be cleared.
 	*
 	* The function sets the value of the variable in the $varkeys and $varvals
-	* hashes to ''. It is not necessary for a variable to exist in these hashes
+	* hashes to "". It is not necessary for a variable to exist in these hashes
 	* before calling this function.
 	*
 	*
@@ -259,18 +259,18 @@ class TEMPLATE_PHPLIB_CLASS {
 		if (!is_array($varname)) {
 			if (!empty($varname)) {
 				if ($this->debug & 1) {
-					printf('<b>clearVar:</b> (with scalar) <b>%s</b><br>\n', $varname);
+					printf("<b>clearVar:</b> (with scalar) <b>%s</b><br>\n", $varname);
 				}
-				$this->setVar($varname, '');
+				$this->setVar($varname, "");
 			}
 		} else {
 			reset($varname);
 			while(list($k, $v) = each($varname)) {
 				if (!empty($v)) {
 					if ($this->debug & 1) {
-						printf('<b>clearVar:</b> (with array) <b>%s</b><br>\n', $v);
+						printf("<b>clearVar:</b> (with array) <b>%s</b><br>\n", $v);
 					}
-					$this->setVar($v, '');
+					$this->setVar($v, "");
 				}
 			}
 		}
@@ -300,7 +300,7 @@ class TEMPLATE_PHPLIB_CLASS {
 		if (!is_array($varname)) {
 			if (!empty($varname)) {
 				if ($this->debug & 1) {
-					printf('<b>unsetVar:</b> (with scalar) <b>%s</b><br>\n', $varname);
+					printf("<b>unsetVar:</b> (with scalar) <b>%s</b><br>\n", $varname);
 				}
 				unset($this->varkeys[$varname]);
 				unset($this->varvals[$varname]);
@@ -310,7 +310,7 @@ class TEMPLATE_PHPLIB_CLASS {
 			while(list($k, $v) = each($varname)) {
 				if (!empty($v)) {
 					if ($this->debug & 1) {
-						printf('<b>unsetVar:</b> (with array) <b>%s</b><br>\n', $v);
+						printf("<b>unsetVar:</b> (with array) <b>%s</b><br>\n", $v);
 					}
 					unset($this->varkeys[$v]);
 					unset($this->varvals[$v]);
@@ -324,7 +324,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* This function fills in all the variables contained within the variable named
 	* $varname. The resulting value is returned as the function result and the
 	* original value of the variable varname is not changed. The resulting string
-	* is not 'finished', that is, the unresolved variable name policy has not been
+	* is not "finished", that is, the unresolved variable name policy has not been
 	* applied yet.
 	*
 	* Returns: the value of the variable $varname with all variables substituted.
@@ -338,10 +338,10 @@ class TEMPLATE_PHPLIB_CLASS {
 	function subst($varname) {
 		$varvals_quoted = array();
 		if ($this->debug & 4) {
-			echo '<p><b>subst:</b> varname = $varname</p>\n';
+			echo "<p><b>subst:</b> varname = $varname</p>\n";
 		}
 		if (!$this->loadfile($varname)) {
-			$this->halt('subst: unable to load $varname.');
+			$this->halt("subst: unable to load $varname.");
 			return false;
 		}
 
@@ -372,7 +372,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	*/
 	function psubst($varname) {
 		if ($this->debug & 4) {
-			echo '<p><b>psubst:</b> varname = $varname</p>\n';
+			echo "<p><b>psubst:</b> varname = $varname</p>\n";
 		}
 		print $this->subst($varname);
 
@@ -423,7 +423,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	function parse($target, $varname, $append = false) {
 		if (!is_array($varname)) {
 			if ($this->debug & 4) {
-				echo '<p><b>parse:</b> (with scalar) target = $target, varname = $varname, append = $append</p>\n';
+				echo "<p><b>parse:</b> (with scalar) target = $target, varname = $varname, append = $append</p>\n";
 			}
 			$str = $this->subst($varname);
 			if ($append) {
@@ -435,7 +435,7 @@ class TEMPLATE_PHPLIB_CLASS {
 			reset($varname);
 			while(list($i, $v) = each($varname)) {
 				if ($this->debug & 4) {
-					echo '<p><b>parse:</b> (with array) target = $target, i = $i, varname = $v, append = $append</p>\n';
+					echo "<p><b>parse:</b> (with array) target = $target, i = $i, varname = $v, append = $append</p>\n";
 				}
 				$str = $this->subst($v);
 				if ($append) {
@@ -447,7 +447,7 @@ class TEMPLATE_PHPLIB_CLASS {
 		}
 
 		if ($this->debug & 4) {
-			echo '<p><b>parse:</b> completed</p>\n';
+			echo "<p><b>parse:</b> completed</p>\n";
 		}
 		return $str;
 
@@ -473,7 +473,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	*/
 	function pparse($target, $varname, $append = false) {
 		if ($this->debug & 4) {
-			echo '<p><b>pparse:</b> passing parameters to parse...</p>\n';
+			echo "<p><b>pparse:</b> passing parameters to parse...</p>\n";
 		}
 		print $this->finish($this->parse($target, $varname, $append));
 		return false;
@@ -497,7 +497,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	*/
 	function getVars() {
 		if ($this->debug & 4) {
-			echo '<p><b>getVars:</b> constructing array of vars...</p>\n';
+			echo "<p><b>getVars:</b> constructing array of vars...</p>\n";
 		}
 		reset($this->varkeys);
 		while(list($k, $v) = each($this->varkeys)) {
@@ -530,10 +530,10 @@ class TEMPLATE_PHPLIB_CLASS {
 			if (isset($this->varvals[$varname])) {
 				$str = $this->varvals[$varname];
 			} else {
-				$str = '';
+				$str = "";
 			}
 			if ($this->debug & 2) {
-				printf ('<b>getVar</b> (with scalar) <b>%s</b> = '%s'<br>\n', $varname, htmlentities($str));
+				printf ("<b>getVar</b> (with scalar) <b>%s</b> = '%s'<br>\n", $varname, htmlentities($str));
 			}
 			return $str;
 		} else {
@@ -542,10 +542,10 @@ class TEMPLATE_PHPLIB_CLASS {
 				if (isset($this->varvals[$v])) {
 					$str = $this->varvals[$v];
 				} else {
-					$str = '';
+					$str = "";
 				}
 				if ($this->debug & 2) {
-					printf ('<b>getVar:</b> (with array) <b>%s</b> = '%s'<br>\n', $v, htmlentities($str));
+					printf ("<b>getVar:</b> (with array) <b>%s</b> = '%s'<br>\n", $v, htmlentities($str));
 				}
 				$result[$v] = $str;
 			}
@@ -569,16 +569,16 @@ class TEMPLATE_PHPLIB_CLASS {
 	*/
 	function getUndefined($varname, $keyword = '') {
 		if ($this->debug & 4) {
-			echo '<p><b>getUndefined:</b> varname = $varname</p>\n';
+			echo "<p><b>getUndefined:</b> varname = $varname</p>\n";
 		}
 		if(!$this->getVar($varname)) {
 			if (!$this->loadfile($varname)) {
-				$this->halt('getUndefined: unable to load $varname.');
+				$this->halt("getUndefined: unable to load $varname.");
 				return false;
 			}
 		}
-		$keyword = str_replace('(', '\(',str_replace(')', '\)', $keyword));
-		preg_match_all('/{(('.$keyword.')[^ \t\r\n}]+)}/', $this->getVar($varname), $m);
+		$keyword = str_replace("(", "\(",str_replace(")", "\)", $keyword));
+		preg_match_all("/{((".$keyword.")[^ \t\r\n}]+)}/", $this->getVar($varname), $m);
 		//print_r($m);
 		$m = $m[1];
 		if (!is_array($m)) {
@@ -589,7 +589,7 @@ class TEMPLATE_PHPLIB_CLASS {
 		while(list($k, $v) = each($m)) {
 			if (!isset($this->varkeys[$v])) {
 				if ($this->debug & 4) {
-					echo '<p><b>getUndefined:</b> undefined: $v</p>\n';
+					echo "<p><b>getUndefined:</b> undefined: $v</p>\n";
 				}
 				$result[$v] = $v;
 			}
@@ -618,15 +618,15 @@ class TEMPLATE_PHPLIB_CLASS {
 	*/
 	function finish($str) {
 		switch ($this->unknowns) {
-			case 'keep':
+			case "keep":
 			break;
 
-			case 'remove':
-			$str = preg_replace('/{[^ \t\r\n}]+}/', '', $str);
+			case "remove":
+			$str = preg_replace('/{[^ \t\r\n}]+}/', "", $str);
 			break;
 
-			case 'comment':
-			$str = preg_replace('/{([^ \t\r\n}]+)}/', '<!-- Template variable \\1 undefined -->', $str);
+			case "comment":
+			$str = preg_replace('/{([^ \t\r\n}]+)}/', "<!-- Template variable \\1 undefined -->", $str);
 			break;
 		}
 
@@ -656,10 +656,10 @@ class TEMPLATE_PHPLIB_CLASS {
 		* 濠电儑绲藉ù鍌炲窗濡ゅ懎鏋侀柛蹇氬亹椤?			peter
 		* 闂備胶绮〃鍛存偋婵犲偊鑰?				1.0
 		* 闂備礁鎲￠…鍥窗鎼淬劌鑸归悗鐢电《閸?
-		echo str_replace(urlencode('}'),'}',str_replace(urlencode('{'),'{',$this->finish($this->getVar($varname))));
+		echo str_replace(urlencode("}"),"}",str_replace(urlencode("{"),"{",$this->finish($this->getVar($varname))));
 		* 闂備胶绮划宥咁熆濮椻偓瀹曨剛鈧數纭堕崑?
 		global $GZIP;
-		echo str_replace(urlencode('}'),'}',str_replace(urlencode('{'),'{',$this->finish($this->getVar($varname))));
+		echo str_replace(urlencode("}"),"}",str_replace(urlencode("{"),"{",$this->finish($this->getVar($varname))));
 		if($gz) {
 		$GZIP->gzDocOut();
 		}
@@ -668,12 +668,12 @@ class TEMPLATE_PHPLIB_CLASS {
 		if($gz) {
 			ob_start();
 			ob_implicit_flush(0);
-			echo str_replace(urlencode('}'),'}',str_replace(urlencode('{'),'{',$this->finish($this->getVar($varname))));
+			echo str_replace(urlencode("}"),"}",str_replace(urlencode("{"),"{",$this->finish($this->getVar($varname))));
 			GZIP_CLASS::gzDocOut();
 			unset($varname);			
 			exit();
 		} else {
-			echo str_replace(urlencode('}'),'}',str_replace(urlencode('{'),'{',$this->finish($this->getVar($varname))));
+			echo str_replace(urlencode("}"),"}",str_replace(urlencode("{"),"{",$this->finish($this->getVar($varname))));
 			unset($varname);
 			exit();
 		}		
@@ -715,13 +715,13 @@ class TEMPLATE_PHPLIB_CLASS {
 	*/
 	function filename($filename) {
 		if ($this->debug & 4) {
-			echo '<p><b>filename:</b> filename = $filename</p>\n';
+			echo "<p><b>filename:</b> filename = $filename</p>\n";
 		}
-		if (substr($filename, 0, 1) != '/') {
-			$filename = $this->root.'/'.$filename;
+		if (substr($filename, 0, 1) != "/") {
+			$filename = $this->root."/".$filename;
 		}
 		if (!file_exists($filename)) {
-			$this->halt('filename: file $filename does not exist.');
+			$this->halt("filename: file $filename does not exist.");
 		}
 
 		return $filename;
@@ -741,7 +741,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* @return    string
 	*/
 	function varname($varname) {
-		return preg_quote('{'.$varname.'}');
+		return preg_quote("{".$varname."}");
 	}
 
 
@@ -753,7 +753,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* Note that the behaviour of this function changed slightly after the 7.2d
 	* release. Where previously a variable was reloaded from file if the value
 	* was empty, now this is not done. This allows a variable to be loaded then
-	* set to '', and also prevents attempts to load empty variables. Files are
+	* set to "", and also prevents attempts to load empty variables. Files are
 	* now only loaded if $this->varvals[$varname] is unset.
 	*
 	* Returns: true on success, false on error.
@@ -767,12 +767,12 @@ class TEMPLATE_PHPLIB_CLASS {
 	*/
 	function loadfile($varname) {
 		if ($this->debug & 4) {
-			echo '<p><b>loadfile:</b> varname = $varname</p>\n';
+			echo "<p><b>loadfile:</b> varname = $varname</p>\n";
 		}
 		if (!isset($this->file[$varname])) {
 			// $varname does not reference a file so return
 			if ($this->debug & 4) {
-				echo '<p><b>loadfile:</b> varname $varname does not reference a file</p>\n';
+				echo "<p><b>loadfile:</b> varname $varname does not reference a file</p>\n";
 			}
 			return true;
 		}
@@ -781,21 +781,21 @@ class TEMPLATE_PHPLIB_CLASS {
 			// will only be unset if varname was created with setFile and has never been loaded
 			// $varname has already been loaded so return
 			if ($this->debug & 4) {
-				echo '<p><b>loadfile:</b> varname $varname is already loaded</p>\n';
+				echo "<p><b>loadfile:</b> varname $varname is already loaded</p>\n";
 			}
 			return true;
 		}
 		$filename = $this->file[$varname];
 
 		/* use @file here to avoid leaking filesystem information if there is an error*/
-		$str = implode('', @file($filename));
+		$str = implode("", @file($filename));
 		if (empty($str)) {
-			$this->halt('loadfile: While loading $varname, $filename does not exist or is empty.');
+			$this->halt("loadfile: While loading $varname, $filename does not exist or is empty.");
 			return false;
 		}
 
 		if ($this->debug & 4) {
-			printf('<b>loadfile:</b> loaded $filename into $varname<br>\n');
+			printf("<b>loadfile:</b> loaded $filename into $varname<br>\n");
 		}
 		$this->setVar($varname, $str);
 
@@ -820,12 +820,12 @@ class TEMPLATE_PHPLIB_CLASS {
 	function halt($msg) {
 		$this->lastError = $msg;
 
-		if ($this->halt_on_error != 'no') {
+		if ($this->halt_on_error != "no") {
 			$this->haltmsg($msg);
 		}
 
-		if ($this->halt_on_error == 'yes') {
-			die('<b>Halted.</b>');
+		if ($this->halt_on_error == "yes") {
+			die("<b>Halted.</b>");
 		}
 
 		return false;
@@ -845,7 +845,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* @see       halt
 	*/
 	function haltmsg($msg) {
-		printf('<b>Template Error:</b> %s<br>\n', $msg);
+		printf("<b>Template Error:</b> %s<br>\n", $msg);
 	}
 
 }
