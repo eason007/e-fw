@@ -91,8 +91,8 @@ class helper_XML {
 
 
 	private function getList ($dataArray = null) {
-		$arrayList 	= $dataArray["list"];
-		$total 		= $dataArray["total"];
+		$arrayList 	= $dataArray['list'];
+		$total 		= $dataArray['total'];
 
 		if(!empty($arrayList)) {
 			$total 	= empty($total) ? 0 : $total;
