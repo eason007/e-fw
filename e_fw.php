@@ -55,6 +55,9 @@ class E_FW {
 	 * ?controller=abc&action=123
 	 */
 	public function run () {
+		$controllerName = "";
+		$actionName		= "";
+
 		setlocale(LC_TIME, E_FW::get_Config('TIME_FORMAT'));
 		date_default_timezone_set(E_FW::get_Config('TIME_ZONE'));
 
