@@ -1,11 +1,5 @@
 <?php
 class DB_Mysql5 {
-	private $dbServer = '';
-	private $dbUser = '';
-	private $dbPassword = '';
-	private $dbName = '';
-	private $dbPort = '';
-
 	private $db = null;
 	
 	public $sqlBox = array();
@@ -13,13 +7,13 @@ class DB_Mysql5 {
 	public $rowCount = 0;
 
 	function __construct ($dbParams) {
-		$this->dbServer = $dbParams['dbServer'];
-		$this->dbPort	= $dbParams['dbPort'];
-		$this->dbName	= $dbParams['dbName'];
-		$this->dbUser	= $dbParams['dbUser'];
-		$this->dbPassword = $dbParams['dbPassword'];
+		foreach ($dbParams as $key => $value) {
+			$this->$key = $value;
+		}
+	}
 
-		switch ($dbParams['dbType']) {
+	private function dbConnect () {
+		switch ($this->dbType) {
 			case 'Mysqli':
 				$this->db = new DB_Driver_Mysqli($this->dbServer,
 													$this->dbPort,
@@ -44,6 +38,10 @@ class DB_Mysql5 {
 	}
 
 	public function query ($TSQL, $type = 0) {
+		if (!isset($this->db)){
+			$this->dbConnect();
+		}
+
 		$this->sqlBox[] = $TSQL;
 
 		switch ($type) {
@@ -89,28 +87,22 @@ class DB_Driver_Mysqli {
 	}
 
 	public function query ($sSQL) {
-		if (!isset($this->dbConnect)){
-			$this->Connect();
-		}
-
 		$flag = array();
 
 		$result = $this->dbConnect->query($sSQL);
 
-		while ($row = @$result->fetch_assoc()) {
-			$flag[] = $row;	
-		}
+		if ($result){
+			while ($row = @$result->fetch_assoc()) {
+				$flag[] = $row;	
+			}
 
-		@$result->close();
+			@$result->close();
+		}
 
 		return $flag;
 	}
 
 	public function execute ($sSQL) {
-		if (!isset($this->dbConnect)){
-			$this->Connect();
-		}
-
 		$this->dbConnect->query($sSQL);
 	
 		$this->lastID = @$this->dbConnect->insert_id;
@@ -143,10 +135,6 @@ class DB_Driver_PDO {
 	}
 
 	public function query ($sSQL) {
-		if (!isset($this->dbConnect)){
-			$this->Connect();
-		}
-
 		$result = $this->dbConnect->query($sSQL);
 
 		$result->setFetchMode(PDO::FETCH_ASSOC);
@@ -155,10 +143,6 @@ class DB_Driver_PDO {
 	}
 
 	public function execute ($sSQL) {
-		if (!isset($this->dbConnect)){
-			$this->Connect();
-		}
-
 		$this->dbConnect->query($sSQL);
 
 		$this->lastID = @$this->dbConnect->lastInsertId();

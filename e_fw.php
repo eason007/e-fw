@@ -24,24 +24,24 @@ define('E_FW_VAR', '_E_FW_CORE_');
  * 初始化框架
  */
 $GLOBALS[E_FW_VAR] = array(
-    'VERSION' => '1.0.0.20080107',
-	'DSN' => array(),
+    'VERSION' => '1.0.2.20080816',							//框架版本号
+	'DSN' => array(),										//数据库连接配置信息。dbServer/dbPort/dbName/dbUser/dbPassword/dbType
 	'FILE_PATH' => array(),
 	'LOAD_FILE_NAME' => array(),
 	'SEARCH_FILE_NAME' => array(),
 	'CONTROLLER' => array(
-		'controllerAccessor' => 'controller',
-		'defaultController' => 'controller_default',
-		'actionAccessor' => 'action',
-		'defaultaction' => 'index',
-		'actionMethodPrefix' => 'action',
-		'actionMethodSuffix' => ''
+		'controllerAccessor' => 'controller',				//控制器键名
+		'defaultController' => 'controller_default',		//默认控制器名称
+		'actionAccessor' => 'action',						//方法键名
+		'defaultaction' => 'index',							//默认方法名称
+		'actionMethodPrefix' => 'action',					//方法名前缀
+		'actionMethodSuffix' => ''							//方法名后缀
 	),
 	'CLASS_OBJ' => array(),
-	'VIEW' => array(),
-	'TIME_FORMAT' => 'zh_CN',
-	'TIME_ZONE' => 'Asia/Hong_Kong',
-	'URL_MODEL' => 0
+	'VIEW' => array(),										//模版类配置信息。class/templateDir
+	'TIME_FORMAT' => 'zh_CN',								//默认时间格式
+	'TIME_ZONE' => 'Asia/Shanghai',							//默认时区
+	'URL_MODEL' => 0										//URL模式
 );
 
 $GLOBALS[E_FW_VAR]['FILE_PATH'][] = dirname(__FILE__).DS;
@@ -50,14 +50,12 @@ class E_FW {
 	/**
 	 * 启动框架
 	 * 
-	 * 目前只支持 URL 重写使用 GET 方法。
+	 * 
+	 * 目前只支持 url_rewrite 使用 GET 方法。
 	 * 如：
 	 * ?controller=abc&action=123
 	 */
 	public function run () {
-		$controllerName = "";
-		$actionName		= "";
-
 		setlocale(LC_TIME, E_FW::get_Config('TIME_FORMAT'));
 		date_default_timezone_set(E_FW::get_Config('TIME_ZONE'));
 
@@ -103,16 +101,17 @@ class E_FW {
 				}
 
 				break;
+				
+			default:
+				break;
 		}
 
-
-		if (strlen($controllerName) <= 0) {
+		if (!isset($controllerName)) {
 			$controllerName = E_FW::get_Config('CONTROLLER/defaultController');
 		}
-		if (strlen($actionName) <= 0) {
+		if (!isset($actionName)) {
 			$actionName = E_FW::get_Config('CONTROLLER/defaultaction');
 		}
-		
 
 		E_FW::execute_Action($controllerName, $actionName);
 	}
@@ -120,10 +119,14 @@ class E_FW {
 	
 	/**
 	 * 执行控制器调用
+	 * 
+	 * 调用指定的控制器方法。
+	 * 如控制器存在 _beforeExecute 方法，则先调用 _beforeExecute 方法
+	 * 如控制器存在 _afterExecute 方法，则在调用指定方法后，再调用 _afterExecute 方法
 	 *
 	 * @param string $controllerName 控制器名称
 	 * @param string $actionName 方法名称
-	 * @param array $loadParam 加载类时的传递参数
+	 * @param array $loadParam 加载类时的传递参数。可选
 	 * @return object
 	 */
 	public function execute_Action ($controllerName, $actionName, $loadParam = null) {
@@ -165,7 +168,7 @@ class E_FW {
 	 */
 	public function import($dir)
     {
-		if (array_search($dir, E_FW::get_Config('FILE_PATH'), true)) {
+		if (array_search($dir, E_FW::get_Config('FILE_PATH'))) {
 			return false;
 		}
 		E_FW::set_Config(array('FILE_PATH' => array($dir)));
@@ -176,7 +179,7 @@ class E_FW {
      * 加载类
      * 
      * 首先检查全局变量中，是否已有该类的实例
-     * 如没有，则先调用 load_File 方法加载文件
+     * 如没有，则调用 load_File 方法加载文件
      * 然后实例化该类，并保存到全局变量中，以便下次调用
      *
      * @param string $className 类名
@@ -199,6 +202,9 @@ class E_FW {
 				
 				return $t;
 			}
+			else {
+				return true;
+			}
 		}
 
 		if (E_FW::load_File($className.'.php')) {
@@ -209,14 +215,13 @@ class E_FW {
 
 					return $t;
 				}
+				else {
+					return true;
+				}
 			}
-			else{
-				return false;
-			}
-		} 
-		else {
-			return false;
 		}
+		
+		return false;
     }
 
     
@@ -227,21 +232,20 @@ class E_FW {
      * 然后在全局变量中检查是否已包含该文件
      * 如没有，则按照一定的规则，解释文件路径，并包含
      * 然后保存到全局变量，以便下次使用时无需重复包含
-     * 
      *
      * @param string $filename 文件名
      * @return var
      */
-	public function load_File ($filename) {
+	public function load_File ($filename, $loadOnce = true) {
 		$path = E_FW::get_FilePath($filename);
 
 		if ($path != '') {
-			if (E_FW::get_Config('LOAD_FILE_NAME/'.$path)) {
+			if ( (E_FW::get_Config('LOAD_FILE_NAME/'.$path)) and ($loadOnce) ) {
 				return true;
 			}
-
-			$is_loaded[$path] = true;
-			return require_once($path);
+			
+			E_FW::set_Config(array('LOAD_FILE_NAME' => array($path => $path)));
+			return include($path);
 		}
 	}
 	
@@ -253,28 +257,47 @@ class E_FW {
 	 * 并将该文件内的内容，追加到全局变量中。
 	 * 因此该文件内容必须为数组形式。
 	 * 如传入参数为数组时，则追加或覆盖全局变量
+	 * 如：
+	 * set_Config('config/global.php');
+	 * set_Config(
+	 * 		array(
+	 * 			'LOAD_FILE_NAME' => array (
+	 * 				'config/global.php' => 'config/global.php'
+	 * 			)
+	 * 		)
+	 * );
+	 * set_Config(
+	 * 		array(
+	 * 			'DSN/dbServer' => '192.168.0.10'
+	 * 		)
+	 * );
 	 *
 	 * @param string/array $params
 	 */
 	public function set_Config ($params) {
-		if ( (!is_array($params)) and (is_string($params)) ){
+		if (is_string($params)){
 			if (is_readable($params)){
-				$tmp = require($params);
+				$tmp = include($params);
 				$GLOBALS[E_FW_VAR] = array_merge($GLOBALS[E_FW_VAR], $tmp);
 			}
 		}
 		else if (is_array($params)){
 			foreach($params as $key => $val){
-				if (is_array($val)){
-					if (E_FW::get_Config($key)){
-						$GLOBALS[E_FW_VAR][$key] = array_merge($GLOBALS[E_FW_VAR][$key], $val);
-					}
-					else{
-						$GLOBALS[E_FW_VAR][$key] = $val;
-					}
+				if (strstr($key, '/')){
+					$tmp = &E_FW::get_Config($key, true);
 				}
 				else{
-					$GLOBALS[E_FW_VAR][$key] = $val;
+					if (!isset($GLOBALS[E_FW_VAR][$key])){
+						$GLOBALS[E_FW_VAR][$key] = null;
+					}
+					$tmp = &$GLOBALS[E_FW_VAR][$key];
+				}
+				
+				if ( (is_array($val)) and (is_array($tmp)) ){
+					$tmp = array_merge($tmp, $val);
+				}
+				else{
+					$tmp = $val;
 				}
 			}
 		}
@@ -302,7 +325,7 @@ class E_FW {
 	 * @param string $path
 	 * @return var
 	 */
-	public function get_Config ($path = null) {
+	public function get_Config ($path = null, $returnRoot = false) {
 		if (is_null($path)){
 			return $GLOBALS[E_FW_VAR];
 		}
@@ -311,10 +334,17 @@ class E_FW {
 			$rt = $GLOBALS[E_FW_VAR];
 			
 			foreach($fullPath as $val){
-				if (!isset($rt[$val])){
-					return false;
+				if (isset($rt[$val])){
+					$rt = $rt[$val];
 				}
-				$rt = $rt[$val];
+				else{
+					if ($returnRoot){
+						return $rt;
+					}
+					else{
+						return false;
+					}
+				}
 			}
 			
 			return $rt;
