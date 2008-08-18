@@ -7,7 +7,7 @@
  * @package class
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.0.20080108
+ * @version 1.0.0.20080818
  */
 
 class Class_Cache {
@@ -124,10 +124,7 @@ class Class_Cache {
 				
 				$cacheFile = $this->_getHashPath($cacheID);
 				
-				if (!file_exists($cacheFile)){
-					return false;
-				}
-				else{
+				if (file_exists($cacheFile)){
 					if ( time() <= filemtime($cacheFile) ){
 						$cache = @file_get_contents($cacheFile);
 						if ( ($this->isSerialize) or ($unserialize) ){
@@ -138,10 +135,9 @@ class Class_Cache {
 						
 						return $cache;
 					}
-					else{
-						return false;
-					}
 				}
+				
+				return false;
 				
 				break;
 				
