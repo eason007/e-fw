@@ -8,7 +8,7 @@
  * @package Core
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.0.20080110
+ * @version 1.0.2.20080816
  */
 
 //标记文件启动时间
