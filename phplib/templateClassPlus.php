@@ -1,5 +1,5 @@
 <?php
-E_FW::load_File('phplib/templateClass.php');
+E_FW::load_File('phplib_templateClass.php');
 
 class phplib_templateClassPlus {
 	public $TEMPLATE_PATH = '';

@@ -96,14 +96,10 @@ class Class_Cache {
 	 * @param array $Params
 	 */
 	function __construct($Params = null) {
-		if (!is_null($Params)){
-			$this->cacheDir	 	= $Params['cacheDir'] ? $Params['cacheDir'] : null;
-			$this->cacheType 	= $Params['cacheType'] ? $Params['cacheType'] : null;
-			$this->cacheTime 	= $Params['cacheTime'] ? $Params['cacheTime'] : 3600;
-			$this->cacheFileExt	= $Params['cacheFileExt'] ? $Params['cacheFileExt'] : '.EFW-Cache';
-			$this->isSerialize 	= $Params['isSerialize'] ? $Params['isSerialize'] : false;
-			$this->hashFile 	= $Params['hashFile'] ? $Params['hashFile'] : 2;
-			$this->isDebug 		= $Params['isDebug'] ? $Params['isDebug'] : false;
+		if ( (!is_null($Params)) and is_array($Params) ){
+			foreach ($Params as $key => $value) {
+				$this->$key = $value;
+			}
 		}
 	}
 	
