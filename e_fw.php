@@ -240,11 +240,11 @@ class E_FW {
 		$path = E_FW::get_FilePath($filename);
 
 		if ($path != '') {
-			if ( (E_FW::get_Config('LOAD_FILE_NAME/'.$path)) and ($loadOnce) ) {
+			if ( (E_FW::get_Config('LOAD_FILE_NAME/'.$filename)) and ($loadOnce) ) {
 				return true;
 			}
 			
-			E_FW::set_Config(array('LOAD_FILE_NAME' => array($path => $path)));
+			E_FW::set_Config(array('LOAD_FILE_NAME' => array($filename => $path)));
 			return include($path);
 		}
 	}
