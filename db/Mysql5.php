@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package DB
+ * @author eason007<eason007@163.com>
+ * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
+ * @version 1.0.0.20080108
+ */
+
 class DB_Mysql5 {
 	private $db = null;
 	
@@ -67,6 +74,12 @@ class DB_Mysql5 {
 }
 
 
+/**
+ * @package DB
+ * @author eason007<eason007@163.com>
+ * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
+ * @version 1.0.0.20080108
+ */
 class DB_Driver_Mysqli {
 	public $dbConnect = null;
 	public $lastID = 0;
@@ -107,10 +120,20 @@ class DB_Driver_Mysqli {
 	
 		$this->lastID = @$this->dbConnect->insert_id;
 
+		if (!$this->lastID){
+			$this->lastID = @$this->dbConnect->affected_rows;
+		}
+
 		return @$this->dbConnect->affected_rows;
 	}
 }
 
+/**
+ * @package DB
+ * @author eason007<eason007@163.com>
+ * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
+ * @version 1.0.0.20080108
+ */
 class DB_Driver_PDO {
 	public $dbConnect = null;
 	public $lastID = 0;

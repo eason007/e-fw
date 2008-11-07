@@ -2,7 +2,7 @@
 /**
  * XML生成类
  * 
- * @package helper
+ * @package Helper
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
  */
@@ -91,8 +91,8 @@ class helper_XML {
 
 
 	private function getList ($dataArray = null) {
-		$arrayList 	= $dataArray['list'];
-		$total 		= $dataArray['total'];
+		$arrayList 	= $dataArray["list"];
+		$total 		= $dataArray["total"];
 
 		if(!empty($arrayList)) {
 			$total 	= empty($total) ? 0 : $total;

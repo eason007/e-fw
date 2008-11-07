@@ -2,8 +2,10 @@
 /**
  * 框架引导文件
  * 
+ * <pre>
  * 当使用框架时，只需引用本文件即可，并调用静态 E_FW 类的 run 方法即可。
  * 当引用本文件时，会进行运行环境的初始化工作。
+ * </pre>
  * 
  * @package Core
  * @author eason007<eason007@163.com>
@@ -50,10 +52,11 @@ class E_FW {
 	/**
 	 * 启动框架
 	 * 
-	 * 
+	 * <pre>
 	 * 目前只支持 url_rewrite 使用 GET 方法。
 	 * 如：
 	 * ?controller=abc&action=123
+	 * </pre>
 	 */
 	public function run () {
 		setlocale(LC_TIME, E_FW::get_Config('TIME_FORMAT'));
@@ -120,9 +123,11 @@ class E_FW {
 	/**
 	 * 执行控制器调用
 	 * 
+	 * <pre>
 	 * 调用指定的控制器方法。
 	 * 如控制器存在 _beforeExecute 方法，则先调用 _beforeExecute 方法
 	 * 如控制器存在 _afterExecute 方法，则在调用指定方法后，再调用 _afterExecute 方法
+	 * </pre>
 	 *
 	 * @param string $controllerName 控制器名称
 	 * @param string $actionName 方法名称
@@ -178,9 +183,11 @@ class E_FW {
     /**
      * 加载类
      * 
+     * <pre>
      * 首先检查全局变量中，是否已有该类的实例
      * 如没有，则调用 load_File 方法加载文件
      * 然后实例化该类，并保存到全局变量中，以便下次调用
+     * </pre>
      *
      * @param string $className 类名
      * @param bool $isLoad 是否马上实例化该类
@@ -207,7 +214,7 @@ class E_FW {
 			}
 		}
 
-		if (E_FW::load_File($className.'.php')) {
+		if (E_FW::load_File($className)) {
 			if (class_exists($className, false)) {
 				if ($isLoad){
 					$t = new $className($loadParams);
@@ -228,10 +235,12 @@ class E_FW {
     /**
      * 包含文件
      * 
+     * <pre>
      * 先调用 get_FilePath 方法解释路径
      * 然后在全局变量中检查是否已包含该文件
      * 如没有，则按照一定的规则，解释文件路径，并包含
      * 然后保存到全局变量，以便下次使用时无需重复包含
+     * </pre>
      *
      * @param string $filename 文件名
      * @return var
@@ -253,6 +262,7 @@ class E_FW {
 	/**
 	 * 设定全局变量
 	 * 
+	 * <pre>
 	 * 当传入一个字符串时，则假定为文件路径，程序会试图包含该文件
 	 * 并将该文件内的内容，追加到全局变量中。
 	 * 因此该文件内容必须为数组形式。
@@ -271,14 +281,16 @@ class E_FW {
 	 * 			'DSN/dbServer' => '192.168.0.10'
 	 * 		)
 	 * );
+	 * </pre>
 	 *
 	 * @param string/array $params
 	 */
 	public function set_Config ($params) {
 		if (is_string($params)){
+			$params = E_FW::get_FilePath($params);
 			if (is_readable($params)){
-				$tmp = include($params);
-				$GLOBALS[E_FW_VAR] = array_merge($GLOBALS[E_FW_VAR], $tmp);
+				$tmp = require($params);
+				E_FW::set_Config($tmp);
 			}
 		}
 		else if (is_array($params)){
@@ -307,6 +319,7 @@ class E_FW {
 	/**
 	 * 获取全局变量
 	 * 
+	 * <pre>
 	 * 可以获取所有的全局变量，或部分变量
 	 * 根据传入的数据路径决定，如在多层结点下，利用 / 号分隔。
 	 * 如全局变量是：
@@ -321,6 +334,7 @@ class E_FW {
 	 * get_Config();			//获取所有
 	 * get_Config('DSN');		//仅获取 DSN 结点
 	 * get_Config('DSN/name');	//仅获取 DSN 结点下的 name
+	 * </pre>
 	 *
 	 * @param string $path
 	 * @return var
@@ -365,6 +379,7 @@ class E_FW {
 	/**
 	 * 分析文件路径
 	 * 
+	 * <pre>
 	 * 按一定规则拆分输入的字符串参数为目录路径
 	 * 当检测到存在该文件时，返回正确的路径地址
 	 * 文件后缀必须为 .php
@@ -372,6 +387,7 @@ class E_FW {
 	 * 如：
 	 * get_FilePath('class_cache');		//返回class/cache.php
 	 * get_FilePath('db_Mysql5.php');	//返回db/Mysql5.php
+	 * </pre>
 	 *
 	 * @param string $filename
 	 * @return string

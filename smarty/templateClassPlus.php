@@ -1,10 +1,14 @@
 <?php
-E_FW::load_File("smarty/Smarty.class.php");
+/**
+ * @package Smarty
+ */
+
+E_FW::load_File('smarty/Smarty.class.php');
 
 class smarty_templateClassPlus extends Smarty {
 
 	public function __construct () {
-		$viewConfig = E_FW::get_Config("VIEW");
+		$viewConfig = E_FW::get_Config('VIEW');
 
         if (is_array($viewConfig)) {
             foreach ($viewConfig as $key => $value) {

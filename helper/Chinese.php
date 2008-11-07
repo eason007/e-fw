@@ -1,10 +1,9 @@
 <?php
 /**
- * @package helper
+ * @package Helper
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
  */
-
 /**
  * 中文编码集合类库
  *

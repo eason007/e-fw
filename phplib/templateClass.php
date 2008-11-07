@@ -1,6 +1,10 @@
 <?php
+/**
+ * 
+ * @package PHPLib
+ *
+ */
 class TEMPLATE_PHPLIB_CLASS {
-
 	var $classname = "Template";
 	var $debug    = false;
 	var $root     = ".";
@@ -11,12 +15,14 @@ class TEMPLATE_PHPLIB_CLASS {
 	var $halt_on_error  = "yes";
 	var $lastError     = "";
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* Class constructor. May be called with two optional parameters.
 	* The first parameter sets the template directory the second parameter
 	* sets the policy regarding handling of unknown variables.
 	*
 	* usage: Template([string $root = "."], [string $unknowns = "remove"])
+	* </pre>
 	*
 	* @param     $root        path to template directory
 	* @param     $string      what to do with undefined variables
@@ -34,7 +40,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* Checks that $root is a valid directory and if so sets this directory as the
 	* base directory from which templates are loaded by storing the value in
 	* $this->root. Relative filenames are prepended with the path in $this->root.
@@ -42,6 +49,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* Returns true on success, false on error.
 	*
 	* usage: setRoot(string $root)
+	* </pre>
 	*
 	* @param     $root         string containing new template directory
 	* @see       root
@@ -62,7 +70,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* Sets the policy for dealing with unresolved variable names.
 	*
 	* unknowns defines what to do with undefined template variables
@@ -74,6 +83,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* inside an HTML tag, for example a tag which is expected to be replaced with a URL.
 	*
 	* usage: setUnknowns(string $unknowns)
+	* </pre>
 	*
 	* @param     $unknowns         new value for unknowns
 	* @see       unknowns
@@ -88,7 +98,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* Defines a filename for the initial value of a variable.
 	*
 	* It may be passed either a varname and a file name as two strings or
@@ -103,6 +114,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* usage: setFile(array $filelist = (string $varname => string $filename))
 	* or
 	* usage: setFile(string $varname, string $filename)
+	* </pre>
 	*
 	* @param     $varname      either a string containing a varname or a hash of varname/file name pairs.
 	* @param     $filename     if varname is a string this is the filename otherwise filename is not required
@@ -136,7 +148,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* A variable $parent may contain a variable block defined by:
 	* &lt;!-- BEGIN $varname --&gt; content &lt;!-- END $varname --&gt;. This function removes
 	* that block from $parent and replaces it with a variable reference named $name.
@@ -149,6 +162,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* Returns true on success, false on error.
 	*
 	* usage: setBlock(string $parent, string $varname, [string $name = ""])
+	* </pre>
 	*
 	* @param     $parent       a string containing the name of the parent variable
 	* @param     $varname      a string containing the name of the block to be extracted
@@ -178,7 +192,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This functions sets the value of a variable.
 	*
 	* It may be called with either a varname and a value as two strings or an
@@ -197,6 +212,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* usage: setVar(string $varname, [string $value = ""], [boolean $append = false])
 	* or
 	* usage: setVar(array $varname = (string $varname => string $value), [mixed $dummy_var], [boolean $append = false])
+	* </pre>
 	*
 	* @param     $varname      either a string containing a varname or a hash of varname/value pairs.
 	* @param     $value        if $varname is a string this contains the new value for the variable otherwise this parameter is ignored
@@ -236,7 +252,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This functions clears the value of a variable.
 	*
 	* It may be called with either a varname as a string or an array with the
@@ -250,6 +267,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* usage: clearVar(string $varname)
 	* or
 	* usage: clearVar(array $varname = (string $varname))
+	* </pre>
 	*
 	* @param     $varname      either a string containing a varname or an array of varnames.
 	* @access    public
@@ -277,7 +295,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This functions unsets a variable completely.
 	*
 	* It may be called with either a varname as a string or an array with the
@@ -291,6 +310,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* usage: unsetVar(string $varname)
 	* or
 	* usage: unsetVar(array $varname = (string $varname))
+	* </pre>
 	*
 	* @param     $varname      either a string containing a varname or an array of varnames.
 	* @access    public
@@ -320,7 +340,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This function fills in all the variables contained within the variable named
 	* $varname. The resulting value is returned as the function result and the
 	* original value of the variable varname is not changed. The resulting string
@@ -330,6 +351,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* Returns: the value of the variable $varname with all variables substituted.
 	*
 	* usage: subst(string $varname)
+	* </pre>
 	*
 	* @param     $varname      the name of the variable within which variables are to be substituted
 	* @access    public
@@ -357,13 +379,15 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This is shorthand for print $this->subst($varname). See subst for further
 	* details.
 	*
 	* Returns: always returns false.
 	*
 	* usage: psubst(string $varname)
+	* </pre>
 	*
 	* @param     $varname      the name of the variable within which variables are to be substituted
 	* @access    public
@@ -380,7 +404,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* The function substitutes the values of all defined variables in the variable
 	* named $varname and stores or appends the result in the variable named $target.
 	*
@@ -412,6 +437,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* usage: parse(string $target, string $varname, [boolean $append])
 	* or
 	* usage: parse(string $target, array $varname = (string $varname), [boolean $append])
+	* </pre>
 	*
 	* @param     $target      a string containing the name of the variable into which substituted $varnames are to be stored
 	* @param     $varname     if a string, the name the name of the variable to substitute or if an array a list of variables to be substituted
@@ -454,7 +480,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This is shorthand for print $this->parse(...) and is functionally identical.
 	* See parse for further details.
 	*
@@ -463,6 +490,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* usage: pparse(string $target, string $varname, [boolean $append])
 	* or
 	* usage: pparse(string $target, array $varname = (string $varname), [boolean $append])
+	* </pre>
 	*
 	* @param     $target      a string containing the name of the variable into which substituted $varnames are to be stored
 	* @param     $varname     if a string, the name the name of the variable to substitute or if an array a list of variables to be substituted
@@ -480,7 +508,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This function returns an associative array of all defined variables with the
 	* name as the key and the value of the variable as the value.
 	*
@@ -490,6 +519,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* Returns: a hash of all defined variable values keyed by their names.
 	*
 	* usage: getVars()
+	* </pre>
 	*
 	* @access    public
 	* @return    array
@@ -507,7 +537,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This function returns the value of the variable named by $varname.
 	* If $varname references a file and that file has not been loaded yet, the
 	* variable will be reported as empty.
@@ -520,6 +551,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* usage: getVar(string $varname)
 	* or
 	* usage: getVar(array $varname)
+	* </pre>
 	*
 	* @param     $varname     if a string, the name the name of the variable to get the value of, or if an array a list of variables to return the value of
 	* @access    public
@@ -554,16 +586,18 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This function returns a hash of unresolved variable names in $varname, keyed
 	* by their names (that is, the hash has the form $a[$name] = $name).
 	*
 	* Returns: a hash of varname/varname pairs or false on error.
 	*
 	* usage: getUndefined(string $varname, string $keyword)
+	* </pre>
 	*
 	* @param     $varname     a string containing the name the name of the variable to scan for unresolved variables
-	* @param $varname闂傚鍋勫ú銈夊箠濮椻偓婵＄绠涘☉妯哄挤濡炪倖鐗楅悷銈囪姳?keyword濠电偞鍨堕幐鎼佸箹椤愩倖顫曢柟瀵稿仜缁剁偤鎮楅棃娑欏暈闁?
+	* @param 	 $varname
 	* @access    public
 	* @return    array
 	*/
@@ -603,13 +637,15 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This function returns the finished version of $str. That is, the policy
 	* regarding unresolved variable names will be applied to $str.
 	*
 	* Returns: a finished string derived from $str and $this->unknowns.
 	*
 	* usage: finish(string $str)
+	* </pre>
 	*
 	* @param     $str         a string to which to apply the unresolved variable policy
 	* @access    public
@@ -634,37 +670,23 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This function prints the finished version of the value of the variable named
 	* by $varname. That is, the policy regarding unresolved variable names will be
 	* applied to the variable $varname then it will be printed.
 	*
 	* usage: p(string $varname , blooean $gz )
+	* </pre>
 	*
 	* @param     $varname     a string containing the name of the variable to finish and print
-	* @param     $gz			闂備礁鎼€氱兘宕规导鏉戠畾濞撴埃鍋撶€规洏鍨婚埀顒婄秵閸撴稓妲?
+	* @param     $gz
 	* @access    public
 	* @return    void
 	* @see       setUnknowns
 	* @see       finish
 	*/
 	function p($varname , $gz = false) {
-
-		/***************************************************************************
-		* 濠电儑绲藉ù鍌炲窗濡ゅ懎鏋佸┑鍌氭啞閸庡孩銇勯弮鍌氫壕闁?			闂佽娴烽弫鎼併€佹繝鍕偨妞ゆ挶鍨圭粈鍕煕濠靛棗顏╅柡浣哥埣閹宕烽褎鏁紓浣虹帛椤洭骞冮幍顔绘勃闁芥ê顦遍鑽ょ磽?闂備礁鎲″缁樻叏閹绢喖绠甸柍鍝勫€搁閬嶆煟濡寧顏犵紓鍫濐煼濮婃椽顢曢妶鍛€婚柣?
-		* 濠电儑绲藉ù鍌炲窗濡ゅ懎鏋佸┑鍌滎焾缁秹鏌曟径娑㈡闁?			2004-12-9
-		* 濠电儑绲藉ù鍌炲窗濡ゅ懎鏋侀柛蹇氬亹椤?			peter
-		* 闂備胶绮〃鍛存偋婵犲偊鑰?				1.0
-		* 闂備礁鎲￠…鍥窗鎼淬劌鑸归悗鐢电《閸?
-		echo str_replace(urlencode("}"),"}",str_replace(urlencode("{"),"{",$this->finish($this->getVar($varname))));
-		* 闂備胶绮划宥咁熆濮椻偓瀹曨剛鈧數纭堕崑?
-		global $GZIP;
-		echo str_replace(urlencode("}"),"}",str_replace(urlencode("{"),"{",$this->finish($this->getVar($varname))));
-		if($gz) {
-		$GZIP->gzDocOut();
-		}
-		***************************************************************************/
-
 		if($gz) {
 			ob_start();
 			ob_implicit_flush(0);
@@ -680,7 +702,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This function returns the finished version of the value of the variable named
 	* by $varname. That is, the policy regarding unresolved variable names will be
 	* applied to the variable $varname and the result returned.
@@ -688,6 +711,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* Returns: a finished string derived from the variable $varname.
 	*
 	* usage: get(string $varname)
+	* </pre>
 	*
 	* @param     $varname     a string containing the name of the variable to finish
 	* @access    public
@@ -700,13 +724,15 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* When called with a relative pathname, this function will return the pathname
 	* with $this->root prepended. Absolute pathnames are returned unchanged.
 	*
 	* Returns: a string containing an absolute pathname.
 	*
 	* usage: filename(string $filename)
+	* </pre>
 	*
 	* @param     $filename    a string containing a filename
 	* @access    private
@@ -728,13 +754,15 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This function will construct a regexp for a given variable name with any
 	* special chars quoted.
 	*
 	* Returns: a string containing an escaped variable name.
 	*
 	* usage: varname(string $varname)
+	* </pre>
 	*
 	* @param     $varname    a string containing a variable name
 	* @access    private
@@ -745,7 +773,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* If a variable's value is undefined and the variable has a filename stored in
 	* $this->file[$varname] then the backing file will be loaded and the file's
 	* contents will be assigned as the variable's value.
@@ -759,6 +788,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* Returns: true on success, false on error.
 	*
 	* usage: loadfile(string $varname)
+	* </pre>
 	*
 	* @param     $varname    a string containing the name of a variable to load
 	* @access    private
@@ -803,7 +833,8 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This function is called whenever an error occurs and will handle the error
 	* according to the policy defined in $this->halt_on_error. Additionally the
 	* error message will be saved in $this->lastError.
@@ -811,6 +842,7 @@ class TEMPLATE_PHPLIB_CLASS {
 	* Returns: always returns false.
 	*
 	* usage: halt(string $msg)
+	* </pre>
 	*
 	* @param     $msg         a string containing an error message
 	* @access    private
@@ -832,12 +864,14 @@ class TEMPLATE_PHPLIB_CLASS {
 	}
 
 
-	/******************************************************************************
+	/**
+	 * <pre>
 	* This function prints an error message.
 	* It can be overridden by your subclass of Template. It will be called with an
 	* error message to display.
 	*
 	* usage: haltmsg(string $msg)
+	* </pre>
 	*
 	* @param     $msg         a string containing the error message to display
 	* @access    public
