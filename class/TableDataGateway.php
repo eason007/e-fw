@@ -894,7 +894,7 @@ class Class_TableDataGateway {
 					foreach($relateData as $key => $val){
 						foreach($linkData as $v){
 							if ($val[$linkSetting['linkKey']] == $v[$linkClass->primaryKey]){
-								$relateData[$key][] = $v;
+								$relateData[$key] = array_merge($v, $relateData[$key]);
 							}
 						}
 					}
