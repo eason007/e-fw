@@ -202,29 +202,19 @@ class E_FW {
 			return $v;
 		}
 
+		if (!class_exists($className, false)) {
+			E_FW::load_File($className);
+		}
+
 		if (class_exists($className, false)) {
 			if ($isLoad){
 				$t = new $className($loadParams);
 				E_FW::set_Config(array('CLASS_OBJ' => array($className => $t)));
-				
+
 				return $t;
 			}
 			else {
 				return true;
-			}
-		}
-
-		if (E_FW::load_File($className)) {
-			if (class_exists($className, false)) {
-				if ($isLoad){
-					$t = new $className($loadParams);
-					E_FW::set_Config(array('CLASS_OBJ' => array($className => $t)));
-
-					return $t;
-				}
-				else {
-					return true;
-				}
 			}
 		}
 		

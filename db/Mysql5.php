@@ -18,8 +18,12 @@ class DB_Mysql5 {
 			$this->$key = $value;
 		}
 	}
+	
+	function __destruct() {
+		$this->db = null;
+	}
 
-	private function dbConnect () {
+	public function dbConnect () {
 		switch ($this->dbType) {
 			case 'Mysqli':
 				$this->db = new DB_Driver_Mysqli($this->dbServer,

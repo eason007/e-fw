@@ -8,7 +8,7 @@
  * @package Class
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.1.20080918
+ * @version 1.1.0.20090108
  */
  
 class Class_TableDataGateway {
@@ -89,7 +89,7 @@ class Class_TableDataGateway {
 	 * 两表中数据的关联关系，使用第三方表保存
 	 * 包含键名有：
 	 * tableClass，指关联目标表的类名
-	 * joinTable，指第三方表的表名
+	 * relateClass，指第三方表的类名
 	 * linkKey，指在第三方表中，保存目标表主键字段的关联字段名
 	 * joinKey，指在第三方表中，保存本表主键字段关联的字段名
 	 * mappingName，指目标表数据在本表中显示的别名
@@ -171,10 +171,13 @@ class Class_TableDataGateway {
 	 * @access public
 	 */
 	public $db = null;
+	
+	private $dbParams = null;
 
 
 	function __construct() {
-	
+		E_FW::load_File('class_Validator');
+		E_FW::load_File('db_Mysql5');
 	}
 
 	/**
@@ -191,11 +194,17 @@ class Class_TableDataGateway {
 	 */
 	public function setDB ($dbParams, $isReload = false) {
 		if ( (is_null($this->db)) or ($isReload) ) {
+			$this->db = null;
+			
 			switch ($dbParams['dbType']) {
 				case 'Mysqli':
 				case 'PDO' :
-					$this->db = E_FW::load_Class('db_Mysql5', true, $dbParams);
+					$this->db = new DB_Mysql5($dbParams);
 					break;
+			}
+			
+			if (!$isReload){
+				$this->dbParams = $dbParams;
 			}
 		}
 	}
@@ -214,6 +223,10 @@ class Class_TableDataGateway {
 	 * @access public
 	 */
 	public function selectSQL ($sql) {
+		if (isset($this->dbConfig)) {
+			$this->setDB($this->dbConfig, true);
+		}
+		
 		return $this->db->query($sql);
 	}
 
@@ -280,6 +293,10 @@ class Class_TableDataGateway {
 
 		if (!$isExecute) {
 			return $sql;
+		}
+		
+		if (isset($this->dbConfig)) {
+			$this->setDB($this->dbConfig, true);
 		}
 
 		$result = $this->db->query($sql);
@@ -378,6 +395,10 @@ class Class_TableDataGateway {
 
 		if (!$isExecute) {
 			return $sql;
+		}
+		
+		if (isset($this->dbConfig)) {
+			$this->setDB($this->dbConfig, true);
 		}
 
 		$rt = $this->db->query($sql, 1);
@@ -490,6 +511,10 @@ class Class_TableDataGateway {
 		if (!$isExecute) {
 			return $sql;
 		}
+		
+		if (isset($this->dbConfig)) {
+			$this->setDB($this->dbConfig, true);
+		}
 
 		$result['rowCount'] = $this->db->query($sql, 2);
 
@@ -576,6 +601,10 @@ class Class_TableDataGateway {
 		if (!$isExecute) {
 			return $sql;
 		}
+		
+		if (isset($this->dbConfig)) {
+			$this->setDB($this->dbConfig, true);
+		}
 
 		$result['rowCount'] = $this->db->query($sql, 2);
 
@@ -595,7 +624,7 @@ class Class_TableDataGateway {
 				}
 
 				foreach($linkValue as $key => $val){
-					$result[$key] = $this->_delLinkData($val, $IDStr);
+					$result[$val] = $this->_delLinkData($val, $IDStr);
 				}
 			}
 		}
@@ -612,17 +641,36 @@ class Class_TableDataGateway {
 	 * @return array
 	 * @access private
 	 */
-	private function _delLinkData ($linkType, $primaryKeyStr) {
-		if (!is_null($this->$linkType)){
+	protected function _delLinkData ($linkType, $primaryKeyStr) {
+		if (!empty($this->$linkType)){
 			$linkSetting = $this->$linkType;
-			$linkClass	 = new $linkSetting['tableClass']();
+			
+			switch ($linkType) {
+				case 'hasOne':
+				case 'hasMany':
+					$linkClass	 = new $linkSetting['tableClass']();
+					
+					$linkClass->setDB($this->dbParams);
+					$linkClass->autoLink = false;
+					
+					$linkClass->where	 = '`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)';
 
-			$linkClass->autoLink = false;
-			$linkClass->where	 = '`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)';
+					$rt = $linkClass->del();
+					
+					break;
+					
+				case 'manyToMany':
+					$linkClass	 = new $linkSetting['relateClass']();
+					
+					$linkClass->setDB($this->dbParams);
+					$linkClass->autoLink = false;
+					
+					$linkClass->where	 = '`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)';
 
-			$sql= $linkClass->del('', false);
-			$rt	= $this->db->query($sql, 2);
-
+					$rt = $linkClass->del();
+					break;
+			}
+			
 			unset($linkClass);
 	
 			return $rt['rowCount'];
@@ -639,26 +687,29 @@ class Class_TableDataGateway {
 	 * @return array
 	 * @access private
 	 */
-	private function _updateLinkData ($linkType, &$row, $primaryKeyStr) {
+	protected function _updateLinkData ($linkType, &$row, $primaryKeyStr) {
 		if (!is_null($this->$linkType)){
 			$linkSetting = $this->$linkType;
 			$linkClass	 = new $linkSetting['tableClass']();
+			$linkClass->setDB($this->dbParams);
+			$linkClass->autoLink = false;
 
 			switch ($linkType) {
 				case 'hasOne':
 					$linkClass->where = '`'.$linkClass->joinKey.'` IN ('.$primaryKeyStr."0)";
-					$sql = $linkClass->update($row, false);
-					$linkRT = $this->db->query($sql, 2);
+					$linkRT = $linkClass->update($row);
 
 					break;
 
 				case 'hasMany':
 				case 'manyToMany':
+					$linkRT['rowCount'] = 0;
+					
 					foreach($row as $val){
 						if (!empty($val[$linkClass->primaryKey])){
 							$linkClass->where = $val[$linkClass->primaryKey];
-							$sql = $linkClass->update($val, false);
-							$linkRT[] = $this->db->query($sql, 2);
+							$tmp = $linkClass->update($val);
+							$linkRT['rowCount']+= $tmp['rowCount'];
 						}
 					}
 
@@ -667,7 +718,7 @@ class Class_TableDataGateway {
 
 			unset($linkClass);
 
-			return $linkRT;
+			return $linkRT['rowCount'];
 		}
 	}
 
@@ -681,46 +732,48 @@ class Class_TableDataGateway {
 	 * @return array
 	 * @access private
 	 */
-	private function _insertLinkData ($linkType, &$row, $primaryID) {
+	protected function _insertLinkData ($linkType, &$row, $primaryID) {
 		if (!is_null($this->$linkType)){
 			$linkSetting = $this->$linkType;
 			$linkClass	 = new $linkSetting['tableClass']();
+			$linkClass->setDB($this->dbParams);
+			$linkClass->autoLink = false;
 
 			switch ($linkType) {
 				case 'hasOne':
 					$row[$linkSetting['joinKey']] = $primaryID;
-					$sql = $linkClass->insert($row, false);
-					$linkRT = $this->db->query($sql, 2);
+					$tmp = $linkClass->insert($row);
+					$linkRT['rowCount'] = $tmp[$linkClass->primaryKey];
 
 					break;
 
 				case 'hasMany':
+					$linkRT['rowCount'] = 0;
+					
 					foreach($row as $val){
 						$val[$linkSetting['joinKey']] = $primaryID;
-						$sql = $linkClass->insert($val, false);
-						$linkRT[] = $this->db->query($sql, 2);
+						$tmp = $linkClass->insert($val);
+						$linkRT['rowCount'] = $tmp[$linkClass->primaryKey];
 					}
 
 					break;
 
 				case 'manyToMany':
-					$switchBox = $linkClass->tableName;
-					$linkClass->tableName = $linkSetting['joinTable'];
+					$linkClass = new $linkSetting['relateClass']();
+					$linkRT['rowCount'] = 0;
 					
 					foreach($row as $val){
 						$val[$linkSetting['joinKey']] = $primaryID;
-						$sql = $linkClass->insert($val, false);
-						$linkRT[] = $this->db->query($sql, 2);
+						$tmp = $linkClass->insert($val);
+						$linkRT['rowCount']+= $tmp[$linkClass->primaryKey];
 					}
-
-					$linkClass->tableName = $switchBox;
 
 					break;
 			}
 
 			unset($linkClass);
 
-			return $linkRT;
+			return $linkRT['rowCount'];
 		}
 	}
 
@@ -732,11 +785,13 @@ class Class_TableDataGateway {
 	 * @param string $linkType
 	 * @access public
 	 */
-	public function _getLinkData (&$rt, $linkType) {
+	protected function _getLinkData (&$rt, $linkType) {
 		$linkSetting = $this->$linkType;
 
 		if (!@is_null($linkSetting['tableClass'])){
 			$linkClass = new $linkSetting['tableClass']();
+			$linkClass->setDB($this->dbParams);
+			$linkClass->autoLink = false;
 
 			switch ($linkType) {
 				case 'belongsTo':
@@ -747,8 +802,7 @@ class Class_TableDataGateway {
 					$IDStr = implode(',', $ID);
 
 					$linkClass->where = '`'.$linkClass->primaryKey.'` IN ('.$IDStr.')';
-					$sql = $linkClass->select('', false);
-					$linkData = $this->db->query($sql);
+					$linkData = $linkClass->select();
 
 					foreach($rt as $key => $val){
 						foreach($linkData as $k => $v){
@@ -765,14 +819,17 @@ class Class_TableDataGateway {
 
 				case 'hasOne':
 					//User->ID Join UserProfiles->UserID
+					if (!isset($linkSetting['linkKey'])) {
+						$linkSetting['linkKey'] = $this->primaryKey;
+					}
+					
 					foreach($rt as $val){
 						$ID[] = $val[$linkSetting['linkKey']];
 					}
 					$IDStr = implode(',', $ID);
 
 					$linkClass->where = '`'.$linkSetting['joinKey'].'` IN ('.$IDStr.')';
-					$sql = $linkClass->select('', false);
-					$linkData = $this->db->query($sql);
+					$linkData = $linkClass->select();
 
 					foreach($rt as $key => $val){
 						foreach($linkData as $k => $v){
@@ -795,8 +852,7 @@ class Class_TableDataGateway {
 					$IDStr = implode(',', $ID);
 
 					$linkClass->where = '`'.$linkSetting['joinKey'].'` IN ('.$IDStr.')';
-					$sql = $linkClass->select('', false);
-					$linkData = $this->db->query($sql);
+					$linkData = $linkClass->select();
 
 					foreach($rt as $key => $val){
 						foreach($linkData as $v){
@@ -814,20 +870,45 @@ class Class_TableDataGateway {
 						$ID[] = $val[$this->primaryKey];
 					}
 					$IDStr = implode(',', $ID);
-
-					$sql = 'SELECT JT.*, MT.'.$linkSetting['joinKey'];
-					$sql.= ' FROM `'.$linkSetting['joinTable'].'` AS MT';
-					$sql.= ' JOIN `'.$linkClass->tableName.'` AS JT ON MT.'.$linkSetting['linkKey'].' = JT.'.$linkClass->primaryKey;
-					$sql.= ' WHERE MT.'.$linkSetting['joinKey'].' IN ('.$IDStr.')';
-					$linkData = $this->db->query($sql);
-
-					foreach($rt as $key => $val){
+					
+					//首先查询第三方表的关系数据
+					$relateClass = new $linkSetting['relateClass']();
+					$relateClass->setDB($this->dbParams);
+					$relateClass->autoLink = false;
+					
+					$relateClass->field = $linkSetting['linkKey'].', '.$linkSetting['joinKey'];
+					$relateClass->where = $linkSetting['joinKey'].' IN ('.$IDStr.')';
+					$relateData = $relateClass->select();
+					unset($relateClass);
+					
+					foreach($relateData as $val){
+						$ID[] = $val[$linkSetting['linkKey']];
+					}
+					$IDStr = implode(',', $ID);
+					
+					//根据第三方的关系数据查找目标表的记录
+					$linkClass->where = $linkClass->primaryKey.' IN ('.$IDStr.')';
+					$linkData = $linkClass->select();
+					
+					//将目标记录组合到关系数据数组中
+					foreach($relateData as $key => $val){
 						foreach($linkData as $v){
+							if ($val[$linkSetting['linkKey']] == $v[$linkClass->primaryKey]){
+								$relateData[$key][] = $v;
+							}
+						}
+					}
+					unset($linkData);
+
+					//将关系数据组合到最终数组
+					foreach($rt as $key => $val){
+						foreach($relateData as $v){
 							if ($val[$this->primaryKey] == $v[$linkSetting['joinKey']]){
 								$rt[$key][$linkSetting['mappingName']][] = $v;
 							}
 						}
 					}
+					unset($relateData);
 
 					break;
 			}
@@ -915,27 +996,27 @@ class Class_TableDataGateway {
 	}
 
 
-	public function _beforeInsert (){
+	protected function _beforeInsert (){
 		return true;
 	}
 	
-	public function _afterInsert () {
+	protected function _afterInsert () {
 		
 	}
 
-	public function _beforeUpdate () {
+	protected function _beforeUpdate () {
 		return true;
 	}
 	
-	public function _afterUpdate () {
+	protected function _afterUpdate () {
 		
 	}
 
-	public function _beforeDelete () {
+	protected function _beforeDelete () {
 		return true;
 	}
 	
-	public function _afterDelete () {
+	protected function _afterDelete () {
 		
 	}
 }
