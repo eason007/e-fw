@@ -346,7 +346,7 @@ class Class_TableDataGateway {
 	 * 可定义 _afterInsert 方法，以便在更新数据表之后执行相关操作。
 	 * 
 	 * 如$isExecute参数为false，则不返回数据数组，而返回解释相关属性后的T-SQL语句
-	 * 如$isExecute参数为true，则使用REPLACE INTO语法，否则使用INSERT INTO
+	 * 如$isRplace参数为true，则使用REPLACE INTO语法，否则使用INSERT INTO
 	 * </pre>
 	 * 
 	 * @param array $rowData

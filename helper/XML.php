@@ -73,6 +73,8 @@ class helper_XML {
 	 * @return str
 	 */
 	private function getInfos ($dataArray = null) {
+		$xml = '';
+
 		if (is_array($dataArray)) {
 			$xml.= "<info>";
 			foreach($dataArray as $key => $value){
