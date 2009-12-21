@@ -13,13 +13,24 @@ E_FW::load_File('class_TableDataGateway');
  * @package Example
  */
 class Model_Blog extends class_TableDataGateway{
-	var $tableName 	= 'blog';
+	var $tableName 	= 'e_fw_blog';
 	var $primaryKey = 'id';
+
+	var $autoLink	= true;
 	
-	var $belongsTo = array(
+	var $belongsTo	= array(
 		'tableClass'	=> 'Model_Category_ForBlog',
-		'joinKey'		=> 'categoryID',
+		'joinKey'		=> 'category_id',
 		'mappingName'	=> 'Category'
+	);
+
+	var $dbParams	= array(
+		'dbServer' 	=> 'localhost',
+		'dbPort' 	=> '3306',
+		'dbName' 	=> 'test2',
+		'dbUser' 	=> 'root',
+		'dbPassword'=> '',
+		'dbType' 	=> 'Mysqli'
 	);
 }
 
@@ -32,13 +43,22 @@ class Model_Blog extends class_TableDataGateway{
  * E_FW::load_File('Model_Category')
  * 
  * 之所以在这里重复定义 category 表的 model 类
- * 是因为考虑到在原型的 Model_Category 中有对 blog 表的引用
- * 因此会造成 A 与 B 关联， B 与 A 关联，从而有可能造成引用死循环
+ * 是因为考虑到在原型的 Model_Category 中可能有其他复杂的代码
+ * 所以在这里演示了另一种使用方法
  * </pre>
  *
  */
 class Model_Category_ForBlog extends class_TableDataGateway{
-	var $tableName 	= 'category';
+	var $tableName 	= 'e_fw_category';
 	var $primaryKey = 'id';
+
+	var $dbParams	= array(
+		'dbServer' 	=> 'localhost',
+		'dbPort' 	=> '3306',
+		'dbName' 	=> 'test',
+		'dbUser' 	=> 'root',
+		'dbPassword'=> '',
+		'dbType' 	=> 'Mysqli'
+	);
 }
 ?>

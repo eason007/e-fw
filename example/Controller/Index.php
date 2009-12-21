@@ -15,19 +15,7 @@ class Controller_Index{
 	 *
 	 */
 	function __construct(){
-		/**
-		 * <pre>
-		 * 这里使用了框架中的 cache 类。
-		 * cache方案为：
-		 * 当 get 参数中 debug != 'abc123' 时，则使用cache，过期时间为默认的1小时
-		 * 如 get 参数中 debug == 'abc123' 时，则不使用cache
-		 * </pre>
-		 */
-        $this->_cacheClass = E_FW::load_Class("class_Cache");
-		$this->_cacheClass->cacheDir 	= "html";
-		$this->_cacheClass->cacheType 	= "file";
-		$this->_cacheClass->cacheFileExt= ".html";
-		$this->_cacheClass->hashFile	= 0;
+
 	}
  
 	
@@ -36,36 +24,34 @@ class Controller_Index{
 	 *
 	 */
     function actionIndex(){
-    	if ($_GET['debug'] == 'abc123'){
-    		$this->_cacheClass->isDebug = true;
-    	}
-    	if ($this->_cacheClass->getCache('index')){
-    		echo $this->_cacheClass->cacheData;
-			exit;
-    	}
-    	else{
-    		$this->_ModelBlog = clsExample::getModel('Model_Blog');
-    	}
+    	$this->_ModelBlog = E_FW::load_Class('Model_Blog');
     	
     	
 		//数据库操作
-		$this->_ModelBlog->field = 'id, title, summary';
-		$this->_ModelBlog->order = 'id desc';
-		$this->_ModelBlog->limit = 30;
-		$news = $this->_ModelBlog->select();
+		$this->_ModelBlog->where('a=0');
+		$this->_ModelBlog->order('id desc');
+		$this->_ModelBlog->limit(30);
+		$news = $this->_ModelBlog->select(array(
+			'isCount'	=> true
+		));
 		
-		
-		//模版操作
-		$tpl = E_FW::get_view();
-		$tpl->assign('news', $news);
-		$html = $tpl->fetch('index.html');
-		echo $html;
-		
-		
-		//判断是否需要保存
-		if ($_GET['debug'] != 'abc123'){
-			$this->_cacheClass->setCache('index', $html);
-		}
+
+		print_r($news);
+
+		//throw new MyException('fuck', 0);
     }
+
+	function actionPost () {
+		$insert = array(
+			'category_id' 	=> '2',
+			'category_title'=> 'qwe',
+			'title'			=> 'hello word!',
+			'content'		=> 'single push data'
+		);
+
+		$this->_ModelBlog = E_FW::load_Class('Model_Blog');
+
+		print_r($this->_ModelBlog->insert($insert));
+	}
 }
 ?>

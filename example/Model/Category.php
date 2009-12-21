@@ -13,19 +13,13 @@ E_FW::load_File('class_TableDataGateway');
  * @package Example
  */
 class Model_Category extends class_TableDataGateway{
-	var $tableName 	= 'category';
+	var $tableName 	= 'e_fw_category';
 	var $primaryKey = 'id';
 	
-	var $hasMany = array(
-		'tableClass' 	=> 'Model_Blog_ForCategory',
-		'joinKey'		=> 'categoryID',
+	var $hasMany	= array(
+		'tableClass' 	=> 'Model_Blog',
+		'joinKey'		=> 'category_id',
 		'mappingName'	=> 'Blog'
 	);
-}
-
-
-class Model_Blog_ForCategory extends class_TableDataGateway{
-	var $tableName 	= 'blog';
-	var $primaryKey = 'id';
 }
 ?>

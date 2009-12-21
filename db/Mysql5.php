@@ -3,7 +3,7 @@
  * @package DB
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.0.20080108
+ * @version 1.2.1.20091216
  */
 
 class DB_Mysql5 {
@@ -23,33 +23,35 @@ class DB_Mysql5 {
 		$this->db = null;
 	}
 
-	public function dbConnect () {
+	private function dbConnect () {
 		switch ($this->dbType) {
 			case 'Mysqli':
-				$this->db = new DB_Driver_Mysqli($this->dbServer,
-													$this->dbPort,
-													$this->dbName,
-													$this->dbUser,
-													$this->dbPassword
+				$this->db = new DB_Driver_Mysqli(
+					$this->dbServer,
+					$this->dbPort,
+					$this->dbName,
+					$this->dbUser,
+					$this->dbPassword
 				);
 
 				break;
 			case 'PDO':
-				$this->db = new DB_Driver_PDO($this->dbServer,
-													$this->dbPort,
-													$this->dbName,
-													$this->dbUser,
-													$this->dbPassword
+				$this->db = new DB_Driver_PDO(
+					$this->dbServer,
+					$this->dbPort,
+					$this->dbName,
+					$this->dbUser,
+					$this->dbPassword
 				);
 
 				break;
 		}
 
-		$this->query('SET NAMES \'utf8\'', 1);
+		$this->query('SET NAMES \'utf8\';', 2);
 	}
 
 	public function query ($TSQL, $type = 0) {
-		if (!isset($this->db)){
+		if (is_null($this->db)){
 			$this->dbConnect();
 		}
 
@@ -75,6 +77,39 @@ class DB_Mysql5 {
 				return $this->db->query($TSQL);
 		}
 	}
+
+	public function beginT () {
+		if (is_null($this->db)){
+			$this->dbConnect();
+		}
+
+		switch ($this->dbType) {
+			case 'Mysqli':
+				$this->db->dbConnect->autocommit(false);
+				break;
+			case 'PDO':
+				$this->db->dbConnect->beginTransaction();
+				break;
+		}
+	}
+
+	public function rollBackT () {
+		switch ($this->dbType) {
+			case 'Mysqli':
+			case 'PDO':
+				$this->db->dbConnect->rollBack();
+				break;
+		}
+	}
+
+	public function commitT () {
+		switch ($this->dbType) {
+			case 'Mysqli':
+			case 'PDO':
+				$this->db->dbConnect->commit();
+				break;
+		}
+	}
 }
 
 
@@ -82,22 +117,23 @@ class DB_Mysql5 {
  * @package DB
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.0.20080108
+ * @version 1.1.1.20091216
  */
 class DB_Driver_Mysqli {
 	public $dbConnect = null;
 	public $lastID = 0;
 
-	function __construct (&$dbServer,
-							&$dbPort,
-							&$dbName,
-							&$dbUser,
-							&$dbPassword
+	function __construct (
+		$dbServer,
+		$dbPort,
+		$dbName,
+		$dbUser,
+		$dbPassword
 	) {
-		$this->dbConnect = new mysqli($dbServer, $dbUser, $dbPassword, $dbName, $dbPort);
+		$this->dbConnect = @new mysqli($dbServer, $dbUser, $dbPassword, $dbName, $dbPort);
 		if(mysqli_connect_errno()) {
-			return false;
-		} 
+			throw new MyException('1 is an invalid parameter');
+		}
 		else {
 			return $this->dbConnect;
 		}
@@ -109,26 +145,28 @@ class DB_Driver_Mysqli {
 		$result = $this->dbConnect->query($sSQL);
 
 		if ($result){
-			while ($row = @$result->fetch_assoc()) {
-				$flag[] = $row;	
+			while ($row = $result->fetch_assoc()) {
+				$flag[] = $row;
 			}
 
-			@$result->close();
-		}
+			$result->close();
 
-		return $flag;
+			return $flag;
+		}
+		else{
+			return false;
+		}
 	}
 
 	public function execute ($sSQL) {
-		$this->dbConnect->query($sSQL);
-	
-		$this->lastID = @$this->dbConnect->insert_id;
+		$result = $this->dbConnect->query($sSQL);
 
-		if (!$this->lastID){
-			$this->lastID = @$this->dbConnect->affected_rows;
+		if ($result){
+			$this->lastID = $this->dbConnect->insert_id;
 		}
-
-		return @$this->dbConnect->affected_rows;
+		else{
+			return 0;
+		}
 	}
 }
 
@@ -142,11 +180,12 @@ class DB_Driver_PDO {
 	public $dbConnect = null;
 	public $lastID = 0;
 
-	function __construct (&$dbServer,
-							&$dbPort,
-							&$dbName,
-							&$dbUser,
-							&$dbPassword
+	function __construct (
+		$dbServer,
+		$dbPort,
+		$dbName,
+		$dbUser,
+		$dbPassword
 	) {
 		try
 		{

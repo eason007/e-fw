@@ -10,7 +10,7 @@
  * @package Example
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.2.20080919
+ * @version 1.1.1.20091215
  */
 
 //引用框架
@@ -22,7 +22,7 @@ E_FW::import(dirname(__FILE__).DS);
 //定义系统配置
 $Config = array(
 	'DSN' => array(
-		'dbServer' => '192.168.1.1',							//数据库地址
+		'dbServer' => 'localhost',								//数据库地址
 		'dbPort' => '3306',										//数据库端口
 		'dbName' => 'test',										//数据库名
 		'dbUser' => 'root',										//登陆用户名
@@ -46,25 +46,19 @@ E_FW::set_Config($Config);
 //Start
 E_FW::run();
 
+class MyException extends Exception
+{
+    // 重定义构造器使 message 变为必须被指定的属性
+    public function __construct($message, $code = 0) {
+        // 自定义的代码
 
-/**
- * 自定义类
- * 
- * 演示自定义类
- * 
- *@package Example
- */
-class clsExample {
-	/**
-	 * 获取 model 类
-	 * 
-	 * @param string $modelName model类名
-	 * @return object
-	 */
-	public static function getModel ($modelName) {
-		$model = E_FW::load_Class($modelName);
-		$model->setDB(E_FW::get_Config('DSN'));	
-		return $model;
-	}
+        // 确保所有变量都被正确赋值
+        parent::__construct($message, $code);
+    }
+
+    public function customFunction() {
+        echo "A Custom function for this type of exception\n";
+    }
 }
+
 ?>

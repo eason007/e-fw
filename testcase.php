@@ -19,7 +19,7 @@ class user extends Class_TableDataGateway
     var $tableName 	= 'user';
     var $primaryKey = 'Id';
     
-    var $dbConfig = array(
+    var $dbParams = array(
 		'dbServer' 	=> '192.168.1.243',
 		'dbPort' 	=> '3306',
 		'dbName' 	=> 'test',
@@ -68,7 +68,7 @@ class userApp extends Class_TableDataGateway
     var $tableName = 'user_app';
     var $primaryKey = 'ID';
     
-    var $dbConfig = array(
+    var $dbParams = array(
 		'dbServer' 	=> '192.168.1.243',
 		'dbPort' 	=> '3306',
 		'dbName' 	=> '169v3',

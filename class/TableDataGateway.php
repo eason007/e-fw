@@ -8,7 +8,7 @@
  * @package Class
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.1.0.20090108
+ * @version 1.2.2.20091216
  */
  
 class Class_TableDataGateway {
@@ -16,16 +16,16 @@ class Class_TableDataGateway {
 	 * 数据表名
 	 *
 	 * @var string
-	 * @access public
+	 * @access protected
 	 */
-	public $tableName = null;
+	protected $tableName = null;
 	/**
 	 * 主键字段名
 	 *
 	 * @var string
-	 * @access public 
+	 * @access protected 
 	 */
-	public $primaryKey = null;
+	protected $primaryKey = null;
 
 	/**
 	 * 从属关联
@@ -41,9 +41,9 @@ class Class_TableDataGateway {
 	 * </pre>
 	 *
 	 * @var array
-	 * @access public
+	 * @access protected
 	 */
-	public $belongsTo = array();
+	protected $belongsTo = array();
 	/**
 	 * 一对一关联
 	 * 
@@ -59,9 +59,9 @@ class Class_TableDataGateway {
 	 * </pre>
 	 *
 	 * @var array
-	 * @access public
+	 * @access protected
 	 */
-	public $hasOne = array();
+	protected $hasOne = array();
 	/**
 	 * 一对多关系
 	 * 
@@ -76,9 +76,9 @@ class Class_TableDataGateway {
 	 * </pre>
 	 *
 	 * @var array
-	 * @access public
+	 * @access protected
 	 */
-	public $hasMany = array();
+	protected $hasMany = array();
 	/**
 	 * 多对多关系
 	 * 
@@ -96,26 +96,26 @@ class Class_TableDataGateway {
 	 * </pre>
 	 *
 	 * @var array
-	 * @access public
+	 * @access protected
 	 */
-	public $manyToMany = array();
+	protected $manyToMany = array();
 
 	/**
 	 * 是否在执行数据库中自动执行关联操作
 	 * 仅在select和del方法中有效
 	 *
 	 * @var bool
-	 * @access public
+	 * @access protected
 	 */
-	public $autoLink = false;
+	protected $autoLink = false;
 
 	/**
 	 * 显示字段名列表
 	 *
 	 * @var string
-	 * @access public
+	 * @access private
 	 */
-	public $field = null;
+	private $_field = '*';
 	/**
 	 * 查询条件
 	 * 
@@ -130,25 +130,25 @@ class Class_TableDataGateway {
 	 * </pre>
 	 *
 	 * @var object
-	 * @access public
+	 * @access private
 	 */
-	public $where = null;
+	private $_where = '';
 	/**
 	 * 其他子句
 	 * 
 	 * 指跟随在where之后，order之前的自定义子句
 	 *
 	 * @var string
-	 * @access public 
+	 * @access private 
 	 */
-	public $other = null;
+	private $_other = '';
 	/**
 	 * order子句
 	 *
 	 * @var string
-	 * @access public
+	 * @access private
 	 */
-	public $order = null;
+	private $_order = '';
 	/**
 	 * limit子句
 	 * 
@@ -160,9 +160,9 @@ class Class_TableDataGateway {
 	 * </pre>
 	 *
 	 * @var object
-	 * @access public
+	 * @access private
 	 */
-	public $limit = null;
+	private $_limit = '';
 
 	/**
 	 * 数据库连接对象
@@ -170,14 +170,22 @@ class Class_TableDataGateway {
 	 * @var object
 	 * @access public
 	 */
-	public $db = null;
+	protected $db = null;
 	
-	private $dbParams = null;
+	protected $dbParams = null;
 
 
 	function __construct() {
 		E_FW::load_File('class_Validator');
+		E_FW::load_File('class_Cache');
 		E_FW::load_File('db_Mysql5');
+
+		if (is_null($this->dbParams)){
+			$this->setDB(E_FW::get_Config('DSN'));
+		}
+		else{
+			$this->setDB($this->dbParams);
+		}
 	}
 
 	/**
@@ -223,10 +231,6 @@ class Class_TableDataGateway {
 	 * @access public
 	 */
 	public function selectSQL ($sql) {
-		if (isset($this->dbConfig)) {
-			$this->setDB($this->dbConfig, true);
-		}
-		
 		return $this->db->query($sql);
 	}
 
@@ -239,87 +243,80 @@ class Class_TableDataGateway {
 	 * where、limit、field、order、other等属性为准。而本方法执行后
 	 * 将自动清除以上属性。
 	 * 
-	 * 默认将直接返回符合设置的数据数组，并返回相关的关联数据（autoLink为true的情况下）。
+	 * 默认将直接返回符合条件的数据数组，并返回相关的关联数据（autoLink 为 true 的情况下）。
 	 * 
-	 * 如$link参数不为空，则无论是否autoLink是否为true，均返回$link中指定的关联数据
+	 * parSet 参数为数组格式，目前包含的设置为：link = string, isExecute = bool, isCount = bool
+	 * 默认设置为：link = null, isExecute = true, isCount = false
+	 *
+	 * 如 link 参数不为空，则无论是否 autoLink 是否为 true ，均返回$link中指定的关联数据
+	 * 如 isExecute 参数为 false，则不返回数据数组，而返回解释相关属性后的T-SQL语句
+	 * 如需要同时返回符合条件的总记录数，则必须指定 isCount 参数为 true
+	 *
 	 * 例子：
-	 * $clsTab->select('hasOne, manyToMany, belongsTo');
-	 * $clsTab->select('hasOne');
-	 * 如$isExecute参数为false，则不返回数据数组，而返回解释相关属性后的T-SQL语句
-	 * 如需要同时返回符合条件的总记录数，则必须指定$isCount参数为true
+	 * $clsTab->select(array('link' => 'belongsTo'));
+	 * $clsTab->select(array('isExecute' => true));
+	 * $clsTab->select(array('link' => 'belongsTo', 'isCount' => true));
 	 * </pre>
 	 *
-	 * @param string $link
-	 * @param bool $isExecute
-	 * @param bool $isCount
+	 * @param array $parSet
 	 * @return array/string
 	 * @access public
 	 */
-	public function select ($link = '', $isExecute = true, $isCount = false) {
-		if (!is_null($this->where)){
-			$conditions = $this->getWhere();
-		}
-		else{
-			$conditions = '';
-		}
-		if (!is_null($this->limit)){
-			$limit = $this->getLimit();
-		}
-		else{
-			$limit = '';
-		}
-		if (is_null($this->field)){
-			$this->field = '*';
-		}
-		if (!is_null($this->order)){
-			$this->order = ' ORDER BY '.$this->order;
+	public function select ($parSet = array()) {
+		$params = array(
+			'link'		=> null,
+			'isExecute'	=> true,
+			'isCount'	=> false
+		);
+		foreach ($parSet as $key => $value) {
+			$params[$key] = $value;
 		}
 
 
-		$sql = 'SELECT '.$this->field.','.$this->primaryKey;
+		$sql = 'SELECT '.$this->_field.','.$this->primaryKey;
 		$sql.= ' FROM `'.$this->tableName.'` AS MT';
-		$sql.= ' WHERE 1=1'.$conditions;
-		$sql.= $this->other;
-		$sql.= $this->order;
-		$sql.= $limit;
+		$sql.= $this->getSubSql('WHERE,OTHER,ORDER,LIMIT');
 
 		$c_sql = 'SELECT COUNT('.$this->primaryKey.') AS RCount';
 		$c_sql.= ' FROM `'.$this->tableName.'` AS MT';
-		$c_sql.= ' WHERE 1=1'.$conditions;
-		$c_sql.= $this->other;
-		$c_sql.= $this->order;
+		$c_sql.= $this->getSubSql('WHERE,OTHER,ORDER');
 
 		$this->clear();
 
-		if (!$isExecute) {
+		if (!$params['isExecute']) {
 			return $sql;
-		}
-		
-		if (isset($this->dbConfig)) {
-			$this->setDB($this->dbConfig, true);
 		}
 
 		$result = $this->db->query($sql);
 		if ($result) {
-			if ( ($this->autoLink) and ($link == '')){
-				$link = 'belongsTo,hasOne,hasMany,manyToMany';
-			}
+			switch (true) {
+				case ( $this->autoLink and $params['link'] === null):
+				case ( $this->autoLink and strlen($params['link']) > 0):
+				case ( !$this->autoLink and strlen($params['link']) > 0):
+					if (is_null($params['link'])) {
+						$params['link'] = 'belongsTo,hasOne,hasMany,manyToMany';
+					}
 
-			if ( ($this->autoLink) or ($link != '') ){
-				$linkValue = explode(',', $link);
+					$linkValue = explode(',', $params['link']);
 
-				foreach($linkValue as $val){
-					$this->_getLinkData($result, trim($val));
-				}
+					foreach($linkValue as $val){
+						$this->_getLinkData($result, trim($val));
+					}
+					break;
 			}
 		}
 
-		if ($isCount){
+		if ($params['isCount']){
 			$temp['result'] = $result;
 			unset($result);
 
 			$tmp = $this->db->query($c_sql);
-			$temp['resultCount'] = $tmp[0]['RCount'];
+			if ($tmp){
+				$temp['resultCount'] = $tmp[0]['RCount'];
+			}
+			else{
+				$temp['resultCount'] = 0;
+			}
 
 			$result = $temp;
 			unset($temp);
@@ -336,26 +333,36 @@ class Class_TableDataGateway {
 	 * 根据传入的数据数组，更新相关的数据表。数组的键名对应数据表中的字段名
 	 * 返回以主键字段为键名的数据。如该键名值为0，则代表更新失败。
 	 * 
-	 * 如需要自动插入数据到关联表，则可指定hasOne、hasMany、manyToMany等键名的数据
+	 * 如需要自动插入数据到关联表，则可指定 hasOne、hasMany、manyToMany 等键名的数据
 	 * 但本表数据必须为单行
-	 * belongsTo关系不支持关联更新
+	 * belongsTo 关系不支持关联更新
 	 * 
-	 * 可定义 _beforeInsert 方法，以便在更新数据表之前执行相关操作。但需注意在框架中
-	 * 类是可cache对象，因此需要注意定义的方法是否需要及时销毁
+	 * 可定义 _beforeInsert 方法，以便在更新数据表之前执行相关操作。
+	 * 但需注意在框架中类是可cache对象，因此需要注意定义的方法是否需要及时销毁
 	 * 
 	 * 可定义 _afterInsert 方法，以便在更新数据表之后执行相关操作。
 	 * 
-	 * 如$isExecute参数为false，则不返回数据数组，而返回解释相关属性后的T-SQL语句
-	 * 如$isRplace参数为true，则使用REPLACE INTO语法，否则使用INSERT INTO
+	 * parSet 参数为数组格式，目前包含的设置为：isExecute = bool, isRplace = bool
+	 * 默认设置为：isExecute = true, isRplace = false
+	 *
+	 * 如 isExecute 参数为 false，则不返回数据数组，而返回解释相关属性后的T-SQL语句
+	 * 如 isExecute 参数为 true，则使用 REPLACE INTO 语法，否则使用 INSERT INTO
 	 * </pre>
 	 * 
 	 * @param array $rowData
-	 * @param bool $isExecute
-	 * @param bool $isRplace
+	 * @param array $parSet
 	 * @return array
 	 * @access public
 	 */
-	public function insert ($rowData, $isExecute = true, $isRplace = false){
+	public function insert ($rowData, $parSet = array()){
+		$params = array(
+			'isExecute'	=> true,
+			'isRplace'	=> false
+		);
+		foreach ($parSet as $key => $value) {
+			$params[$key] = $value;
+		}
+
 		if (!$this->_beforeInsert($rowData)) {
             return false;
         }
@@ -381,7 +388,7 @@ class Class_TableDataGateway {
 			}
 		}
 
-		if ($isRplace){
+		if ($params['isRplace']){
 			$sql = 'REPLACE INTO `'.$this->tableName.'`';
 		}
 		else{
@@ -393,26 +400,37 @@ class Class_TableDataGateway {
 
 		$this->clear();
 
-		if (!$isExecute) {
+		if (!$params['isExecute']) {
 			return $sql;
 		}
-		
-		if (isset($this->dbConfig)) {
-			$this->setDB($this->dbConfig, true);
+
+		if (!empty($linkData)){
+			$this->db->beginT();
 		}
 
 		$rt = $this->db->query($sql, 1);
+		$result[$this->primaryKey] = $rt;
 
 		if ($rt > 0){
 			$rowData[$this->primaryKey] = $rt;
 			$this->_afterInsert($rowData);
 			
-			$result[$this->primaryKey] = $rt;
+			
 
 			if (!empty($linkData)){
 				foreach($linkData as $key => $val){
 					$result[$key] = $this->_insertLinkData($key, $val, $result[$this->primaryKey]);
+
+					if ($result[$key] == 0){
+						$this->db->rollBackT();
+
+						$result[$this->primaryKey] = 0;
+
+						break;
+					}
 				}
+
+				$this->db->commitT();
 			}
 		}
 
@@ -427,7 +445,7 @@ class Class_TableDataGateway {
 	 * 更新数据表中的某行或多行数据。数组的键名对应数据表中的字段名
 	 * 返回已更新的行数。如值为0，则代表没有任何数据行被更新
 	 * 
-	 * 如需要自动更新关联表数据，则可指定hasOne、hasMany、manyToMany等键名的数据
+	 * 如需要自动更新关联表数据，则可指定 hasOne、hasMany、manyToMany 等键名的数据
 	 * 使用hasOne时，待更新本表数据必须为单行
 	 * belongsTo关系不支持关联更新
 	 * 
@@ -447,30 +465,14 @@ class Class_TableDataGateway {
             return false;
         }
 
-		if (!is_null($this->where)){
-			$conditions = $this->getWhere();
-		}
-		else{
-			$conditions = '';
-		}
-		if (!is_null($this->limit)){
-			$limit = $this->getLimit();
-		}
-		else{
-			$limit = '';
-		}
-		if (!is_null($this->order)){
-			$this->order = ' ORDER BY '.$this->order;
-		}
-
-		$pk = '';
+		$pk		= '';
 		$linkData = array();
 
 		foreach($rowData as $key => $val){
 			if (!is_array($val)){
 				if (strtoupper($key) == strtoupper($this->primaryKey)){
-					$conditions.= ' AND `'.$this->primaryKey.'` = '.$val;
-					$this->where = $val;
+					$this->_where.= ' AND `'.$this->primaryKey.'` = '.$val;
+					$selectID = $val;
 
 					continue;
 				}
@@ -486,13 +488,15 @@ class Class_TableDataGateway {
 				$linkData[$key] = $val;
 			}
 		}
+		$subSql = $this->getSubSql('WHERE,ORDER,LIMIT');
+		$this->clear();
 
 		if ($isExecute){
 			$swtichBox = $this->autoLink;
 
 			$this->autoLink = false;
-			$this->field	= $this->primaryKey;
-			$this->other	= '';
+			$this->field($this->primaryKey);
+			$this->where($selectID);
 
 			$ID	= $this->select();
 
@@ -502,18 +506,12 @@ class Class_TableDataGateway {
 
 		$sql = 'UPDATE `'.$this->tableName.'`';
 		$sql.= ' SET '.substr($pk, 0, - 2);
-		$sql.= ' WHERE 1=1'.$conditions;
-		$sql.= $this->order;
-		$sql.= $limit;
+		$sql.= $subSql;
 
 		$this->clear();
 
 		if (!$isExecute) {
 			return $sql;
-		}
-		
-		if (isset($this->dbConfig)) {
-			$this->setDB($this->dbConfig, true);
 		}
 
 		$result['rowCount'] = $this->db->query($sql, 2);
@@ -547,44 +545,38 @@ class Class_TableDataGateway {
 	 * 可定义 _beforeDelete 方法，以便在更新数据表之前执行相关操作。但需注意在框架中
 	 * 类是可cache对象，因此需要注意定义的方法是否需要及时销毁
 	 * 
-	 * 如$link参数不为空，则无论是否autoLink是否为true，均按照$link中指定的关联关系操作
+	 * 如 link 参数不为空，则无论是否 autoLink 是否为 true ，均返回$link中指定的关联数据
+	 * 如 isExecute 参数为 false，则不返回数据数组，而返回解释相关属性后的T-SQL语句
+	 * 
 	 * 例子：
-	 * $clsTab->del('hasOne, manyToMany, belongsTo');
-	 * $clsTab->del('hasOne');
-	 * 如$isExecute参数为false，则不返回数据数组，而返回解释相关属性后的T-SQL语句
+	 * $clsTab->del(array('link' => 'hasOne,hasMany'));
+	 * $clsTab->del(array('isExecute' => false));
 	 * </pre>
 	 *
-	 * @param string $link
-	 * @param bool $isExecute
+	 * @param array $parSet
 	 * @return array
 	 * @access public
 	 */
-	public function del ($link = '', $isExecute = true) {
+	public function del ($parSet = array()) {
+		$params = array(
+			'link'		=> null ,
+			'isExecute'	=> true
+		);
+		foreach ($parSet as $key => $value) {
+			$params[$key] = $value;
+		}
+
 		if (!$this->_beforeDelete()) {
             return false;
         }
 
-		if (!is_null($this->where)){
-			$conditions = $this->getWhere();
-		}
-		else{
-			$conditions = '';
-		}
-		if (!is_null($this->limit)){
-			$limit = $this->getLimit();
-		}
-		else{
-			$limit = '';
-		}
-		if (!is_null($this->order)){
-			$this->order = ' ORDER BY '.$this->order;
-		}
+		$subSql = $this->getSubSql('WHERE,ORDER,LIMIT');
+		$this->clear();
 
-		if ($isExecute){
+		if ($params['isExecute']){
 			$swtichBox = $this->autoLink;
 
 			$this->autoLink = false;
-			$this->other	= '';
 
 			$ID	= $this->select();
 
@@ -592,40 +584,38 @@ class Class_TableDataGateway {
 		}
 
 		$sql = 'DELETE FROM `'.$this->tableName.'`';
-		$sql.= ' WHERE 1=1'.$conditions;
-		$sql.= $this->order;
-		$sql.= $limit;
+		$sql.= $subSql;
 
 		$this->clear();
 
-		if (!$isExecute) {
+		if (!$params['isExecute']) {
 			return $sql;
-		}
-		
-		if (isset($this->dbConfig)) {
-			$this->setDB($this->dbConfig, true);
 		}
 
 		$result['rowCount'] = $this->db->query($sql, 2);
 
 		if ($ID) {
 			$this->_afterDelete($ID);
-			
-			if ( ($this->autoLink) and ($link == '') ){
-				$link = 'hasOne,hasMany,manyToMany';
-			}
 
-			if ( ($this->autoLink) or ($link != '') ){
-				$linkValue  = explode(',', $link);
-				$IDStr		= '';
+			switch (true) {
+				case ( $this->autoLink and $params['link'] === null):
+				case ( $this->autoLink and strlen($params['link']) > 0):
+				case ( !$this->autoLink and strlen($params['link']) > 0):
+					if (is_null($params['link'])) {
+						$params['link'] = 'hasOne,hasMany,manyToMany';
+					}
 
-				foreach($ID as $val){
-					$IDStr.= $val[$this->primaryKey].', ';
-				}
+					$linkValue  = explode(',', $params['link']);
+					$IDStr		= '';
 
-				foreach($linkValue as $key => $val){
-					$result[$val] = $this->_delLinkData($val, $IDStr);
-				}
+					foreach($ID as $val){
+						$IDStr.= $val[$this->primaryKey].', ';
+					}
+
+					foreach($linkValue as $key => $val){
+						$result[$val] = $this->_delLinkData($val, $IDStr);
+					}
+					break;
 			}
 		}
 
@@ -639,35 +629,33 @@ class Class_TableDataGateway {
 	 * @param string $linkType
 	 * @param string $primaryKeyStr
 	 * @return array
-	 * @access private
+	 * @access protected
 	 */
 	protected function _delLinkData ($linkType, $primaryKeyStr) {
-		if (!empty($this->$linkType)){
+		if (!@is_null($this->$linkType)){
 			$linkSetting = $this->$linkType;
 			
 			switch ($linkType) {
 				case 'hasOne':
 				case 'hasMany':
-					$linkClass	 = new $linkSetting['tableClass']();
+					$linkClass	 = E_FW::load_Class($linkSetting['tableClass']);
 					
-					$linkClass->setDB($this->dbParams);
-					$linkClass->autoLink = false;
-					
-					$linkClass->where	 = '`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)';
+					$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
 
-					$rt = $linkClass->del();
+					$rt = $linkClass->del(array(
+						'link' => ''	
+					));
 					
 					break;
 					
 				case 'manyToMany':
-					$linkClass	 = new $linkSetting['relateClass']();
+					$linkClass	 = E_FW::load_Class($linkSetting['relateClass']);
 					
-					$linkClass->setDB($this->dbParams);
-					$linkClass->autoLink = false;
-					
-					$linkClass->where	 = '`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)';
+					$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
 
-					$rt = $linkClass->del();
+					$rt = $linkClass->del(array(
+						'link' => ''	
+					));
 					break;
 			}
 			
@@ -685,18 +673,16 @@ class Class_TableDataGateway {
 	 * @param array $row
 	 * @param string $primaryKeyStr
 	 * @return array
-	 * @access private
+	 * @access protected
 	 */
 	protected function _updateLinkData ($linkType, &$row, $primaryKeyStr) {
-		if (!is_null($this->$linkType)){
+		if (!@is_null($this->$linkType)){
 			$linkSetting = $this->$linkType;
-			$linkClass	 = new $linkSetting['tableClass']();
-			$linkClass->setDB($this->dbParams);
-			$linkClass->autoLink = false;
+			$linkClass	 = E_FW::load_Class($linkSetting['tableClass']);
 
 			switch ($linkType) {
 				case 'hasOne':
-					$linkClass->where = '`'.$linkClass->joinKey.'` IN ('.$primaryKeyStr."0)";
+					$linkClass->where('`'.$linkClass->joinKey.'` IN ('.$primaryKeyStr."0)");
 					$linkRT = $linkClass->update($row);
 
 					break;
@@ -707,7 +693,7 @@ class Class_TableDataGateway {
 					
 					foreach($row as $val){
 						if (!empty($val[$linkClass->primaryKey])){
-							$linkClass->where = $val[$linkClass->primaryKey];
+							$linkClass->where($val[$linkClass->primaryKey]);
 							$tmp = $linkClass->update($val);
 							$linkRT['rowCount']+= $tmp['rowCount'];
 						}
@@ -730,14 +716,12 @@ class Class_TableDataGateway {
 	 * @param array $row
 	 * @param string $primaryID
 	 * @return array
-	 * @access private
+	 * @access protected
 	 */
 	protected function _insertLinkData ($linkType, &$row, $primaryID) {
-		if (!is_null($this->$linkType)){
+		if (!@is_null($this->$linkType)){
 			$linkSetting = $this->$linkType;
-			$linkClass	 = new $linkSetting['tableClass']();
-			$linkClass->setDB($this->dbParams);
-			$linkClass->autoLink = false;
+			$linkClass	 = E_FW::load_Class($linkSetting['tableClass']);
 
 			switch ($linkType) {
 				case 'hasOne':
@@ -759,7 +743,7 @@ class Class_TableDataGateway {
 					break;
 
 				case 'manyToMany':
-					$linkClass = new $linkSetting['relateClass']();
+					$linkClass = E_FW::load_Class($linkSetting['relateClass']);
 					$linkRT['rowCount'] = 0;
 					
 					foreach($row as $val){
@@ -783,15 +767,13 @@ class Class_TableDataGateway {
 	 *
 	 * @param array $rt
 	 * @param string $linkType
-	 * @access public
+	 * @access protected
 	 */
 	protected function _getLinkData (&$rt, $linkType) {
 		$linkSetting = $this->$linkType;
 
 		if (!@is_null($linkSetting['tableClass'])){
-			$linkClass = new $linkSetting['tableClass']();
-			$linkClass->setDB($this->dbParams);
-			$linkClass->autoLink = false;
+			$linkClass = E_FW::load_Class($linkSetting['tableClass']);
 
 			switch ($linkType) {
 				case 'belongsTo':
@@ -801,8 +783,10 @@ class Class_TableDataGateway {
 					}
 					$IDStr = implode(',', $ID);
 
-					$linkClass->where = '`'.$linkClass->primaryKey.'` IN ('.$IDStr.')';
-					$linkData = $linkClass->select();
+					$linkClass->where('`'.$linkClass->primaryKey.'` IN ('.$IDStr.')');
+					$linkData = $linkClass->select(array(
+						'link'	=> ''
+					));
 
 					foreach($rt as $key => $val){
 						foreach($linkData as $k => $v){
@@ -828,8 +812,10 @@ class Class_TableDataGateway {
 					}
 					$IDStr = implode(',', $ID);
 
-					$linkClass->where = '`'.$linkSetting['joinKey'].'` IN ('.$IDStr.')';
-					$linkData = $linkClass->select();
+					$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$IDStr.')');
+					$linkData = $linkClass->select(array(
+						'link'	=> ''
+					));
 
 					foreach($rt as $key => $val){
 						foreach($linkData as $k => $v){
@@ -851,8 +837,10 @@ class Class_TableDataGateway {
 					}
 					$IDStr = implode(',', $ID);
 
-					$linkClass->where = '`'.$linkSetting['joinKey'].'` IN ('.$IDStr.')';
-					$linkData = $linkClass->select();
+					$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$IDStr.')');
+					$linkData = $linkClass->select(array(
+						'link'	=> ''
+					));
 
 					foreach($rt as $key => $val){
 						foreach($linkData as $v){
@@ -872,13 +860,13 @@ class Class_TableDataGateway {
 					$IDStr = implode(',', $ID);
 					
 					//首先查询第三方表的关系数据
-					$relateClass = new $linkSetting['relateClass']();
-					$relateClass->setDB($this->dbParams);
-					$relateClass->autoLink = false;
-					
-					$relateClass->field = $linkSetting['linkKey'].', '.$linkSetting['joinKey'];
-					$relateClass->where = $linkSetting['joinKey'].' IN ('.$IDStr.')';
-					$relateData = $relateClass->select();
+					$relateClass = E_FW::load_Class($linkSetting['relateClass']);
+
+					$relateClass->field($linkSetting['linkKey'].', '.$linkSetting['joinKey']);
+					$relateClass->where($linkSetting['joinKey'].' IN ('.$IDStr.')');
+					$relateData = $relateClass->select(array(
+						'link'	=> ''
+					));
 					unset($relateClass);
 					
 					foreach($relateData as $val){
@@ -887,14 +875,16 @@ class Class_TableDataGateway {
 					$IDStr = implode(',', $ID);
 					
 					//根据第三方的关系数据查找目标表的记录
-					$linkClass->where = $linkClass->primaryKey.' IN ('.$IDStr.')';
-					$linkData = $linkClass->select();
+					$linkClass->where($linkClass->primaryKey.' IN ('.$IDStr.')');
+					$linkData = $linkClass->select(array(
+						'link'	=> ''
+					));
 					
 					//将目标记录组合到关系数据数组中
 					foreach($relateData as $key => $val){
 						foreach($linkData as $v){
 							if ($val[$linkSetting['linkKey']] == $v[$linkClass->primaryKey]){
-								$relateData[$key] = array_merge($v, $relateData[$key]);
+								$relateData[$key][] = $v;
 							}
 						}
 					}
@@ -928,8 +918,36 @@ class Class_TableDataGateway {
 	 * @return string
 	 * @access public
 	 */
-	public function sqlEncode ($value, $type = 0){
+	protected function sqlEncode ($value, $type = 0){
 		return addslashes($value);
+	}
+
+	protected function getSubSql ($codeList) {
+		$codeList = explode(',', $codeList);
+		$rt = '';
+
+		foreach($codeList as $val){
+			switch ($val) {
+				case 'WHERE':
+					$rt.= $this->_where;
+					break;
+				case 'OTHER':
+					$rt.= $this->_other;
+					break;
+				case 'ORDER':
+					$rt.= $this->_order;
+					break;
+				case 'LIMIT':
+					$rt.= $this->_limit;
+					break;
+			}
+		}
+
+		return $rt;
+	}
+
+	public function field ($p) {
+		$this->_field = $p;
 	}
 
 	/**
@@ -938,11 +956,11 @@ class Class_TableDataGateway {
 	 * @return string
 	 * @access public
 	 */
-	public function getWhere () {
-		if (is_array($this->where)){
+	public function where ($p) {
+		if (is_array($p)){
 			$rt = '';
 
-			foreach($this->where as $key => $val){
+			foreach($p as $key => $val){
 				if (is_numeric($key)){
 					if (is_numeric($val)){
 						$rt.= ' AND `'.$this->primaryKey.'` = '.$val;
@@ -957,29 +975,49 @@ class Class_TableDataGateway {
 			}
 		}
 		else{
-			if (is_numeric($this->where)){
-				$rt = ' AND `'.$this->primaryKey.'` = '.$this->where;
+			if (is_numeric($p)){
+				$rt = ' AND `'.$this->primaryKey.'` = '.$p;
 			}
 			else{
-				$rt = ' AND '.$this->sqlEncode($this->where);
+				$rt = ' AND '.$this->sqlEncode($p);
 			}
 		}
 
-		return $rt;
+		$this->_where = ' WHERE 1=1'.$rt;
+	}
+
+	/**
+	 * 
+	 *
+	 * @return string
+	 * @access public
+	 */
+	public function other ($p) {
+		$this->_other = $p;
+	}
+
+	/**
+	 * 
+	 *
+	 * @return string
+	 * @access public
+	 */
+	public function order ($p) {
+		$this->_order = ' ORDER BY '.$p;
 	}
 
 	/**
 	 * 获取解释 limit 属性后的 limit 子句
 	 *
-	 * @return string
+	 * @return array/string
 	 * @access public
 	 */
-	private function getLimit () {
-		if (is_array($this->limit)){
-			return ' LIMIT '.$this->limit['offset'] * $this->limit['length'].','.$this->limit['length'];
+	public function limit ($p) {
+		if (is_array($p)){
+			$this->_limit = ' LIMIT '.$p['offset'] * $p['length'].','.$p['length'];
 		}
 		else{
-			return ' LIMIT '.$this->limit;
+			$this->_limit = ' LIMIT '.$p;
 		}
 	}
 
@@ -988,11 +1026,8 @@ class Class_TableDataGateway {
 	 *
 	 */
 	private function clear () {
-		$this->field = null;
-		$this->where = null;
-		$this->other = null;
-		$this->order = null;
-		$this->limit = null;
+		$this->_field = '*';
+		$this->_where = $this->_other = $this->_order = $this->_limit = '';
 	}
 
 
