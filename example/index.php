@@ -27,7 +27,7 @@ $Config = array(
 		'dbName' => 'test',										//数据库名
 		'dbUser' => 'root',										//登陆用户名
 		'dbPassword' => '',										//登陆密码
-		'dbType' => 'Mysqli'									//DB类连接类型
+		'dbType' => 'PDO'										//DB类连接类型
 	),
 	"VIEW" => array(
 		"class" => "smarty_templateClassPlus",					//设置调用的模版类
@@ -54,10 +54,6 @@ class MyException extends Exception
 
         // 确保所有变量都被正确赋值
         parent::__construct($message, $code);
-    }
-
-    public function customFunction() {
-        echo "A Custom function for this type of exception\n";
     }
 }
 

@@ -47,10 +47,10 @@ class DB_Mysql5 {
 				break;
 		}
 
-		$this->query('SET NAMES \'utf8\';', 2);
+		$this->query('SET NAMES \'utf8\';', 'None');
 	}
 
-	public function query ($TSQL, $type = 0) {
+	public function query ($TSQL, $type = '') {
 		if (is_null($this->db)){
 			$this->dbConnect();
 		}
@@ -58,18 +58,10 @@ class DB_Mysql5 {
 		$this->sqlBox[] = $TSQL;
 
 		switch ($type) {
-			case 1:
-				//get Last ID
-				$this->db->execute($TSQL);
-
-				return $this->db->lastID;
-
-				break;
-
-			case 2:
-				//get row count
-				return $this->db->execute($TSQL);
-
+			case 'LastID':
+			case 'RowCount':
+			case 'None':
+				return $this->db->execute($TSQL, $type);
 				break;
 
 			default:
@@ -82,7 +74,7 @@ class DB_Mysql5 {
 		if (is_null($this->db)){
 			$this->dbConnect();
 		}
-
+		
 		switch ($this->dbType) {
 			case 'Mysqli':
 				$this->db->dbConnect->autocommit(false);
@@ -115,13 +107,15 @@ class DB_Mysql5 {
 
 /**
  * @package DB
+ * @subpackage DB_Driver
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
  * @version 1.1.1.20091216
  */
 class DB_Driver_Mysqli {
-	public $dbConnect = null;
-	public $lastID = 0;
+	public $dbConnect= null;
+	public $lastID 	 = 0;
+	public $rowCount = 0;
 
 	function __construct (
 		$dbServer,
@@ -137,6 +131,10 @@ class DB_Driver_Mysqli {
 		else {
 			return $this->dbConnect;
 		}
+	}
+	
+	function __destruct() {
+		$this->dbConnect->close();
 	}
 
 	public function query ($sSQL) {
@@ -158,11 +156,24 @@ class DB_Driver_Mysqli {
 		}
 	}
 
-	public function execute ($sSQL) {
+	public function execute ($sSQL, $type) {
 		$result = $this->dbConnect->query($sSQL);
 
 		if ($result){
-			$this->lastID = $this->dbConnect->insert_id;
+			$rt = 0;
+			switch ($type) {
+				case 'LastID':
+					$rt = $this->dbConnect->insert_id;
+					break;
+				case 'RowCount':
+					$rt = $this->dbConnect->affected_rows;
+					break;
+				case 'None':
+					$rt = 1;
+					break;
+			}
+			
+			return $rt;
 		}
 		else{
 			return 0;
@@ -172,13 +183,15 @@ class DB_Driver_Mysqli {
 
 /**
  * @package DB
+ * @subpackage DB_Driver
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
  * @version 1.0.0.20080108
  */
 class DB_Driver_PDO {
-	public $dbConnect = null;
-	public $lastID = 0;
+	public $dbConnect= null;
+	public $lastID 	 = 0;
+	public $rowCount = 0;
 
 	function __construct (
 		$dbServer,
@@ -196,7 +209,7 @@ class DB_Driver_PDO {
 		}
 		catch (PDOException $e)
 		{
-			return false;
+			throw new MyException('1 is an invalid parameter');
 		}
 	}
 
@@ -208,12 +221,23 @@ class DB_Driver_PDO {
 		return $result->fetchAll();
 	}
 
-	public function execute ($sSQL) {
-		$this->dbConnect->query($sSQL);
-
-		$this->lastID = @$this->dbConnect->lastInsertId();
-
-		return @$this->dbConnect->rowCount();
+	public function execute ($sSQL, $type) {
+		$result = $this->dbConnect->query($sSQL);
+		
+		$rt = 0;
+		switch ($type) {
+			case 'LastID':
+				$rt = $this->dbConnect->lastInsertId();
+				break;
+			case 'RowCount':
+				$rt = $result->rowCount();
+				break;
+			case 'None':
+				$rt = 1;
+				break;
+		}
+		
+		return $rt;
 	}
 }
 ?>

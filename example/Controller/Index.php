@@ -53,5 +53,16 @@ class Controller_Index{
 
 		print_r($this->_ModelBlog->insert($insert));
 	}
+	
+	function actionUpdate () {
+		$update = array(
+			'id' 		 => '2',
+			'category_id'=> '1'
+		);
+
+		$this->_ModelBlog = E_FW::load_Class('Model_Blog');
+
+		print_r($this->_ModelBlog->update($update));
+	}
 }
 ?>

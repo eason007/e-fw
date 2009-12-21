@@ -42,7 +42,7 @@ class Controller_Category{
 			'title'		=> 'qwe',
 			'hasMany'	=> array(
 				array (
-					'category_id' 	=> '2',
+					'category_id1' 	=> '2',
 					'category_title'=> 'qwe',
 					'title'			=> 'hello word!',
 					'content'		=> 'link push data',
@@ -53,6 +53,23 @@ class Controller_Category{
 		$this->_ModelCategory = E_FW::load_Class('Model_Category');
 
 		print_r($this->_ModelCategory->insert($insert));
+	}
+	
+	function actionUpdate () {
+		$update = array(
+			'id' 	=> '1',
+			'title'	=> '你好bc',
+			'hasMany' => array(
+				array(
+					'id'	=> 1,
+					'category_title' => '你bc'
+				)
+			)
+		);
+
+		$this->_ModelCategory = E_FW::load_Class('Model_Category');
+
+		print_r($this->_ModelCategory->update($update));
 	}
 }
 ?>

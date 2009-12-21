@@ -369,7 +369,10 @@ class Class_TableDataGateway {
 		$result		= array();
 
 		foreach($rowData as $key => $val){
-			if (!is_array($val)){
+			if (is_array($val)){
+				$linkData[$key] = $val;
+			}
+			else{
 				$field.= '`'.$key.'`, ';
 
 				if (is_numeric($val)){
@@ -378,9 +381,6 @@ class Class_TableDataGateway {
 				else{
 					$value.= '\''.$this->sqlEncode($val).'\', ';
 				}
-			}
-			else{
-				$linkData[$key] = $val;
 			}
 		}
 
@@ -408,7 +408,7 @@ class Class_TableDataGateway {
 			$this->db->beginT();
 		}
 
-		$rt = $this->db->query($sql, 1);
+		$rt = $this->db->query($sql, 'LastID');
 		$result[$this->primaryKey] = $rt;
 
 		if ($rt > 0){
@@ -417,6 +417,8 @@ class Class_TableDataGateway {
 			
 
 			if (!empty($linkData)){
+				$isFound = false;
+				
 				foreach($linkData as $key => $val){
 					$result[$key] = $this->_insertLinkData($key, $val, $result[$this->primaryKey]);
 
@@ -424,12 +426,16 @@ class Class_TableDataGateway {
 						$this->db->rollBackT();
 
 						$result[$this->primaryKey] = 0;
+						
+						$isFound = true;
 
 						break;
 					}
 				}
 
-				$this->db->commitT();
+				if (!$isFound){
+					$this->db->commitT();
+				}
 			}
 		}
 
@@ -459,19 +465,25 @@ class Class_TableDataGateway {
 	 * @return array
 	 * @access public
 	 */
-	public function update ($rowData, $isExecute = true) {
-		if (!$this->_beforeUpdate($rowData)) {
-            return false;
-        }
+	public function update ($rowData, $parSet = array()) {
+		$params = array(
+			'isExecute'	=> true,
+			'isRplace'	=> false
+		);
+		foreach ($parSet as $key => $value) {
+			$params[$key] = $value;
+		}
 
 		$pk		= '';
 		$linkData = array();
 
 		foreach($rowData as $key => $val){
-			if (!is_array($val)){
+			if (is_array($val)){
+				$linkData[$key] = $val;
+			}
+			else{
 				if (strtoupper($key) == strtoupper($this->primaryKey)){
-					$this->_where.= ' AND `'.$this->primaryKey.'` = '.$val;
-					$selectID = $val;
+					$this->where($val);
 
 					continue;
 				}
@@ -483,48 +495,64 @@ class Class_TableDataGateway {
 					$pk.= '`'.$key.'` = \''.$this->sqlEncode($val).'\', ';
 				}
 			}
-			else{
-				$linkData[$key] = $val;
-			}
 		}
-		$subSql = $this->getSubSql('WHERE,ORDER,LIMIT');
+		$subSql 	= $this->getSubSql('WHERE,ORDER,LIMIT');
+		$countSql 	= $this->getSubSql('WHERE');
 		$this->clear();
-
-		if ($isExecute){
-			$swtichBox = $this->autoLink;
-
-			$this->autoLink = false;
-			$this->field($this->primaryKey);
-			$this->where($selectID);
-
-			$ID	= $this->select();
-
-			$this->autoLink = $swtichBox;
-		}
-
 
 		$sql = 'UPDATE `'.$this->tableName.'`';
 		$sql.= ' SET '.substr($pk, 0, - 2);
 		$sql.= $subSql;
 
-		$this->clear();
+		if ($params['isExecute']) {
+			$this->field($this->primaryKey);
+			$this->_where = $countSql;
 
-		if (!$isExecute) {
+			$ID	= $this->select(array(
+				'link' => ''
+			));
+		}
+		else{
 			return $sql;
 		}
+		
+		if (!$this->_beforeUpdate($rowData)) {
+            return false;
+        }
+        
+        if (!empty($linkData)){
+			$this->db->beginT();
+		}
 
-		$result['rowCount'] = $this->db->query($sql, 2);
+		$result['rowCount'] = $this->db->query($sql, 'RowCount');
 
 		if ($result['rowCount'] > 0){
 			$this->_afterUpdate($rowData);
 			
-			$IDStr = '';
-			foreach($ID as $val){
-				$IDStr.= $val[$this->primaryKey].', ';
-			}
-
-			foreach($linkData as $key => $val){
-				$result[$key] = $this->_updateLinkData($key, $val, $IDStr);
+			if (!empty($linkData)){
+				$IDStr = '';
+				foreach($ID as $val){
+					$IDStr.= $val[$this->primaryKey].', ';
+				}
+				$isFound = false;
+	
+				foreach($linkData as $key => $val){
+					$result[$key] = $this->_updateLinkData($key, $val, $IDStr);
+					
+					if ($result[$key] == 0){
+						$this->db->rollBackT();
+	
+						$result['rowCount'] = 0;
+						
+						$isFound = true;
+	
+						break;
+					}
+				}
+				
+				if (!$isFound){
+					$this->db->commitT();
+				}
 			}
 		}
 
@@ -591,7 +619,7 @@ class Class_TableDataGateway {
 			return $sql;
 		}
 
-		$result['rowCount'] = $this->db->query($sql, 2);
+		$result['rowCount'] = $this->db->query($sql, 'RowCount');
 
 		if ($ID) {
 			$this->_afterDelete($ID);
@@ -681,19 +709,25 @@ class Class_TableDataGateway {
 
 			switch ($linkType) {
 				case 'hasOne':
-					$linkClass->where('`'.$linkClass->joinKey.'` IN ('.$primaryKeyStr."0)");
+					$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr."0)");
 					$linkRT = $linkClass->update($row);
 
 					break;
 
 				case 'hasMany':
-				case 'manyToMany':
 					$linkRT['rowCount'] = 0;
 					
 					foreach($row as $val){
-						if (!empty($val[$linkClass->primaryKey])){
-							$linkClass->where($val[$linkClass->primaryKey]);
-							$tmp = $linkClass->update($val);
+						if (is_array($val)){
+							if (!empty($val[$linkClass->primaryKey])){
+								$linkClass->where($val[$linkClass->primaryKey]);
+								$tmp = $linkClass->update($val);
+								$linkRT['rowCount']+= $tmp['rowCount'];
+							}
+						}
+						else{
+							$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr."0)");
+							$tmp = $linkClass->update($row);
 							$linkRT['rowCount']+= $tmp['rowCount'];
 						}
 					}
