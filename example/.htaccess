@@ -1,0 +1,12 @@
+RewriteEngine on
+
+#New rules since 2.1.0 beta 2
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [L]
+
+RewriteRule ^/([^/]*)/$ index.php?controller=Controller_$1 [QSA,L]
+RewriteRule ^/([^/]*)/([^/]*)/$ index.php?controller=Controller_$1&action=$2 [QSA,L]
+RewriteRule ^/([^/]*)/([^/]*)/([^/]*)/$ index.php?controller=Controller_$1&action=$2&params=$3 [QSA,L]
+
+

@@ -28,7 +28,7 @@ class Controller_Index{
     	
     	
 		//数据库操作
-		$this->_ModelBlog->where('a=0');
+		$this->_ModelBlog->where('');
 		$this->_ModelBlog->order('id desc');
 		$this->_ModelBlog->limit(30);
 		$news = $this->_ModelBlog->select(array(

@@ -363,10 +363,6 @@ class Class_TableDataGateway {
 			$params[$key] = $value;
 		}
 
-		if (!$this->_beforeInsert($rowData)) {
-            return false;
-        }
-
 		$field 		= '';
 		$value 		= '';
 		$linkData 	= array();
@@ -403,6 +399,10 @@ class Class_TableDataGateway {
 		if (!$params['isExecute']) {
 			return $sql;
 		}
+		
+		if (!$this->_beforeInsert($rowData)) {
+            return false;
+        }
 
 		if (!empty($linkData)){
 			$this->db->beginT();
@@ -414,7 +414,6 @@ class Class_TableDataGateway {
 		if ($rt > 0){
 			$rowData[$this->primaryKey] = $rt;
 			$this->_afterInsert($rowData);
-			
 			
 
 			if (!empty($linkData)){
@@ -957,9 +956,9 @@ class Class_TableDataGateway {
 	 * @access public
 	 */
 	public function where ($p) {
+		$rt = '';
+		
 		if (is_array($p)){
-			$rt = '';
-
 			foreach($p as $key => $val){
 				if (is_numeric($key)){
 					if (is_numeric($val)){
@@ -978,7 +977,7 @@ class Class_TableDataGateway {
 			if (is_numeric($p)){
 				$rt = ' AND `'.$this->primaryKey.'` = '.$p;
 			}
-			else{
+			else if (strlen($p) > 0){
 				$rt = ' AND '.$this->sqlEncode($p);
 			}
 		}
