@@ -593,31 +593,24 @@ class Class_TableDataGateway {
 			$params[$key] = $value;
 		}
 
-		if (!$this->_beforeDelete()) {
-            return false;
-        }
 
 		$subSql = $this->getSubSql('WHERE,ORDER,LIMIT');
-		$this->clear();
-
-		if ($params['isExecute']){
-			$swtichBox = $this->autoLink;
-
-			$this->autoLink = false;
-
-			$ID	= $this->select();
-
-			$this->autoLink = $swtichBox;
-		}
 
 		$sql = 'DELETE FROM `'.$this->tableName.'`';
 		$sql.= $subSql;
 
-		$this->clear();
-
-		if (!$params['isExecute']) {
+		if ($params['isExecute']){
+			$ID	= $this->select(array(
+				'link' => false
+			));
+		}
+		else{
 			return $sql;
 		}
+		
+		if (!$this->_beforeDelete()) {
+            return false;
+        }
 
 		$result['rowCount'] = $this->db->query($sql, 'RowCount');
 
