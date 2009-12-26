@@ -11,6 +11,7 @@ E_FW::load_File('class_TableDataGateway');
  * </pre>
  *
  * @package Example
+ * @subpackage Model
  */
 class Model_Blog extends class_TableDataGateway{
 	var $tableName 	= 'e_fw_blog';

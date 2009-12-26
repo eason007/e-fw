@@ -5,7 +5,7 @@
  * 类名以 [目录名]_[类名] 方式命名
  * 
  * @package Example
- *
+ * @subpackage Controller
  */
 class Controller_Index{
 	/**
