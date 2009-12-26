@@ -8,7 +8,7 @@
  * @package Class
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.2.2.20091221
+ * @version 1.2.2.20091224
  */
  
 class Class_TableDataGateway {
