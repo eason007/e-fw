@@ -110,7 +110,7 @@ class DB_Mysql5 {
  * @subpackage DB_Driver
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.1.1.20091216
+ * @version 1.1.1.20091221
  */
 class DB_Driver_Mysqli {
 	public $dbConnect= null;
@@ -186,7 +186,7 @@ class DB_Driver_Mysqli {
  * @subpackage DB_Driver
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.0.20080108
+ * @version 1.1.1.20091221
  */
 class DB_Driver_PDO {
 	public $dbConnect= null;
