@@ -13,7 +13,9 @@
  * @version 1.0.2.20080816
  */
 
-//标记文件启动时间
+/**
+ * 标记文件启动时间
+ */
 global $_load_time;
 $_load_time = microtime();
 

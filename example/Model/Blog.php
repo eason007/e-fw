@@ -1,5 +1,7 @@
 <?php
-//引入 model 基类
+/**
+ * 引入 model 基类
+ */
 E_FW::load_File('class_TableDataGateway');
 
 /**
@@ -12,8 +14,9 @@ E_FW::load_File('class_TableDataGateway');
  *
  * @package Example
  * @subpackage Model
+ * @see Class_TableDataGateway
  */
-class Model_Blog extends class_TableDataGateway{
+class Model_Blog extends Class_TableDataGateway{
 	var $tableName 	= 'e_fw_blog';
 	var $primaryKey = 'id';
 
@@ -48,8 +51,11 @@ class Model_Blog extends class_TableDataGateway{
  * 所以在这里演示了另一种使用方法
  * </pre>
  *
+ * @package Example
+ * @subpackage Model
+ * @see Class_TableDataGateway
  */
-class Model_Category_ForBlog extends class_TableDataGateway{
+class Model_Category_ForBlog extends Class_TableDataGateway{
 	var $tableName 	= 'e_fw_category';
 	var $primaryKey = 'id';
 

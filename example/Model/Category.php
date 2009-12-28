@@ -12,8 +12,9 @@ E_FW::load_File('class_TableDataGateway');
  *
  * @package Example
  * @subpackage Model
+ * @see Class_TableDataGateway
  */
-class Model_Category extends class_TableDataGateway{
+class Model_Category extends Class_TableDataGateway{
 	var $tableName 	= 'e_fw_category';
 	var $primaryKey = 'id';
 	
