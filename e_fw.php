@@ -43,6 +43,7 @@ $GLOBALS[E_FW_VAR] = array(
 	'VIEW' => array(),										//模版类配置信息。class/templateDir
 	'TIME_FORMAT' => 'zh_CN',								//默认时间格式
 	'TIME_ZONE' => 'Asia/Shanghai',							//默认时区
+	'CHARSET'	=> 'utf-8',									//默认页面编码
 	'URL_MODEL' => 0										//URL模式
 );
 
@@ -61,6 +62,7 @@ class E_FW {
 	public function run () {
 		setlocale(LC_TIME, E_FW::get_Config('TIME_FORMAT'));
 		date_default_timezone_set(E_FW::get_Config('TIME_ZONE'));
+		header('Content-Type:text/html;charset='.E_FW::get_Config('CHARSET'));
 
 		switch (E_FW::get_Config('URL_MODEL')){
 			case 0:

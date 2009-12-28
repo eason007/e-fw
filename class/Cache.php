@@ -12,23 +12,71 @@
 
 class Class_Cache {
 	/**
-	 * 缓存目录
+	 * Enter description here...
+	 * 
+	 * <pre>
+	 * 格式：array(
+	 * 		'File' => array (
+	 * 			'dir' => '',
+	 * 			'hashFile' => '',
+	 * 			'ext' => ''
+	 * 		),
+	 * 		'Memcache' => array (
+	 * 			'host' => '',
+	 * 			'port' => ''
+	 * 		)
+	 * )
+	 * </pre>
 	 *
-	 * @var string
+	 * @var array
 	 */
-	public $cacheDir = null;
+	public $cacheParams = array(
+		'File' 		=> array(
+			/**
+			 * 缓存目录
+			 *
+			 * @var string
+			 */
+			'dir' 	=> null,
+			/**
+			 * 缓存散列层次
+			 * 
+			 * <pre>
+			 * 仅支持 file 方式
+			 * 0则为不散列，以 cacheid 为文件名保存在缓存根目录中
+			 * 大于0则以md5加密 cacheid 为文件名，保存于多层子目录下
+			 * 最大支持32层子目录散列
+			 * </pre>
+			 *
+			 * @var int
+			 */
+			'hashFile'	=> 2,
+			/**
+			 * 缓存文件扩展名
+			 *
+			 * @var string
+			 */
+			'ext'	=> '.EFW-Cache'
+		),
+		'Memcache' 	=> array(
+			array(
+				'host' => '127.0.0.1',
+				'port' => '11211'
+			)
+		)
+	);
 	
 	/**
 	 * 缓存方式
 	 * 
 	 * <pre>
-	 * 目前只支持文件形式保存
-	 * 以后计划增加数据库、mmcache方式
+	 * 'file' = 以文件方式保存
+	 * 'memcache' = 以memcache方式保存
 	 * </pre>
 	 * 
 	 * @var string
 	 */
-	public $cacheType = null;
+	public $type = null;
 	
 	/**
 	 * 缓存生命期
@@ -37,28 +85,7 @@ class Class_Cache {
 	 *
 	 * @var int
 	 */
-	public $cacheTime = 3600;
-	
-	/**
-	 * 缓存散列层次
-	 * 
-	 * <pre>
-	 * 仅支持 file 方式
-	 * 0则为不散列，以cachaid为文件名保存在缓存跟目录中
-	 * 大于0则以md5加密cacheid为文件名，保存于多层子目录下
-	 * 最大支持32层子目录散列
-	 * </pre>
-	 *
-	 * @var int
-	 */
-	public $hashFile = 2;
-	
-	/**
-	 * 缓存文件扩展名
-	 *
-	 * @var string
-	 */
-	public $cacheFileExt = '.EFW-Cache';
+	public $expireTime = 3600;
 	
 	/**
 	 * 是否将缓存数据序列化后保存
@@ -79,18 +106,7 @@ class Class_Cache {
 	 */
 	public $isDebug = false;
 	
-	/**
-	 * 缓存内容
-	 * 
-	 * <pre>
-	 * 调用 getCache 方法后，缓存数据除直接返回外，
-	 * 同时亦保存到这里
-	 * </pre>
-	 *
-	 * @var object
-	 */
-	public $cacheData = null;
-	
+	private $_memCache = null;
 	
 	/**
 	 * 类的初始化
@@ -101,8 +117,8 @@ class Class_Cache {
 	 * 如：
 	 * new Class_Cache();			//不设置
 	 * new Class_Cache(array(		//只设置两个类属性
-	 * 	'cacheDir' => './Tmp',
-	 * 	'cacheTime' => 86400
+	 * 		'type' => 'file',
+	 * 		'expireTime' => 86400
 	 * 	)
 	 * );
 	 * </pre>
@@ -110,14 +126,20 @@ class Class_Cache {
 	 * @param array $Params
 	 */
 	function __construct($Params = null) {
-		if (!is_null($Params)){
-			$this->cacheDir	 	= $Params['cacheDir'] ? $Params['cacheDir'] : null;
-			$this->cacheType 	= $Params['cacheType'] ? $Params['cacheType'] : null;
-			$this->cacheTime 	= $Params['cacheTime'] ? $Params['cacheTime'] : 3600;
-			$this->cacheFileExt	= $Params['cacheFileExt'] ? $Params['cacheFileExt'] : '.EFW-Cache';
-			$this->isSerialize 	= $Params['isSerialize'] ? $Params['isSerialize'] : false;
-			$this->hashFile 	= $Params['hashFile'] ? $Params['hashFile'] : 2;
-			$this->isDebug 		= $Params['isDebug'] ? $Params['isDebug'] : false;
+		if (is_null($Params)){
+			$Params = E_FW::get_Config('CACHE');
+		}
+		
+		foreach ($Params as $key => $value) {
+			$this->$key = $value;
+		}
+		
+		if ($this->type == 'memcache') {
+			$this->_memCache = new Memcache;
+			
+			foreach ($this->cacheParams['Memcache'] as $value) {
+				$this->_memCache->addServer($value['host'], $value['port']);
+			}
 		}
 	}
 	
@@ -126,22 +148,20 @@ class Class_Cache {
 	 * 获取缓存/检查缓存是否存在
 	 * 
 	 * <pre>
-	 * 在 isDebug 属性为 false的情况下，方法返回缓存是否有效
-	 * 如缓存有效，则自动读出并保存到 cacheData 属性中
-	 * 
-	 * 如 isDebug 属性为 true，则方法恒返回 false
+	 * 如数据存在并有效，则读出并返回。
+	 * 如数据存在但过期，或者不存在，或者 isDebug 属性为 true，则返回 false
 	 * </pre>
 	 *
 	 * @param string $cacheID 缓存标记名
 	 * @param bool $unserialize 是否反序列化
-	 * @return bool
+	 * @return mixed
 	 */
 	public function getCache ($cacheID, $unserialize = false) {
 		if ($this->isDebug){
 			return false;
 		}
 		
-		switch ($this->cacheType){
+		switch ($this->type){
 			case 'file':
 				clearstatcache();
 				
@@ -156,8 +176,6 @@ class Class_Cache {
 						if ( ($this->isSerialize) or ($unserialize) ){
 							$cache = unserialize($cache);
 						}
-						
-						$this->cacheData = $cache;
 						
 						return $cache;
 					}
@@ -177,18 +195,29 @@ class Class_Cache {
 	 * 保存缓存
 	 * 
 	 * <pre>
-	 * 将数据保存到文件中（目前只支持文件缓存方式）
+	 * parSet 参数为数组格式，目前包含的设置为：expireTime = int, serialize = bool
+	 * 默认设置为：serialize = 0, serialize = false
+	 *
+	 * expireTime = 缓存有效时间，以秒为单位
+	 * serialize = 是否序列化数据再保存
 	 * </pre>
 	 *
 	 * @param string $cacheID 缓存标记名
-	 * @param object $cacheData 缓存内容
-	 * @param int $cacheTime 缓存有效时间，以秒为单位
-	 * @param bool $serialize 是否序列化数据再保存
+	 * @param mixed $cacheData 缓存内容
+	 * @param array $parSet 
 	 */
-	public function setCache ($cacheID, $cacheData, $cacheTime = 0, $serialize = false){
-		switch ($this->cacheType){
+	public function setCache ($cacheID, $cacheData, $parSet = array()){
+		$params = array(
+			'expireTime'=> 0,
+			'serialize'	=> false
+		);
+		foreach ($parSet as $key => $value) {
+			$params[$key] = $value;
+		}
+		
+		switch ($this->type){
 			case 'file':
-				if ( ($this->isSerialize) or ($serialize) ){
+				if ( ($this->isSerialize) or ($params['serialize']) ){
 					$cacheData = serialize($cacheData);
 				}
 				
@@ -196,7 +225,7 @@ class Class_Cache {
 				@file_put_contents($cacheFile, $cacheData);
 				
 				if ($cacheTime == 0) {
-					$cacheTime = $this->cacheTime;
+					$cacheTime = $this->$params['expireTime'];
 				}
 				@touch($cacheFile, time() + $cacheTime);
 				
@@ -213,7 +242,7 @@ class Class_Cache {
 	 * @param string $cacheID 缓存标记名
 	 */
 	public function delCache ($cacheID) {
-		switch ($this->cacheType){
+		switch ($this->type){
 			case 'file':
 				$cacheFile = $this->_getHashPath($cacheID);
 				@unlink($cacheFile);
@@ -241,11 +270,11 @@ class Class_Cache {
 	 * @return string
 	 */
 	private function _getHashPath ($cacheID, $isRead = true) {
-		if ($this->hashFile > 0){
+		if ($this->cacheParams['File']['hashFile'] > 0){
 			$hashName = md5($cacheID);
-			$path = $this->cacheDir.DS;
+			$path = $this->cacheParams['File']['dir'].DS;
 			
-			for ($i = 0;$i < $this->hashFile; $i++){
+			for ($i = 0;$i < $this->cacheParams['File']['hashFile']; $i++){
 				$path.= $hashName{$i}.DS;
 				
 				if (!$isRead){
@@ -255,10 +284,10 @@ class Class_Cache {
 				}
 			}
 			
-			return $path.$hashName.$this->cacheFileExt;
+			return $path.$hashName.$this->cacheParams['File']['ext'];
 		}
 		else{
-			return $this->cacheDir.DS.$cacheID.$this->cacheFileExt;
+			return $this->cacheParams['File']['dir'].DS.$cacheID.$this->$this->cacheParams['File']['ext'];
 		}
 	}
 }

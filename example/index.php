@@ -29,14 +29,14 @@ $Config = array(
 		'dbPassword' => '',										//登陆密码
 		'dbType' => 'PDO'										//DB类连接类型
 	),
-	"VIEW" => array(
-		"class" => "smarty_templateClassPlus",					//设置调用的模版类
-		"template_dir" => ".".DS."res".DS."templates",			//设置模版存放目录
-		"compile_dir" => ".".DS."res".DS."templates_c",			//设置模版缓存目录
-		"left_delimiter" => "{{"								//设置模版左定界符号
+	'VIEW' => array(
+		'class' 		=> 'smarty_templateClassPlus',			//设置调用的模版类
+		'template_dir' 	=> '.'.DS.'res'.DS.'templates',			//设置模版存放目录
+		'compile_dir' 	=> '.'.DS.'res'.DS.'templates_c',		//设置模版缓存目录
+		'left_delimiter'=> '${'									//设置模版左定界符号
 	),
-	"CONTROLLER" => array(
-		"defaultController" => "Controller_Index"				//设置默认控制器名
+	'CONTROLLER' => array(
+		'defaultController' => 'Controller_Index'				//设置默认控制器名
 	)
 );
 

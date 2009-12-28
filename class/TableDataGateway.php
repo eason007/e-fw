@@ -129,7 +129,7 @@ class Class_TableDataGateway {
 	 * 赋为数组，则单独解释各维，各维之间为 AND 关键字
 	 * </pre>
 	 *
-	 * @var object
+	 * @var mixed
 	 * @access private
 	 */
 	private $_where = '';
@@ -159,7 +159,7 @@ class Class_TableDataGateway {
 	 * 即limit offset * length, length;
 	 * </pre>
 	 *
-	 * @var object
+	 * @var mixed
 	 * @access private
 	 */
 	private $_limit = '';
@@ -168,7 +168,7 @@ class Class_TableDataGateway {
 	 * 数据库连接对象
 	 *
 	 * @var object
-	 * @access public
+	 * @access protected
 	 */
 	protected $db = null;
 	
@@ -259,7 +259,7 @@ class Class_TableDataGateway {
 	 * </pre>
 	 *
 	 * @param array $parSet
-	 * @return array/string
+	 * @return mixed
 	 * @access public
 	 */
 	public function select ($parSet = array()) {
@@ -461,7 +461,7 @@ class Class_TableDataGateway {
 	 * </pre>
 	 *
 	 * @param array $rowData
-	 * @param bool $isExecute
+	 * @param array $parSet
 	 * @return array
 	 * @access public
 	 */
@@ -702,7 +702,7 @@ class Class_TableDataGateway {
 
 			switch ($linkType) {
 				case 'hasOne':
-					$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr."0)");
+					$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
 					$linkRT = $linkClass->update($row);
 
 					break;
@@ -719,7 +719,7 @@ class Class_TableDataGateway {
 							}
 						}
 						else{
-							$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr."0)");
+							$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
 							$tmp = $linkClass->update($row);
 							$linkRT['rowCount']+= $tmp['rowCount'];
 						}
@@ -942,7 +942,7 @@ class Class_TableDataGateway {
 	 * @param string $value
 	 * @param int $type
 	 * @return string
-	 * @access public
+	 * @access protected
 	 */
 	protected function sqlEncode ($value, $type = 0){
 		return addslashes($value);
@@ -979,7 +979,7 @@ class Class_TableDataGateway {
 	/**
 	 * 获取解释where属性后的 where 语句
 	 *
-	 * @return string
+	 * @return mixed
 	 * @access public
 	 */
 	public function where ($p) {
@@ -1035,7 +1035,7 @@ class Class_TableDataGateway {
 	/**
 	 * 获取解释 limit 属性后的 limit 子句
 	 *
-	 * @return array/string
+	 * @return mixed
 	 * @access public
 	 */
 	public function limit ($p) {
