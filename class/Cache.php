@@ -1,5 +1,9 @@
 <?php
 /**
+ * @package Class
+ */
+
+/**
  * 缓存类
  * 
  * 提供页面/数据的缓存服务
@@ -9,10 +13,9 @@
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
  * @version 1.0.0.20080108
  */
-
 class Class_Cache {
 	/**
-	 * Enter description here...
+	 * 缓存配置
 	 * 
 	 * <pre>
 	 * 格式：array(
@@ -26,36 +29,27 @@ class Class_Cache {
 	 * 			'port' => ''
 	 * 		)
 	 * )
+	 * 
+	 * [File][dir]
+	 * 缓存目录
+	 * 
+	 * [File][hashFile]
+	 * 缓存散列层次
+	 * 仅支持 file 方式
+	 * 0则为不散列，以 cacheid 为文件名保存在缓存根目录中
+	 * 大于0则以md5加密 cacheid 为文件名，保存于多层子目录下
+	 * 最大支持32层子目录散列
+	 * 
+	 * [File][ext]
+	 * 缓存文件扩展名
 	 * </pre>
 	 *
 	 * @var array
 	 */
 	public $cacheParams = array(
 		'File' 		=> array(
-			/**
-			 * 缓存目录
-			 *
-			 * @var string
-			 */
 			'dir' 	=> null,
-			/**
-			 * 缓存散列层次
-			 * 
-			 * <pre>
-			 * 仅支持 file 方式
-			 * 0则为不散列，以 cacheid 为文件名保存在缓存根目录中
-			 * 大于0则以md5加密 cacheid 为文件名，保存于多层子目录下
-			 * 最大支持32层子目录散列
-			 * </pre>
-			 *
-			 * @var int
-			 */
 			'hashFile'	=> 2,
-			/**
-			 * 缓存文件扩展名
-			 *
-			 * @var string
-			 */
 			'ext'	=> '.EFW-Cache'
 		),
 		'Memcache' 	=> array(

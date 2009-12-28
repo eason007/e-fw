@@ -1,5 +1,9 @@
 <?php
 /**
+ * @package Class
+ */
+
+/**
  * 数据校验类
  * 
  * @package Class

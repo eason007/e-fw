@@ -13,7 +13,9 @@
  * @version 1.1.1.20091215
  */
 
-//引用框架
+/**
+ * 引用框架
+ */
 require('../e_fw.php');
 
 //将本目录加入到默认引用文件路径中
@@ -46,6 +48,11 @@ E_FW::set_Config($Config);
 //Start
 E_FW::run();
 
+/**
+ * Enter description here...
+ *
+ * @package Exception
+ */
 class MyException extends Exception
 {
     // 重定义构造器使 message 变为必须被指定的属性

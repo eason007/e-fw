@@ -1,16 +1,37 @@
 <?php
 /**
  * @package DB
+ */
+
+/**
+ * @package DB
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
  * @version 1.2.1.20091221
  */
 
 class DB_Mysql5 {
+	/**
+	 * Enter description here...
+	 *
+	 * @var object
+	 * @see DB_Driver_Mysqli
+	 * @see DB_Driver_PDO
+	 */
 	private $db = null;
 	
+	/**
+	 * Enter description here...
+	 *
+	 * @var array
+	 */
 	public $sqlBox = array();
 
+	/**
+	 * Enter description here...
+	 *
+	 * @var int
+	 */
 	public $rowCount = 0;
 
 	function __construct ($dbParams) {

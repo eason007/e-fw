@@ -1,7 +1,9 @@
 <?php
 /**
- * 引入 model 基类
+ * @package Example
  */
+
+//引入 model 基类
 E_FW::load_File('class_TableDataGateway');
 
 /**

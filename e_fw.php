@@ -51,6 +51,11 @@ $GLOBALS[E_FW_VAR] = array(
 
 $GLOBALS[E_FW_VAR]['FILE_PATH'][] = dirname(__FILE__).DS;
 
+/**
+ * Enter description here...
+ *
+ * @package Core
+ */
 class E_FW {
 	/**
 	 * 启动框架
@@ -60,6 +65,8 @@ class E_FW {
 	 * 如：
 	 * ?controller=abc&action=123
 	 * </pre>
+	 * 
+	 * @return void
 	 */
 	public function run () {
 		setlocale(LC_TIME, E_FW::get_Config('TIME_FORMAT'));
@@ -136,7 +143,7 @@ class E_FW {
 	 * @param string $controllerName 控制器名称
 	 * @param string $actionName 方法名称
 	 * @param array $loadParam 加载类时的传递参数。可选
-	 * @return object
+	 * @return mixed
 	 */
 	public function execute_Action ($controllerName, $actionName, $loadParam = null) {
 		$actionPrefix = E_FW::get_Config('CONTROLLER/actionMethodPrefix');
@@ -173,7 +180,7 @@ class E_FW {
 	 * 导入包含文件路径
 	 *
 	 * @param string $dir 目录地址
-	 * @return null
+	 * @return void
 	 */
 	public function import($dir)
     {
@@ -196,7 +203,7 @@ class E_FW {
      * @param string $className 类名
      * @param bool $isLoad 是否马上实例化该类
      * @param array $loadParams 实例化参数
-     * @return object/bool
+     * @return mixed
      */
 	public function load_Class($className, $isLoad = true, $loadParams = null)
     {
@@ -237,7 +244,7 @@ class E_FW {
      * </pre>
      *
      * @param string $filename 文件名
-     * @return var
+     * @return void
      */
 	public function load_File ($filename, $loadOnce = true) {
 		$path = E_FW::get_FilePath($filename);
@@ -278,6 +285,7 @@ class E_FW {
 	 * </pre>
 	 *
 	 * @param string/array $params
+	 * @return void
 	 */
 	public function set_Config ($params) {
 		if (is_string($params)){
@@ -331,7 +339,7 @@ class E_FW {
 	 * </pre>
 	 *
 	 * @param string $path
-	 * @return var
+	 * @return mixed
 	 */
 	public function get_Config ($path = null, $returnRoot = false) {
 		if (is_null($path)){

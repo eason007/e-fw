@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class helper_Chinese</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> helper_Chinese</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">中文编码集合类库</p>
+<p class="description"><p>目前该类库可以实现，简体中文 &lt;-&gt; 繁体中文编码互换，简体中文、繁体中文 -&gt; 拼音单向转换，  简体中文、繁体中文 &lt;-&gt; UTF8 编码转换，简体中文、繁体中文 -&gt; Unicode单向转换</p></p>
+		<p class="notes">
+			Located in <a class="field" href="_helper---Chinese.php.html">/helper/Chinese.php</a> (line <span class="field"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a56">56</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																																								<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$config" title="details" class="var-name">$config</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$ctf" title="details" class="var-name">$ctf</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$pinyin_table" title="details" class="var-name">$pinyin_table</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$SourceText" title="details" class="var-name">$SourceText</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$unicode_table" title="details" class="var-name">$unicode_table</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																								<div class="method-definition">
+					<img src="../media/images/Constructor.png" alt=" "/>
+											<span class="method-result">helper_Chinese</span>
+										<a href="#helper_Chinese" title="details" class="method-name">helper_Chinese</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$SourceLang</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$TargetLang</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$SourceString</span> = <span class="var-default">''</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$CodetableDir</span> = <span class="var-default">''</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#CHStoPinYin" title="details" class="method-name">CHStoPinYin</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#CHStoUNICODE" title="details" class="method-name">CHStoUNICODE</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#CHStoUTF8" title="details" class="method-name">CHStoUTF8</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#CHSUtoUTF8" title="details" class="method-name">CHSUtoUTF8</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$c</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#ConvertIT" title="details" class="method-name">ConvertIT</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#GB2312toBIG5" title="details" class="method-name">GB2312toBIG5</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#OpenFile" title="details" class="method-name">OpenFile</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$position</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$isHTML</span> = <span class="var-default">false</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#OpenTable" title="details" class="method-name">OpenTable</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#PinYinSearch" title="details" class="method-name">PinYinSearch</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$num</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#setvar" title="details" class="method-name">setvar</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$parameter</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$value</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#SiteOpen" title="details" class="method-name">SiteOpen</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$position</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#_hex2bin" title="details" class="method-name">_hex2bin</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$hexdata</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$config" id="$config"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$config</span>
+			 = <span class="var-default">array(<br />		'codetable_dir'         =&gt; &quot;./config/&quot;,           //  存放各种语言互换表的目录<br />		'SourceLang'            =&gt; '',                    //  字符的原编码<br />		'TargetLang'            =&gt; '',                    //  转换后的编码<br />		'GBtoBIG5_table'        =&gt; 'gb-big5.table',       //  简体中文转换为繁体中文的对照表<br />		'BIG5toGB_table'        =&gt; 'big5-gb.table',       //  繁体中文转换为简体中文的对照表<br />		'GBtoPinYin_table'      =&gt; 'gb-pinyin.table',     //  简体中文转换为拼音的对照表<br />		'GBtoUnicode_table'     =&gt; 'gb-unicode.table',    //  简体中文转换为UNICODE的对照表<br />		'BIG5toUnicode_table'   =&gt; 'big5-unicode.table'   //  繁体中文转换为UNICODE的对照表<br />	)</span>			(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a106">106</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Chinese 的运行配置</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$ctf" id="$ctf"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$ctf</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a87">87</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">访问中文繁简互换表的文件指针</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$pinyin_table" id="$pinyin_table"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$pinyin_table</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a67">67</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">存放简体中文与拼音对照表</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$SourceText" id="$SourceText"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$SourceText</span>
+			 = <span class="var-default"> &quot;&quot;</span>			(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a96">96</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">等待转换的字符串</p>
+	
+	
+		
+		
+
+</div>
+<a name="var$unicode_table" id="$unicode_table"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$unicode_table</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a77">77</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">存放 GB &lt;-&gt; UNICODE 对照表的内容</p>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+														<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodhelper_Chinese" id="helper_Chinese"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Constructor.png" />
+		<span class="method-title">Constructor helper_Chinese</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a132">132</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Chinese 的悉构函数</p>
+<p class="description"><p>详细说明</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> </li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">helper_Chinese</span>
+		<span class="method-name">
+			helper_Chinese
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$SourceLang</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$TargetLang</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$SourceString</span> = <span class="var-default">''</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$CodetableDir</span> = <span class="var-default">''</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$SourceLang</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$TargetLang</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$SourceString</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$CodetableDir</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodCHStoPinYin" id="CHStoPinYin"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">CHStoPinYin</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a658">658</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">简体、繁体中文 -&gt; 拼音 转换</p>
+<p class="description"><p>详细说明</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> </li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			CHStoPinYin
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodCHStoUNICODE" id="CHStoUNICODE"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">CHStoUNICODE</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a543">543</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">简体、繁体中文转换为 UNICODE编码</p>
+<p class="description"><p>详细说明</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> </li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			CHStoUNICODE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodCHStoUTF8" id="CHStoUTF8"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">CHStoUTF8</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a458">458</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">简体、繁体中文 &lt;-&gt; UTF8 互相转换的函数</p>
+<p class="description"><p>详细说明</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> </li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			CHStoUTF8
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodCHSUtoUTF8" id="CHSUtoUTF8"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">CHSUtoUTF8</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a418">418</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">将简体、繁体中文的 UNICODE 编码转换为 UTF8 字符</p>
+<p class="description"><p>详细说明</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> </li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			CHSUtoUTF8
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$c</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$c</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodConvertIT" id="ConvertIT"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">ConvertIT</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a705">705</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">输出转换结果</p>
+<p class="description"><p>详细说明</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> </li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ConvertIT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGB2312toBIG5" id="GB2312toBIG5"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">GB2312toBIG5</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a579">579</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">简体中文 &lt;-&gt; 繁体中文 互相转换的函数</p>
+<p class="description"><p>详细说明</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> </li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			GB2312toBIG5
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodOpenFile" id="OpenFile"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">OpenFile</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a338">338</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">打开本地或者远程的文件</p>
+<p class="description"><p>详细说明</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> </li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			OpenFile
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$position</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$isHTML</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$position</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$isHTML</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodOpenTable" id="OpenTable"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">OpenTable</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a191">191</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">打开对照表</p>
+<p class="description"><p>详细说明</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> </li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			OpenTable
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPinYinSearch" id="PinYinSearch"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">PinYinSearch</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a627">627</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">根据所得到的编码搜寻拼音</p>
+<p class="description"><p>详细说明</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> </li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PinYinSearch
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$num</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$num</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetvar" id="setvar"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">setvar</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a398">398</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">设置变量的值</p>
+<p class="description"><p>详细说明</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> </li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setvar
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$parameter</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$parameter</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$value</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodSiteOpen" id="SiteOpen"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">SiteOpen</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a369">369</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">打开本地或者远程的文件</p>
+<p class="description"><p>详细说明</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> </li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SiteOpen
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$position</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$position</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_hex2bin" id="_hex2bin"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">_hex2bin</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a171">171</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">将 16 进制转换为 2 进制字符</p>
+<p class="description"><p>详细说明</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> </li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_hex2bin
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$hexdata</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$hexdata</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Mon, 28 Dec 2009 15:40:55 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

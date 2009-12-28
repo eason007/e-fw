@@ -5,6 +5,11 @@
 
 E_FW::load_File('smarty/Smarty.class.php');
 
+/**
+ * Enter description here...
+ *
+ * @package Smarty
+ */
 class smarty_templateClassPlus extends Smarty {
 
 	public function __construct () {

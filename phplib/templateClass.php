@@ -1,8 +1,12 @@
 <?php
 /**
- * 
  * @package PHPLib
+ */
+
+/**
+ * Enter description here...
  *
+ * @package PHPLib
  */
 class TEMPLATE_PHPLIB_CLASS {
 	var $classname = "Template";

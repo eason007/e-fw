@@ -1,10 +1,15 @@
 <?php
 /**
  * @package Helper
+ */
+
+/**
+ * Enter description here...
+ *
+ * @package Helper
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
  */
-
 class helper_Public {
 	/**
 	 * 字符串转换为Unix时间戳

@@ -1,10 +1,15 @@
 <?php
 /**
- * @package TemplatePlus
+ * @package PHPLib
  */
 
 E_FW::load_File("phplib/templateClass.php");
 
+/**
+ * Enter description here...
+ *
+ * @package PHPLib
+ */
 class phplib_templateClassPlus {
 	public $TEMPLATE_PATH = "";
 

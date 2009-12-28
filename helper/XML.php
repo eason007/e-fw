@@ -1,4 +1,8 @@
-<?
+<?php
+/**
+ * @package Helper
+ */
+
 /**
  * XML生成类
  * 
