@@ -10,7 +10,7 @@
  * @package Core
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.2.20080816
+ * @version 1.0.3.20091228
  */
 
 /**
@@ -28,7 +28,7 @@ define('E_FW_VAR', '_E_FW_CORE_');
  * 初始化框架
  */
 $GLOBALS[E_FW_VAR] = array(
-    'VERSION' => '1.0.2.20080816',							//框架版本号
+    'VERSION' => '1.0.3.20091228',							//框架版本号
 	'DSN' => array(),										//数据库连接配置信息。dbServer/dbPort/dbName/dbUser/dbPassword/dbType
 	'FILE_PATH' => array(),
 	'LOAD_FILE_NAME' => array(),
