@@ -1,6 +1,7 @@
 <?php
 /**
  * @package Example
+ * @subpackage Model
  */
 
 //引入 model 基类

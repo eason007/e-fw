@@ -1,6 +1,7 @@
 <?php
 /**
  * @package Example
+ * @subpackage Controller
  */
 
 /**

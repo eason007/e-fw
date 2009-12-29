@@ -22,10 +22,15 @@ class phplib_templateClassPlus {
 
 	public $tpl = null;
 
+	/**
+	 * Enter description here...
+	 *
+	 * @see Template
+	 */
 	public function __construct () {
 		$this->TEMPLATE_PATH = E_FW::get_Config("VIEW/templateDir");
 
-		$this->tpl = new TEMPLATE_PHPLIB_CLASS($this->TEMPLATE_PATH);
+		$this->tpl = new Template($this->TEMPLATE_PATH);
 	}
 
 

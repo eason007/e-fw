@@ -1,9 +1,8 @@
 <?php
 /**
  * @package Helper
- * @author eason007<eason007@163.com>
- * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
  */
+
 /**
  * 中文编码集合类库
  *
@@ -52,6 +51,13 @@
  *
  * ver 1.0 2003-04-01
  * 一个集合了中文简体，中文繁体对应各种编码互换的类库已经初步完成。
+ */
+
+/**
+ * @package Helper
+ * @author Hessian(solarischan@21cn.com)
+ * @copyright Copyright (c) 2003 Hessian / NETiS
+ * @version 1.5
  */
 class helper_Chinese
 {
@@ -129,7 +135,7 @@ class helper_Chinese
 	 * @返回值    无
 	 * @throws
 	 */
-	function helper_Chinese( $SourceLang , $TargetLang , $SourceString='', $CodetableDir='')
+	function Chinese( $SourceLang , $TargetLang , $SourceString='', $CodetableDir='')
 	{
 		if ($SourceLang != '') {
 		    $this->config['SourceLang'] = $SourceLang;

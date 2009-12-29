@@ -25,10 +25,13 @@
 					</div>
 	<div class="info-box-body">
         		<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">中文编码集合类库</p>
-<p class="description"><p>目前该类库可以实现，简体中文 &lt;-&gt; 繁体中文编码互换，简体中文、繁体中文 -&gt; 拼音单向转换，  简体中文、繁体中文 &lt;-&gt; UTF8 编码转换，简体中文、繁体中文 -&gt; Unicode单向转换</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Hessian(solarischan@21cn.com)</li>
+				<li><span class="field">version:</span> 1.5</li>
+				<li><span class="field">copyright:</span> Copyright (c) 2003 Hessian / NETiS</li>
+			</ul>
 		<p class="notes">
-			Located in <a class="field" href="_helper---Chinese.php.html">/helper/Chinese.php</a> (line <span class="field"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a56">56</a></span>)
+			Located in <a class="field" href="_helper---Chinese.php.html">/helper/Chinese.php</a> (line <span class="field"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a62">62</a></span>)
 		</p>
 		
 				
@@ -93,9 +96,9 @@
 		<div class="info-box-body">			
 			<div class="method-summary">
 																																																																																																																								<div class="method-definition">
-					<img src="../media/images/Constructor.png" alt=" "/>
-											<span class="method-result">helper_Chinese</span>
-										<a href="#helper_Chinese" title="details" class="method-name">helper_Chinese</a>
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#Chinese" title="details" class="method-name">Chinese</a>
 											(<span class="var-type"></span>&nbsp;<span class="var-name">$SourceLang</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$TargetLang</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$SourceString</span> = <span class="var-default">''</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$CodetableDir</span> = <span class="var-default">''</span>])
 									</div>
 																<div class="method-definition">
@@ -196,7 +199,7 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$config</span>
-			 = <span class="var-default">array(<br />		'codetable_dir'         =&gt; &quot;./config/&quot;,           //  存放各种语言互换表的目录<br />		'SourceLang'            =&gt; '',                    //  字符的原编码<br />		'TargetLang'            =&gt; '',                    //  转换后的编码<br />		'GBtoBIG5_table'        =&gt; 'gb-big5.table',       //  简体中文转换为繁体中文的对照表<br />		'BIG5toGB_table'        =&gt; 'big5-gb.table',       //  繁体中文转换为简体中文的对照表<br />		'GBtoPinYin_table'      =&gt; 'gb-pinyin.table',     //  简体中文转换为拼音的对照表<br />		'GBtoUnicode_table'     =&gt; 'gb-unicode.table',    //  简体中文转换为UNICODE的对照表<br />		'BIG5toUnicode_table'   =&gt; 'big5-unicode.table'   //  繁体中文转换为UNICODE的对照表<br />	)</span>			(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a106">106</a></span>)
+			 = <span class="var-default">array(<br />		'codetable_dir'         =&gt; &quot;./config/&quot;,           //  存放各种语言互换表的目录<br />		'SourceLang'            =&gt; '',                    //  字符的原编码<br />		'TargetLang'            =&gt; '',                    //  转换后的编码<br />		'GBtoBIG5_table'        =&gt; 'gb-big5.table',       //  简体中文转换为繁体中文的对照表<br />		'BIG5toGB_table'        =&gt; 'big5-gb.table',       //  繁体中文转换为简体中文的对照表<br />		'GBtoPinYin_table'      =&gt; 'gb-pinyin.table',     //  简体中文转换为拼音的对照表<br />		'GBtoUnicode_table'     =&gt; 'gb-unicode.table',    //  简体中文转换为UNICODE的对照表<br />		'BIG5toUnicode_table'   =&gt; 'big5-unicode.table'   //  繁体中文转换为UNICODE的对照表<br />	)</span>			(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a112">112</a></span>)
 		</span>
 	</div>
 
@@ -216,7 +219,7 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$ctf</span>
-						(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a87">87</a></span>)
+						(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a93">93</a></span>)
 		</span>
 	</div>
 
@@ -236,7 +239,7 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$pinyin_table</span>
-			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a67">67</a></span>)
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a73">73</a></span>)
 		</span>
 	</div>
 
@@ -256,7 +259,7 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$SourceText</span>
-			 = <span class="var-default"> &quot;&quot;</span>			(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a96">96</a></span>)
+			 = <span class="var-default"> &quot;&quot;</span>			(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a102">102</a></span>)
 		</span>
 	</div>
 
@@ -276,7 +279,7 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$unicode_table</span>
-			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a77">77</a></span>)
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a83">83</a></span>)
 		</span>
 	</div>
 
@@ -303,12 +306,12 @@
 		</div>
 		<div class="info-box-body">
 			<A NAME='method_detail'></A>
-<a name="methodhelper_Chinese" id="helper_Chinese"><!-- --></a>
+<a name="methodChinese" id="Chinese"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
-		<img src="../media/images/Constructor.png" />
-		<span class="method-title">Constructor helper_Chinese</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a132">132</a></span>)
+		<img src="../media/images/Method.png" />
+		<span class="method-title">Chinese</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a138">138</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -319,9 +322,9 @@
 			</ul>
 	
 	<div class="method-signature">
-		<span class="method-result">helper_Chinese</span>
+		<span class="method-result">void</span>
 		<span class="method-name">
-			helper_Chinese
+			Chinese
 		</span>
 					(<span class="var-type"></span>&nbsp;<span class="var-name">$SourceLang</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$TargetLang</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$SourceString</span> = <span class="var-default">''</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$CodetableDir</span> = <span class="var-default">''</span>])
 			</div>
@@ -348,7 +351,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">CHStoPinYin</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a658">658</a></span>)
+		<span class="method-title">CHStoPinYin</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a664">664</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -374,7 +377,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">CHStoUNICODE</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a543">543</a></span>)
+		<span class="method-title">CHStoUNICODE</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a549">549</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -400,7 +403,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">CHStoUTF8</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a458">458</a></span>)
+		<span class="method-title">CHStoUTF8</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a464">464</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -426,7 +429,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">CHSUtoUTF8</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a418">418</a></span>)
+		<span class="method-title">CHSUtoUTF8</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a424">424</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -457,7 +460,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">ConvertIT</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a705">705</a></span>)
+		<span class="method-title">ConvertIT</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a711">711</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -483,7 +486,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">GB2312toBIG5</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a579">579</a></span>)
+		<span class="method-title">GB2312toBIG5</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a585">585</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -509,7 +512,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">OpenFile</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a338">338</a></span>)
+		<span class="method-title">OpenFile</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a344">344</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -543,7 +546,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">OpenTable</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a191">191</a></span>)
+		<span class="method-title">OpenTable</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a197">197</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -569,7 +572,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">PinYinSearch</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a627">627</a></span>)
+		<span class="method-title">PinYinSearch</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a633">633</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -600,7 +603,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">setvar</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a398">398</a></span>)
+		<span class="method-title">setvar</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a404">404</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -634,7 +637,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">SiteOpen</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a369">369</a></span>)
+		<span class="method-title">SiteOpen</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a375">375</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -665,7 +668,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">_hex2bin</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a171">171</a></span>)
+		<span class="method-title">_hex2bin</span> (line <span class="line-number"><a href="../__filesource/fsource_Helper__helperChinese.php.html#a177">177</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -697,7 +700,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Mon, 28 Dec 2009 15:40:55 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Tue, 29 Dec 2009 06:50:13 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>
