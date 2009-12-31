@@ -39,6 +39,9 @@ $Config = array(
 	),
 	'CONTROLLER' => array(
 		'defaultController' => 'Controller_Index'				//设置默认控制器名
+	),
+	'CACHE' => array(
+		'type' => 'memcache'
 	)
 );
 

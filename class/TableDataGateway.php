@@ -112,6 +112,10 @@ class Class_TableDataGateway {
 	 * @access protected
 	 */
 	protected $autoLink = false;
+	
+	protected $dbParams = null;
+	
+	protected $isCache = true;
 
 	/**
 	 * 显示字段名列表
@@ -172,16 +176,16 @@ class Class_TableDataGateway {
 	 * 数据库连接对象
 	 *
 	 * @var object
-	 * @access protected
+	 * @access private
 	 */
-	protected $db = null;
+	private $db = null;
 	
-	protected $dbParams = null;
+	private $_cacheAnalytics = null;
 
 
 	function __construct() {
 		E_FW::load_File('class_Validator');
-		E_FW::load_File('class_Cache');
+		E_FW::load_File('class_TableCacheAnalytics');
 		E_FW::load_File('db_Mysql5');
 
 		if (is_null($this->dbParams)){
@@ -189,6 +193,10 @@ class Class_TableDataGateway {
 		}
 		else{
 			$this->setDB($this->dbParams);
+		}
+		
+		if ($this->isCache) {
+			$this->_cacheAnalytics = E_FW::load_Class('Class_TableCacheAnalytics');
 		}
 	}
 
@@ -290,8 +298,19 @@ class Class_TableDataGateway {
 		if (!$params['isExecute']) {
 			return $sql;
 		}
-
-		$result = $this->db->query($sql);
+		if ($this->isCache) {
+			$result = $this->_cacheAnalytics->chkCache($this->tableName, $sql);
+			
+			if (!$result) {
+				$result = $this->db->query($sql);
+				
+				$this->_cacheAnalytics->setCache($this->tableName, $sql, $result);
+			}
+		}
+		else {
+			$result = $this->db->query($sql);
+		}
+		
 		if ($result) {
 			switch (true) {
 				case ( $this->autoLink and $params['link'] === null):

@@ -11,7 +11,7 @@
  * @package Class
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.0.20080108
+ * @version 2.0.1.20091229
  */
 class Class_Cache {
 	/**
@@ -48,9 +48,9 @@ class Class_Cache {
 	 */
 	public $cacheParams = array(
 		'File' 		=> array(
-			'dir' 	=> null,
+			'dir' 		=> null,
 			'hashFile'	=> 2,
-			'ext'	=> '.EFW-Cache'
+			'ext'		=> '.EFW-Cache'
 		),
 		'Memcache' 	=> array(
 			array(
@@ -179,6 +179,10 @@ class Class_Cache {
 				}
 				
 				break;
+			
+			case 'memcache':
+				return $this->_memCache->get($cacheID);
+				break;
 				
 			default:
 		}
@@ -225,6 +229,10 @@ class Class_Cache {
 				
 				break;
 				
+			case 'memcache':
+				$this->_memCache->set($cacheID, $cacheData, 0, $params['expireTime']);
+				break;
+				
 			default:
 		}
 	}
@@ -241,6 +249,10 @@ class Class_Cache {
 				$cacheFile = $this->_getHashPath($cacheID);
 				@unlink($cacheFile);
 				
+				break;
+				
+			case 'memcache':
+				return $this->_memCache->delete($cacheID);
 				break;
 				
 			default:

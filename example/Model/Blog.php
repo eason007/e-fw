@@ -61,6 +61,8 @@ class Model_Blog extends Class_TableDataGateway{
 class Model_Category_ForBlog extends Class_TableDataGateway{
 	var $tableName 	= 'e_fw_category';
 	var $primaryKey = 'id';
+	
+	var $isCache = false;
 
 	var $dbParams	= array(
 		'dbServer' 	=> 'localhost',
