@@ -438,6 +438,9 @@ class Class_TableDataGateway {
 			$rowData[$this->primaryKey] = $rt;
 			$this->_afterInsert($rowData);
 			
+			if ($this->isCache) {
+				$this->_cacheAnalytics->delCache($this->tableName);
+			}
 
 			if (!empty($linkData)){
 				$isFound = false;
@@ -552,6 +555,10 @@ class Class_TableDataGateway {
 		if ($result['rowCount'] > 0){
 			$this->_afterUpdate($rowData);
 			
+			if ($this->isCache) {
+				$this->_cacheAnalytics->delCache($this->tableName);
+			}
+			
 			if (!empty($linkData)){
 				$IDStr = '';
 				foreach($ID as $val){
@@ -639,6 +646,10 @@ class Class_TableDataGateway {
 
 		if ($ID) {
 			$this->_afterDelete($ID);
+			
+			if ($this->isCache) {
+				$this->_cacheAnalytics->delCache($this->tableName);
+			}
 
 			switch (true) {
 				case ( $this->autoLink and $params['link'] === null):

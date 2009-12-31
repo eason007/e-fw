@@ -25,10 +25,12 @@ class Class_TableCacheAnalytics {
 	}
 	
 	public function chkCache ($tableName, $querySql) {
-		$this->_cache->delCache(md5(strtoupper($querySql)));
 		$queryCache = $this->_cache->getCache(md5(strtoupper($querySql)));
 		
 		if ($queryCache) {
+			$tableCache = $this->_cache->getCache($tableName);
+			print_r($tableCache);
+			echo 'it\'s cached.<br>';
 			return $queryCache;
 		}
 		else{
@@ -40,12 +42,23 @@ class Class_TableCacheAnalytics {
 		$this->_cache->setCache(md5(strtoupper($querySql)), $queryData);
 		
 		$tableCache = $this->_cache->getCache($tableName);
+		print_r($tableCache);
 		if (!$tableCache) {
 			$tableCache = array();
 		}
 		$tableCache[md5(strtoupper($querySql))] = count($queryData);
 		
 		$this->_cache->setCache($tableName, $tableCache);
+	}
+	
+	public function delCache ($tableName) {
+		$tableCache = $this->_cache->getCache($tableName);
+		
+		foreach ($tableCache as $key => $value) {
+			$this->_cache->delCache(md5(strtoupper($key)));
+		}
+		
+		$this->_cache->delCache($tableName);
 	}
 }
 
