@@ -47,7 +47,7 @@ class Class_TableDataGateway {
 	 * @var array
 	 * @access protected
 	 */
-	protected $belongsTo = array();
+	protected $belongsTo = null;
 	/**
 	 * 一对一关联
 	 * 
@@ -65,7 +65,7 @@ class Class_TableDataGateway {
 	 * @var array
 	 * @access protected
 	 */
-	protected $hasOne = array();
+	protected $hasOne = null;
 	/**
 	 * 一对多关系
 	 * 
@@ -82,7 +82,7 @@ class Class_TableDataGateway {
 	 * @var array
 	 * @access protected
 	 */
-	protected $hasMany = array();
+	protected $hasMany = null;
 	/**
 	 * 多对多关系
 	 * 
@@ -102,7 +102,7 @@ class Class_TableDataGateway {
 	 * @var array
 	 * @access protected
 	 */
-	protected $manyToMany = array();
+	protected $manyToMany = null;
 
 	/**
 	 * 是否在执行数据库中自动执行关联操作
@@ -686,8 +686,10 @@ class Class_TableDataGateway {
 	 * @access protected
 	 */
 	protected function _delLinkData ($linkType, $primaryKeyStr) {
-		if (!@is_null($this->$linkType)){
+		if (!is_null($this->$linkType)){
 			$linkSetting = $this->$linkType;
+			var_dump(is_null($this->$linkType));
+			echo $linkType.'==';
 			
 			switch ($linkType) {
 				case 'hasOne':
@@ -697,7 +699,7 @@ class Class_TableDataGateway {
 					$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
 
 					$rt = $linkClass->del(array(
-						'link' => ''	
+						'link' => ''
 					));
 					
 					break;
@@ -717,6 +719,9 @@ class Class_TableDataGateway {
 	
 			return $rt['rowCount'];
 		}
+		else{
+			return 0;
+		}
 	}
 
 	
@@ -730,7 +735,7 @@ class Class_TableDataGateway {
 	 * @access protected
 	 */
 	protected function _updateLinkData ($linkType, &$row, $primaryKeyStr) {
-		if (!@is_null($this->$linkType)){
+		if (!is_null($this->$linkType)){
 			$linkSetting = $this->$linkType;
 			$linkClass	 = E_FW::load_Class($linkSetting['tableClass']);
 
@@ -779,7 +784,7 @@ class Class_TableDataGateway {
 	 * @access protected
 	 */
 	protected function _insertLinkData ($linkType, &$row, $primaryID) {
-		if (!@is_null($this->$linkType)){
+		if (!is_null($this->$linkType)){
 			$linkSetting = $this->$linkType;
 			$linkClass	 = E_FW::load_Class($linkSetting['tableClass']);
 
@@ -832,7 +837,7 @@ class Class_TableDataGateway {
 	protected function _getLinkData (&$rt, $linkType) {
 		$linkSetting = $this->$linkType;
 
-		if (!@is_null($linkSetting['tableClass'])){
+		if (!is_null($linkSetting['tableClass'])){
 			$linkClass = E_FW::load_Class($linkSetting['tableClass']);
 
 			switch ($linkType) {

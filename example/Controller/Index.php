@@ -73,9 +73,9 @@ class Controller_Index{
 	function actionDelete () {
 		$this->_ModelBlog = E_FW::load_Class('Model_Blog');
 		
-		$this->_ModelBlog->where('');
+		$this->_ModelBlog->where(12);
 
-		print_r($this->_ModelBlog->update($update));
+		print_r($this->_ModelBlog->del());
 	}
 }
 ?>
