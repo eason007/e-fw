@@ -44,10 +44,10 @@ class Controller_Category{
 
 	function actionPost () {
 		$insert = array(
-			'title'		=> 'qwe',
+			'title'		=> 'qwe1',
 			'hasMany'	=> array(
 				array (
-					'category_id1' 	=> '2',
+					'category_id' 	=> '2',
 					'category_title'=> 'qwe',
 					'title'			=> 'hello word!',
 					'content'		=> 'link push data',

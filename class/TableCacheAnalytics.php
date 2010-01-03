@@ -29,6 +29,7 @@ class Class_TableCacheAnalytics {
 		
 		if ($queryCache) {
 			$tableCache = $this->_cache->getCache($tableName);
+			echo $tableName;
 			print_r($tableCache);
 			echo 'it\'s cached.<br>';
 			return $queryCache;
@@ -53,9 +54,13 @@ class Class_TableCacheAnalytics {
 	
 	public function delCache ($tableName) {
 		$tableCache = $this->_cache->getCache($tableName);
+		echo $tableName;
+		print_r($tableCache);
 		
-		foreach ($tableCache as $key => $value) {
-			$this->_cache->delCache(md5(strtoupper($key)));
+		if ($tableCache) {
+			foreach ($tableCache as $key => $value) {
+				$this->_cache->delCache($key);
+			}
 		}
 		
 		$this->_cache->delCache($tableName);
