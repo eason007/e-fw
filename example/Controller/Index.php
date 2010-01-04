@@ -73,7 +73,7 @@ class Controller_Index{
 	function actionDelete () {
 		$this->_ModelBlog = E_FW::load_Class('Model_Blog');
 		
-		$this->_ModelBlog->where(12);
+		$this->_ModelBlog->where('id in (20,19,18,17,16,15,14)');
 
 		print_r($this->_ModelBlog->del());
 	}

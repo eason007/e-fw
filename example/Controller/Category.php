@@ -76,5 +76,13 @@ class Controller_Category{
 
 		print_r($this->_ModelCategory->update($update));
 	}
+	
+	function actionDelete () {
+		$this->_ModelCategory = E_FW::load_Class('Model_Category');
+		
+		$this->_ModelCategory->where(43);
+
+		print_r($this->_ModelCategory->del());
+	}
 }
 ?>

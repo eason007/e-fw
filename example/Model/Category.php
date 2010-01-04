@@ -23,6 +23,8 @@ class Model_Category extends Class_TableDataGateway{
 	var $tableName 	= 'e_fw_category';
 	var $primaryKey = 'id';
 	
+	var $autoLink = true;
+	
 	var $hasMany	= array(
 		'tableClass' 	=> 'Model_Blog',
 		'joinKey'		=> 'category_id',

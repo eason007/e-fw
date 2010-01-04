@@ -12,7 +12,7 @@
  * @package Class
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.2.2.20091224
+ * @version 1.2.3.20100104
  */
  
 class Class_TableDataGateway {
@@ -323,7 +323,9 @@ class Class_TableDataGateway {
 					$linkValue = explode(',', $params['link']);
 
 					foreach($linkValue as $val){
-						$this->_getLinkData($result, trim($val));
+						if (!is_null($this->$val)){
+							$this->_getLinkData($result, trim($val));
+						}
 					}
 					break;
 			}
@@ -446,16 +448,18 @@ class Class_TableDataGateway {
 				$isFound = false;
 				
 				foreach($linkData as $key => $val){
-					$result[$key] = $this->_insertLinkData($key, $val, $result[$this->primaryKey]);
-
-					if ($result[$key] == 0){
-						$this->db->rollBackT();
-
-						$result[$this->primaryKey] = 0;
-						
-						$isFound = true;
-
-						break;
+					if (!is_null($this->$key)){
+						$result[$key] = $this->_insertLinkData(trim($key), $val, $result[$this->primaryKey]);
+	
+						if ($result[$key] == 0){
+							$this->db->rollBackT();
+	
+							$result[$this->primaryKey] = 0;
+							
+							$isFound = true;
+	
+							break;
+						}
 					}
 				}
 
@@ -567,16 +571,18 @@ class Class_TableDataGateway {
 				$isFound = false;
 	
 				foreach($linkData as $key => $val){
-					$result[$key] = $this->_updateLinkData($key, $val, $IDStr);
-					
-					if ($result[$key] == 0){
-						$this->db->rollBackT();
-	
-						$result['rowCount'] = 0;
+					if (!is_null($this->$key)){
+						$result[$key] = $this->_updateLinkData(trim($key), $val, $IDStr);
 						
-						$isFound = true;
-	
-						break;
+						if ($result[$key] == 0){
+							$this->db->rollBackT();
+		
+							$result['rowCount'] = 0;
+							
+							$isFound = true;
+		
+							break;
+						}
 					}
 				}
 				
@@ -666,8 +672,10 @@ class Class_TableDataGateway {
 						$IDStr.= $val[$this->primaryKey].', ';
 					}
 
-					foreach($linkValue as $key => $val){
-						$result[$val] = $this->_delLinkData($val, $IDStr);
+					foreach($linkValue as $val){
+						if (!is_null($this->$val)){
+							$result[$val] = $this->_delLinkData(trim($val), $IDStr);
+						}
 					}
 					break;
 			}
@@ -686,42 +694,35 @@ class Class_TableDataGateway {
 	 * @access protected
 	 */
 	protected function _delLinkData ($linkType, $primaryKeyStr) {
-		if (!is_null($this->$linkType)){
-			$linkSetting = $this->$linkType;
-			var_dump(is_null($this->$linkType));
-			echo $linkType.'==';
-			
-			switch ($linkType) {
-				case 'hasOne':
-				case 'hasMany':
-					$linkClass	 = E_FW::load_Class($linkSetting['tableClass']);
-					
-					$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
+		$linkSetting = $this->$linkType;
+		
+		switch ($linkType) {
+			case 'hasOne':
+			case 'hasMany':
+				$linkClass	 = E_FW::load_Class($linkSetting['tableClass']);
+				
+				$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
 
-					$rt = $linkClass->del(array(
-						'link' => ''
-					));
-					
-					break;
-					
-				case 'manyToMany':
-					$linkClass	 = E_FW::load_Class($linkSetting['relateClass']);
-					
-					$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
+				$rt = $linkClass->del(array(
+					'link' => ''
+				));
+				
+				break;
+				
+			case 'manyToMany':
+				$linkClass	 = E_FW::load_Class($linkSetting['relateClass']);
+				
+				$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
 
-					$rt = $linkClass->del(array(
-						'link' => ''	
-					));
-					break;
-			}
-			
-			unset($linkClass);
-	
-			return $rt['rowCount'];
+				$rt = $linkClass->del(array(
+					'link' => ''	
+				));
+				break;
 		}
-		else{
-			return 0;
-		}
+		
+		unset($linkClass);
+
+		return $rt['rowCount'];
 	}
 
 	
@@ -735,42 +736,40 @@ class Class_TableDataGateway {
 	 * @access protected
 	 */
 	protected function _updateLinkData ($linkType, &$row, $primaryKeyStr) {
-		if (!is_null($this->$linkType)){
-			$linkSetting = $this->$linkType;
-			$linkClass	 = E_FW::load_Class($linkSetting['tableClass']);
+		$linkSetting = $this->$linkType;
+		$linkClass	 = E_FW::load_Class($linkSetting['tableClass']);
 
-			switch ($linkType) {
-				case 'hasOne':
-					$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
-					$linkRT = $linkClass->update($row);
+		switch ($linkType) {
+			case 'hasOne':
+				$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
+				$linkRT = $linkClass->update($row);
 
-					break;
+				break;
 
-				case 'hasMany':
-					$linkRT['rowCount'] = 0;
-					
-					foreach($row as $val){
-						if (is_array($val)){
-							if (!empty($val[$linkClass->primaryKey])){
-								$linkClass->where($val[$linkClass->primaryKey]);
-								$tmp = $linkClass->update($val);
-								$linkRT['rowCount']+= $tmp['rowCount'];
-							}
-						}
-						else{
-							$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
-							$tmp = $linkClass->update($row);
+			case 'hasMany':
+				$linkRT['rowCount'] = 0;
+				
+				foreach($row as $val){
+					if (is_array($val)){
+						if (!empty($val[$linkClass->primaryKey])){
+							$linkClass->where($val[$linkClass->primaryKey]);
+							$tmp = $linkClass->update($val);
 							$linkRT['rowCount']+= $tmp['rowCount'];
 						}
 					}
+					else{
+						$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
+						$tmp = $linkClass->update($row);
+						$linkRT['rowCount']+= $tmp['rowCount'];
+					}
+				}
 
-					break;
-			}
-
-			unset($linkClass);
-
-			return $linkRT['rowCount'];
+				break;
 		}
+
+		unset($linkClass);
+
+		return $linkRT['rowCount'];
 	}
 
 	
@@ -784,46 +783,44 @@ class Class_TableDataGateway {
 	 * @access protected
 	 */
 	protected function _insertLinkData ($linkType, &$row, $primaryID) {
-		if (!is_null($this->$linkType)){
-			$linkSetting = $this->$linkType;
-			$linkClass	 = E_FW::load_Class($linkSetting['tableClass']);
+		$linkSetting = $this->$linkType;
+		$linkClass	 = E_FW::load_Class($linkSetting['tableClass']);
 
-			switch ($linkType) {
-				case 'hasOne':
-					$row[$linkSetting['joinKey']] = $primaryID;
-					$tmp = $linkClass->insert($row);
+		switch ($linkType) {
+			case 'hasOne':
+				$row[$linkSetting['joinKey']] = $primaryID;
+				$tmp = $linkClass->insert($row);
+				$linkRT['rowCount'] = $tmp[$linkClass->primaryKey];
+
+				break;
+
+			case 'hasMany':
+				$linkRT['rowCount'] = 0;
+				
+				foreach($row as $val){
+					$val[$linkSetting['joinKey']] = $primaryID;
+					$tmp = $linkClass->insert($val);
 					$linkRT['rowCount'] = $tmp[$linkClass->primaryKey];
+				}
 
-					break;
+				break;
 
-				case 'hasMany':
-					$linkRT['rowCount'] = 0;
-					
-					foreach($row as $val){
-						$val[$linkSetting['joinKey']] = $primaryID;
-						$tmp = $linkClass->insert($val);
-						$linkRT['rowCount'] = $tmp[$linkClass->primaryKey];
-					}
+			case 'manyToMany':
+				$linkClass = E_FW::load_Class($linkSetting['relateClass']);
+				$linkRT['rowCount'] = 0;
+				
+				foreach($row as $val){
+					$val[$linkSetting['joinKey']] = $primaryID;
+					$tmp = $linkClass->insert($val);
+					$linkRT['rowCount']+= $tmp[$linkClass->primaryKey];
+				}
 
-					break;
-
-				case 'manyToMany':
-					$linkClass = E_FW::load_Class($linkSetting['relateClass']);
-					$linkRT['rowCount'] = 0;
-					
-					foreach($row as $val){
-						$val[$linkSetting['joinKey']] = $primaryID;
-						$tmp = $linkClass->insert($val);
-						$linkRT['rowCount']+= $tmp[$linkClass->primaryKey];
-					}
-
-					break;
-			}
-
-			unset($linkClass);
-
-			return $linkRT['rowCount'];
+				break;
 		}
+
+		unset($linkClass);
+
+		return $linkRT['rowCount'];
 	}
 
 	
@@ -837,139 +834,137 @@ class Class_TableDataGateway {
 	protected function _getLinkData (&$rt, $linkType) {
 		$linkSetting = $this->$linkType;
 
-		if (!is_null($linkSetting['tableClass'])){
-			$linkClass = E_FW::load_Class($linkSetting['tableClass']);
+		$linkClass = E_FW::load_Class($linkSetting['tableClass']);
 
-			switch ($linkType) {
-				case 'belongsTo':
-					//Article->ColumnID Join Column->ID
-					foreach($rt as $val){
-						$ID[] = $val[$linkSetting['joinKey']];
-					}
-					$IDStr = implode(',', $ID);
+		switch ($linkType) {
+			case 'belongsTo':
+				//Article->ColumnID Join Column->ID
+				foreach($rt as $val){
+					$ID[] = $val[$linkSetting['joinKey']];
+				}
+				$IDStr = implode(',', $ID);
 
-					$linkClass->where('`'.$linkClass->primaryKey.'` IN ('.$IDStr.')');
-					$linkData = $linkClass->select(array(
-						'link'	=> ''
-					));
+				$linkClass->where('`'.$linkClass->primaryKey.'` IN ('.$IDStr.')');
+				$linkData = $linkClass->select(array(
+					'link'	=> ''
+				));
 
-					foreach($rt as $key => $val){
-						foreach($linkData as $k => $v){
-							if ($val[$linkSetting['joinKey']] == $v[$linkClass->primaryKey]){
-								$rt[$key][$linkSetting['mappingName']] = $v;
-								//unset($linkData[$k]);
+				foreach($rt as $key => $val){
+					foreach($linkData as $k => $v){
+						if ($val[$linkSetting['joinKey']] == $v[$linkClass->primaryKey]){
+							$rt[$key][$linkSetting['mappingName']] = $v;
+							//unset($linkData[$k]);
 
-								break;
-							}
+							break;
 						}
 					}
+				}
 
-					break;
+				break;
 
-				case 'hasOne':
-					//User->ID Join UserProfiles->UserID
-					if (!isset($linkSetting['linkKey'])) {
-						$linkSetting['linkKey'] = $this->primaryKey;
-					}
-					
-					foreach($rt as $val){
-						$ID[] = $val[$linkSetting['linkKey']];
-					}
-					$IDStr = implode(',', $ID);
+			case 'hasOne':
+				//User->ID Join UserProfiles->UserID
+				if (!isset($linkSetting['linkKey'])) {
+					$linkSetting['linkKey'] = $this->primaryKey;
+				}
+				
+				foreach($rt as $val){
+					$ID[] = $val[$linkSetting['linkKey']];
+				}
+				$IDStr = implode(',', $ID);
 
-					$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$IDStr.')');
-					$linkData = $linkClass->select(array(
-						'link'	=> ''
-					));
+				$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$IDStr.')');
+				$linkData = $linkClass->select(array(
+					'link'	=> ''
+				));
 
-					foreach($rt as $key => $val){
-						foreach($linkData as $k => $v){
-							if ($val[$linkSetting['linkKey']] == $v[$linkSetting['joinKey']]){
-								$rt[$key][$linkSetting['mappingName']] = $v;
-								unset($linkData[$k]);
+				foreach($rt as $key => $val){
+					foreach($linkData as $k => $v){
+						if ($val[$linkSetting['linkKey']] == $v[$linkSetting['joinKey']]){
+							$rt[$key][$linkSetting['mappingName']] = $v;
+							unset($linkData[$k]);
 
-								break;
-							}
+							break;
 						}
 					}
+				}
 
-					break;
+				break;
 
-				case 'hasMany':
-					//User->ID Join Order->UserID
-					foreach($rt as $val){
-						$ID[] = $val[$this->primaryKey];
-					}
-					$IDStr = implode(',', $ID);
+			case 'hasMany':
+				//User->ID Join Order->UserID
+				foreach($rt as $val){
+					$ID[] = $val[$this->primaryKey];
+				}
+				$IDStr = implode(',', $ID);
 
-					$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$IDStr.')');
-					$linkData = $linkClass->select(array(
-						'link'	=> ''
-					));
+				$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$IDStr.')');
+				$linkData = $linkClass->select(array(
+					'link'	=> ''
+				));
 
-					foreach($rt as $key => $val){
-						foreach($linkData as $v){
-							if ($val[$this->primaryKey] == $v[$linkSetting['joinKey']]){
-								$rt[$key][$linkSetting['mappingName']][] = $v;
-							}
+				foreach($rt as $key => $val){
+					foreach($linkData as $v){
+						if ($val[$this->primaryKey] == $v[$linkSetting['joinKey']]){
+							$rt[$key][$linkSetting['mappingName']][] = $v;
 						}
 					}
+				}
 
-					break;
+				break;
 
-				case 'manyToMany':
-					//User->ID Join UserRoles->UserID | UserRoles->RolesID Join Roles->ID
-					foreach($rt as $val){
-						$ID[] = $val[$this->primaryKey];
-					}
-					$IDStr = implode(',', $ID);
-					
-					//首先查询第三方表的关系数据
-					$relateClass = E_FW::load_Class($linkSetting['relateClass']);
+			case 'manyToMany':
+				//User->ID Join UserRoles->UserID | UserRoles->RolesID Join Roles->ID
+				foreach($rt as $val){
+					$ID[] = $val[$this->primaryKey];
+				}
+				$IDStr = implode(',', $ID);
+				
+				//首先查询第三方表的关系数据
+				$relateClass = E_FW::load_Class($linkSetting['relateClass']);
 
-					$relateClass->field($linkSetting['linkKey'].', '.$linkSetting['joinKey']);
-					$relateClass->where($linkSetting['joinKey'].' IN ('.$IDStr.')');
-					$relateData = $relateClass->select(array(
-						'link'	=> ''
-					));
-					unset($relateClass);
-					
-					foreach($relateData as $val){
-						$ID[] = $val[$linkSetting['linkKey']];
-					}
-					$IDStr = implode(',', $ID);
-					
-					//根据第三方的关系数据查找目标表的记录
-					$linkClass->where($linkClass->primaryKey.' IN ('.$IDStr.')');
-					$linkData = $linkClass->select(array(
-						'link'	=> ''
-					));
-					
-					//将目标记录组合到关系数据数组中
-					foreach($relateData as $key => $val){
-						foreach($linkData as $v){
-							if ($val[$linkSetting['linkKey']] == $v[$linkClass->primaryKey]){
-								$relateData[$key][] = $v;
-							}
+				$relateClass->field($linkSetting['linkKey'].', '.$linkSetting['joinKey']);
+				$relateClass->where($linkSetting['joinKey'].' IN ('.$IDStr.')');
+				$relateData = $relateClass->select(array(
+					'link'	=> ''
+				));
+				unset($relateClass);
+				
+				foreach($relateData as $val){
+					$ID[] = $val[$linkSetting['linkKey']];
+				}
+				$IDStr = implode(',', $ID);
+				
+				//根据第三方的关系数据查找目标表的记录
+				$linkClass->where($linkClass->primaryKey.' IN ('.$IDStr.')');
+				$linkData = $linkClass->select(array(
+					'link'	=> ''
+				));
+				
+				//将目标记录组合到关系数据数组中
+				foreach($relateData as $key => $val){
+					foreach($linkData as $v){
+						if ($val[$linkSetting['linkKey']] == $v[$linkClass->primaryKey]){
+							$relateData[$key][] = $v;
 						}
 					}
-					unset($linkData);
+				}
+				unset($linkData);
 
-					//将关系数据组合到最终数组
-					foreach($rt as $key => $val){
-						foreach($relateData as $v){
-							if ($val[$this->primaryKey] == $v[$linkSetting['joinKey']]){
-								$rt[$key][$linkSetting['mappingName']][] = $v;
-							}
+				//将关系数据组合到最终数组
+				foreach($rt as $key => $val){
+					foreach($relateData as $v){
+						if ($val[$this->primaryKey] == $v[$linkSetting['joinKey']]){
+							$rt[$key][$linkSetting['mappingName']][] = $v;
 						}
 					}
-					unset($relateData);
+				}
+				unset($relateData);
 
-					break;
-			}
-
-			unset($linkClass);
+				break;
 		}
+
+		unset($linkClass);
 	}
 
 	
