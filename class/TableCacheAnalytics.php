@@ -4,10 +4,10 @@
  */
 
 /**
- * 数据库对象操作类
+ * 数据库对象缓存分析类
  * 
- * 本类采用的是数据入口模式。主要用于实现CRUD的基本操作。
- * 并实现基本的关联操作
+ * 用于 Class_TableDataGateway 类中，通过类属性 isCache
+ * 决定是否在查询中使用缓存
  * 
  * @package Class
  * @author eason007<eason007@163.com>
@@ -24,6 +24,13 @@ class Class_TableCacheAnalytics {
 		$this->_cache = E_FW::load_Class('Class_Cache');
 	}
 	
+	/**
+	 * 检查缓存是否存在
+	 *
+	 * @param string $tableName 当前打开的数据表名
+	 * @param string $querySql 完整的SQL查询语句
+	 * @return mixed
+	 */
 	public function chkCache ($tableName, $querySql) {
 		$queryCache = $this->_cache->getCache(md5(strtoupper($querySql)));
 		
@@ -36,6 +43,16 @@ class Class_TableCacheAnalytics {
 		}
 	}
 	
+	/**
+	 * 设置缓存
+	 * 
+	 * 缓存的键名为 md5($querySql) 的密文，同时将会记录到该数据表名下
+	 * 以便有其他 update 操作后，能将与该表有关的所有缓存清理
+	 *
+	 * @param string $tableName 当前打开的数据表名
+	 * @param string $querySql 完整的SQL查询语句
+	 * @param mixed $queryData 被缓存的数据
+	 */
 	public function setCache ($tableName, $querySql, &$queryData) {
 		$this->_cache->setCache(md5(strtoupper($querySql)), $queryData);
 		
@@ -48,6 +65,13 @@ class Class_TableCacheAnalytics {
 		$this->_cache->setCache($tableName, $tableCache);
 	}
 	
+	/**
+	 * 清理缓存
+	 * 
+	 * 清理该数据表名下所有缓存
+	 *
+	 * @param string $tableName 当前打开的数据表名
+	 */
 	public function delCache ($tableName) {
 		$tableCache = $this->_cache->getCache($tableName);
 		

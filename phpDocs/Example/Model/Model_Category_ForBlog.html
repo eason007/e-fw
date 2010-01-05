@@ -34,7 +34,7 @@
  所以在这里演示了另一种使用方法</pre></p></p>
 	<ul class="tags">
 				<li><span class="field">author:</span> eason007&lt;<a href="mailto:eason007@163.com">eason007@163.com</a>&gt;</li>
-				<li><span class="field">version:</span> 1.2.2.20091224</li>
+				<li><span class="field">version:</span> 1.2.3.20100104</li>
 				<li><span class="field">copyright:</span> Copyright (c) 2007-2008 eason007&lt;eason007@163.com&gt;</li>
 				<li><span class="field">see:</span> <a href="../../Class/Class_TableDataGateway.html">Class_TableDataGateway</a></li>
 			</ul>
@@ -64,10 +64,15 @@
 								</div>
 		<div class="info-box-body">
 			<div class="var-summary">
-																																								<div class="var-title">
+																																																<div class="var-title">
 					<img src="../../media/images/Variable.png" alt=" " />
 					<span class="var-type">mixed</span>
 					<a href="#$dbParams" title="details" class="var-name">$dbParams</a>
+				</div>
+																<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$isCache" title="details" class="var-name">$isCache</a>
 				</div>
 																<div class="var-title">
 					<img src="../../media/images/Variable.png" alt=" " />
@@ -106,7 +111,7 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$dbParams</span>
-			 = <span class="var-default">array(<br />		'dbServer' 	=&gt; 'localhost',<br />		'dbPort' 	=&gt; '3306',<br />		'dbName' 	=&gt; 'test',<br />		'dbUser' 	=&gt; 'root',<br />		'dbPassword'=&gt; '',<br />		'dbType' 	=&gt; 'Mysqli'<br />	)</span>			(line <span class="line-number"><a href="../../__filesource/fsource_Example_Model_exampleModelBlog.php.html#a65">65</a></span>)
+			 = <span class="var-default">array(<br />		'dbServer' 	=&gt; 'localhost',<br />		'dbPort' 	=&gt; '3306',<br />		'dbName' 	=&gt; 'test',<br />		'dbUser' 	=&gt; 'root',<br />		'dbPassword'=&gt; '',<br />		'dbType' 	=&gt; 'Mysqli'<br />	)</span>			(line <span class="line-number"><a href="../../__filesource/fsource_Example_Model_exampleModelBlog.php.html#a67">67</a></span>)
 		</span>
 	</div>
 
@@ -117,13 +122,39 @@
 		<div class="notes">Redefinition of:</div>
 		<dl>
 			<dt><a href="../../Class/Class_TableDataGateway.html#var$dbParams">Class_TableDataGateway::$dbParams</a></dt>
+						<dd>数据表所在数据库的连接信息</dd>
+					</dl>
+		
+		
+
+</div>
+<a name="var$isCache" id="$isCache"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$isCache</span>
+			 = <span class="var-default"> false</span>			(line <span class="line-number"><a href="../../__filesource/fsource_Example_Model_exampleModelBlog.php.html#a65">65</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../../Class/Class_TableDataGateway.html#var$isCache">Class_TableDataGateway::$isCache</a></dt>
+						<dd>是否对查询开启缓存</dd>
 					</dl>
 		
 		
 
 </div>
 <a name="var$primaryKey" id="$primaryKey"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -148,7 +179,7 @@
 
 </div>
 <a name="var$tableName" id="$tableName"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
@@ -183,10 +214,6 @@
 													<img src="../../media/images/Variable.png" />
 							<span class="var-title">
 								<span class="var-name"><a href="../../Class/Class_TableDataGateway.html#var$belongsTo">Class_TableDataGateway::$belongsTo</a></span><br>
-							</span>
-													<img src="../../media/images/Variable.png" />
-							<span class="var-title">
-								<span class="var-name"><a href="../../Class/Class_TableDataGateway.html#var$db">Class_TableDataGateway::$db</a></span><br>
 							</span>
 													<img src="../../media/images/Variable.png" />
 							<span class="var-title">
@@ -276,7 +303,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Tue, 29 Dec 2009 06:49:55 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Tue, 05 Jan 2010 07:33:43 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>

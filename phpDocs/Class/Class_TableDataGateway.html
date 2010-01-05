@@ -30,7 +30,7 @@
 <p class="description"><p>本类采用的是数据入口模式。主要用于实现CRUD的基本操作。  并实现基本的关联操作</p></p>
 	<ul class="tags">
 				<li><span class="field">author:</span> eason007&lt;<a href="mailto:eason007@163.com">eason007@163.com</a>&gt;</li>
-				<li><span class="field">version:</span> 1.2.2.20091224</li>
+				<li><span class="field">version:</span> 1.2.3.20100104</li>
 				<li><span class="field">copyright:</span> Copyright (c) 2007-2008 eason007&lt;eason007@163.com&gt;</li>
 			</ul>
 		<p class="notes">
@@ -125,12 +125,7 @@
 				</div>
 																<div class="var-title">
 					<img src="../media/images/Variable.png" alt=" " />
-					<span class="var-type">object</span>
-					<a href="#$db" title="details" class="var-name">$db</a>
-				</div>
-																<div class="var-title">
-					<img src="../media/images/Variable.png" alt=" " />
-					<span class="var-type">mixed</span>
+					<span class="var-type">array</span>
 					<a href="#$dbParams" title="details" class="var-name">$dbParams</a>
 				</div>
 																<div class="var-title">
@@ -142,6 +137,11 @@
 					<img src="../media/images/Variable.png" alt=" " />
 					<span class="var-type">array</span>
 					<a href="#$hasOne" title="details" class="var-name">$hasOne</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">bool</span>
+					<a href="#$isCache" title="details" class="var-name">$isCache</a>
 				</div>
 																<div class="var-title">
 					<img src="../media/images/Variable.png" alt=" " />
@@ -191,13 +191,13 @@
 					<img src="../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
 										<a href="#field" title="details" class="method-name">field</a>
-											(<span class="var-type"></span>&nbsp;<span class="var-name">$p</span>)
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$p</span>)
 									</div>
 																<div class="method-definition">
 					<img src="../media/images/Method.png" alt=" "/>
-											<span class="method-result">void</span>
+											<span class="method-result">string</span>
 										<a href="#getSubSql" title="details" class="method-name">getSubSql</a>
-											(<span class="var-type"></span>&nbsp;<span class="var-name">$codeList</span>)
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$codeList</span>)
 									</div>
 																<div class="method-definition">
 					<img src="../media/images/Method.png" alt=" "/>
@@ -364,6 +364,9 @@
 					<li>
 				<a href="../Example/Model/Model_Blog.html#var$autoLink">Model_Blog::$autoLink</a>
 							</li>
+					<li>
+				<a href="../Example/Model/Model_Category.html#var$autoLink">Model_Category::$autoLink</a>
+							</li>
 				</ul>
 		
 
@@ -376,7 +379,7 @@
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$belongsTo</span>
-			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a50">50</a></span>)
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a50">50</a></span>)
 		</span>
 	</div>
 
@@ -405,42 +408,21 @@
 		
 
 </div>
-<a name="var$db" id="$db"><!-- --></A>
+<a name="var$dbParams" id="$dbParams"><!-- --></A>
 <div class="evenrow">
 
 	<div class="var-header">
 		<img src="../media/images/Variable.png" />
 		<span class="var-title">
-			<span class="var-type">object</span>
-			<span class="var-name">$db</span>
-			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a177">177</a></span>)
-		</span>
-	</div>
-
-	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">数据库连接对象</p>
-	<ul class="tags">
-				<li><span class="field">access:</span> protected</li>
-			</ul>
-	
-	
-		
-		
-
-</div>
-<a name="var$dbParams" id="$dbParams"><!-- --></A>
-<div class="oddrow">
-
-	<div class="var-header">
-		<img src="../media/images/Variable.png" />
-		<span class="var-title">
-			<span class="var-type">mixed</span>
+			<span class="var-type">array</span>
 			<span class="var-name">$dbParams</span>
-			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a179">179</a></span>)
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a124">124</a></span>)
 		</span>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">数据表所在数据库的连接信息</p>
+<p class="description"><p>主要用于数据分区时对表的存储位置进行单独定义</p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> protected</li>
 			</ul>
@@ -461,14 +443,14 @@
 
 </div>
 <a name="var$hasMany" id="$hasMany"><!-- --></A>
-<div class="evenrow">
+<div class="oddrow">
 
 	<div class="var-header">
 		<img src="../media/images/Variable.png" />
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$hasMany</span>
-			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a85">85</a></span>)
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a85">85</a></span>)
 		</span>
 	</div>
 
@@ -498,14 +480,14 @@
 
 </div>
 <a name="var$hasOne" id="$hasOne"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<img src="../media/images/Variable.png" />
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$hasOne</span>
-			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a68">68</a></span>)
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a68">68</a></span>)
 		</span>
 	</div>
 
@@ -528,6 +510,36 @@
 		
 
 </div>
+<a name="var$isCache" id="$isCache"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">bool</span>
+			<span class="var-name">$isCache</span>
+			 = <span class="var-default"> true</span>			(line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a132">132</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">是否对查询开启缓存</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../Example/Model/Model_Category_ForBlog.html#var$isCache">Model_Category_ForBlog::$isCache</a>
+							</li>
+				</ul>
+		
+
+</div>
 <a name="var$manyToMany" id="$manyToMany"><!-- --></A>
 <div class="evenrow">
 
@@ -536,7 +548,7 @@
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$manyToMany</span>
-			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a105">105</a></span>)
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a105">105</a></span>)
 		</span>
 	</div>
 
@@ -654,7 +666,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Constructor.png" />
-		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a182">182</a></span>)
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a206">206</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -675,7 +687,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">del</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a591">591</a></span>)
+		<span class="method-title">del</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a644">644</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -719,10 +731,12 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">field</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a979">979</a></span>)
+		<span class="method-title">field</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1051">1051</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">设置查询的字段</p>
+<p class="description"><p>$clsTab-&gt;field('id, title');</p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -732,12 +746,12 @@
 		<span class="method-name">
 			field
 		</span>
-					(<span class="var-type"></span>&nbsp;<span class="var-name">$p</span>)
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$p</span>)
 			</div>
 	
 			<ul class="parameters">
 					<li>
-				<span class="var-type"></span>
+				<span class="var-type">string</span>
 				<span class="var-name">$p</span>			</li>
 				</ul>
 		
@@ -748,25 +762,30 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">getSubSql</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a955">955</a></span>)
+		<span class="method-title">getSubSql</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1019">1019</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">获取组合后的 SQL 子句</p>
+<p class="description"><p><pre> 可同时获取多种子句，条件以英文,号分隔
+ 如：
+ $clsTab->getSubSql('WHERE');
+ $clsTab->getSubSql('WHERE,OTHER');</pre></p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> protected</li>
 			</ul>
 	
 	<div class="method-signature">
-		<span class="method-result">void</span>
+		<span class="method-result">string</span>
 		<span class="method-name">
 			getSubSql
 		</span>
-					(<span class="var-type"></span>&nbsp;<span class="var-name">$codeList</span>)
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$codeList</span>)
 			</div>
 	
 			<ul class="parameters">
 					<li>
-				<span class="var-type"></span>
+				<span class="var-type">string</span>
 				<span class="var-name">$codeList</span>			</li>
 				</ul>
 		
@@ -777,7 +796,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">insert</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a361">361</a></span>)
+		<span class="method-title">insert</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a403">403</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -827,11 +846,11 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">limit</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1045">1045</a></span>)
+		<span class="method-title">limit</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1117">1117</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">获取解释 limit 属性后的 limit 子句</p>
+<p class="short-description">设置分页条件子句</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -857,10 +876,11 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">order</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1035">1035</a></span>)
+		<span class="method-title">order</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1107">1107</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">设置排序条件子句</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -886,10 +906,11 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">other</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1025">1025</a></span>)
+		<span class="method-title">other</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1097">1097</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">设置复合条件子句</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -915,7 +936,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">select</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a269">269</a></span>)
+		<span class="method-title">select</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a297">297</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -962,7 +983,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">selectSQL</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a237">237</a></span>)
+		<span class="method-title">selectSQL</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a265">265</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -994,7 +1015,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">setDB</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a207">207</a></span>)
+		<span class="method-title">setDB</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a235">235</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1029,7 +1050,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">sqlEncode</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a951">951</a></span>)
+		<span class="method-title">sqlEncode</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1002">1002</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1063,7 +1084,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">update</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a472">472</a></span>)
+		<span class="method-title">update</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a519">519</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1107,11 +1128,11 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">where</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a989">989</a></span>)
+		<span class="method-title">where</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1061">1061</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">获取解释where属性后的 where 语句</p>
+<p class="short-description">设置条件子句</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -1137,7 +1158,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">_afterDelete</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1084">1084</a></span>)
+		<span class="method-title">_afterDelete</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1156">1156</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1161,7 +1182,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">_afterInsert</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1068">1068</a></span>)
+		<span class="method-title">_afterInsert</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1140">1140</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1185,7 +1206,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">_afterUpdate</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1076">1076</a></span>)
+		<span class="method-title">_afterUpdate</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1148">1148</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1209,7 +1230,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">_beforeDelete</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1080">1080</a></span>)
+		<span class="method-title">_beforeDelete</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1152">1152</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1233,7 +1254,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">_beforeInsert</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1064">1064</a></span>)
+		<span class="method-title">_beforeInsert</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1136">1136</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1257,7 +1278,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">_beforeUpdate</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1072">1072</a></span>)
+		<span class="method-title">_beforeUpdate</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a1144">1144</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1281,7 +1302,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">_delLinkData</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a658">658</a></span>)
+		<span class="method-title">_delLinkData</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a717">717</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1314,7 +1335,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">_getLinkData</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a802">802</a></span>)
+		<span class="method-title">_getLinkData</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a855">855</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1350,7 +1371,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">_insertLinkData</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a751">751</a></span>)
+		<span class="method-title">_insertLinkData</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a806">806</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1389,7 +1410,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">_updateLinkData</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a702">702</a></span>)
+		<span class="method-title">_updateLinkData</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableDataGateway.php.html#a759">759</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -1429,7 +1450,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Tue, 29 Dec 2009 06:51:57 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Tue, 05 Jan 2010 07:35:55 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>

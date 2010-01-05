@@ -113,8 +113,22 @@ class Class_TableDataGateway {
 	 */
 	protected $autoLink = false;
 	
+	/**
+	 * 数据表所在数据库的连接信息
+	 * 
+	 * 主要用于数据分区时对表的存储位置进行单独定义
+	 *
+	 * @var array
+	 * @access protected
+	 */
 	protected $dbParams = null;
 	
+	/**
+	 * 是否对查询开启缓存
+	 *
+	 * @var bool
+	 * @access protected
+	 */
 	protected $isCache = true;
 
 	/**
@@ -180,6 +194,12 @@ class Class_TableDataGateway {
 	 */
 	private $db = null;
 	
+	/**
+	 * 缓存分析对象
+	 *
+	 * @var object
+	 * @access private
+	 */
 	private $_cacheAnalytics = null;
 
 
@@ -298,6 +318,7 @@ class Class_TableDataGateway {
 		if (!$params['isExecute']) {
 			return $sql;
 		}
+		
 		if ($this->isCache) {
 			$result = $this->_cacheAnalytics->chkCache($this->tableName, $sql);
 			
@@ -982,12 +1003,25 @@ class Class_TableDataGateway {
 		return addslashes($value);
 	}
 
+	/**
+	 * 获取组合后的 SQL 子句
+	 * 
+	 * <pre>
+	 * 可同时获取多种子句，条件以英文,号分隔
+	 * 如：
+	 * $clsTab->getSubSql('WHERE');
+	 * $clsTab->getSubSql('WHERE,OTHER');
+	 * </pre>
+	 *
+	 * @param string $codeList
+	 * @return string
+	 */
 	protected function getSubSql ($codeList) {
 		$codeList = explode(',', $codeList);
 		$rt = '';
 
 		foreach($codeList as $val){
-			switch ($val) {
+			switch (trim($val)) {
 				case 'WHERE':
 					$rt.= $this->_where;
 					break;
@@ -1006,14 +1040,22 @@ class Class_TableDataGateway {
 		return $rt;
 	}
 
+	/**
+	 * 设置查询的字段
+	 *
+	 * $clsTab->field('id, title');
+	 * 
+	 * @param string $p
+	 * @access public
+	 */
 	public function field ($p) {
 		$this->_field = $p;
 	}
 
 	/**
-	 * 获取解释where属性后的 where 语句
+	 * 设置条件子句
 	 *
-	 * @return mixed
+	 * @return mixed $p
 	 * @access public
 	 */
 	public function where ($p) {
@@ -1047,7 +1089,7 @@ class Class_TableDataGateway {
 	}
 
 	/**
-	 * 
+	 * 设置复合条件子句
 	 *
 	 * @return string
 	 * @access public
@@ -1057,7 +1099,7 @@ class Class_TableDataGateway {
 	}
 
 	/**
-	 * 
+	 * 设置排序条件子句
 	 *
 	 * @return string
 	 * @access public
@@ -1067,7 +1109,7 @@ class Class_TableDataGateway {
 	}
 
 	/**
-	 * 获取解释 limit 属性后的 limit 子句
+	 * 设置分页条件子句
 	 *
 	 * @return mixed
 	 * @access public

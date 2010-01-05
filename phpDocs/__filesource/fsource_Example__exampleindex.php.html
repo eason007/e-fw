@@ -52,36 +52,39 @@
 <li><div class="src-line"><a name="a39"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span><span class="src-sym">,</span></div></li>
 <li><div class="src-line"><a name="a40"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'CONTROLLER'&nbsp;</span>=&gt;&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
 <li><div class="src-line"><a name="a41"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'defaultController'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'Controller_Index'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="src-comm">//设置默认控制器名</span></div></li>
-<li><div class="src-line"><a name="a42"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span></div></li>
-<li><div class="src-line"><a name="a43"></a><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
-<li><div class="src-line"><a name="a44"></a>&nbsp;</div></li>
-<li><div class="src-line"><a name="a45"></a><span class="src-comm">//将配置数组加入到全局变量中</span></div></li>
-<li><div class="src-line"><a name="a46"></a><span class="src-id"><a href="../Core/E_FW.html">E_FW</a></span><span class="src-sym">::</span><a href="../Core/E_FW.html#methodset_Config">set_Config</a><span class="src-sym">(</span><span class="src-var">$Config</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a42"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><a name="a43"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'CACHE'&nbsp;</span>=&gt;&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line"><a name="a44"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'type'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'memcache'</span></div></li>
+<li><div class="src-line"><a name="a45"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span></div></li>
+<li><div class="src-line"><a name="a46"></a><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line"><a name="a47"></a>&nbsp;</div></li>
-<li><div class="src-line"><a name="a48"></a><span class="src-comm">//Start</span></div></li>
-<li><div class="src-line"><a name="a49"></a><span class="src-id"><a href="../Core/E_FW.html">E_FW</a></span><span class="src-sym">::</span><a href="../Core/E_FW.html#methodrun">run</a><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a48"></a><span class="src-comm">//将配置数组加入到全局变量中</span></div></li>
+<li><div class="src-line"><a name="a49"></a><span class="src-id"><a href="../Core/E_FW.html">E_FW</a></span><span class="src-sym">::</span><a href="../Core/E_FW.html#methodset_Config">set_Config</a><span class="src-sym">(</span><span class="src-var">$Config</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line"><a name="a50"></a>&nbsp;</div></li>
-<li><div class="src-line"><a name="a51"></a><span class="src-doc">/**</span></div></li>
-<li><div class="src-line"><a name="a52"></a><span class="src-doc">&nbsp;*&nbsp;Enter&nbsp;description&nbsp;here...</span></div></li>
-<li><div class="src-line"><a name="a53"></a><span class="src-doc">&nbsp;*</span></div></li>
-<li><div class="src-line"><a name="a54"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@package</span><span class="src-doc">&nbsp;Exception</span></div></li>
-<li><div class="src-line"><a name="a55"></a><span class="src-doc">&nbsp;*/</span></div></li>
-<li><div class="src-line"><a name="a56"></a><span class="src-key">class&nbsp;</span><a href="../Exception/MyException.html">MyException</a>&nbsp;<span class="src-key">extends&nbsp;</span><span class="src-id">Exception</span></div></li>
-<li><div class="src-line"><a name="a57"></a><span class="src-sym">{</span></div></li>
-<li><div class="src-line"><a name="a58"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;重定义构造器使&nbsp;message&nbsp;变为必须被指定的属性</span></div></li>
-<li><div class="src-line"><a name="a59"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><span class="src-key">function&nbsp;</span><a href="../Exception/MyException.html#method__construct">__construct</a><span class="src-sym">(</span><span class="src-var">$message</span><span class="src-sym">,&nbsp;</span><span class="src-var">$code&nbsp;</span>=&nbsp;<span class="src-num">0</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
-<li><div class="src-line"><a name="a60"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;自定义的代码</span></div></li>
-<li><div class="src-line"><a name="a61"></a>&nbsp;</div></li>
-<li><div class="src-line"><a name="a62"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;确保所有变量都被正确赋值</span></div></li>
-<li><div class="src-line"><a name="a63"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-id">parent</span><span class="src-sym">::</span><span class="src-id">__construct</span><span class="src-sym">(</span><span class="src-var">$message</span><span class="src-sym">,&nbsp;</span><span class="src-var">$code</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
-<li><div class="src-line"><a name="a64"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
-<li><div class="src-line"><a name="a65"></a><span class="src-sym">}</span></div></li>
-<li><div class="src-line"><a name="a66"></a>&nbsp;</div></li>
-<li><div class="src-line"><a name="a67"></a><span class="src-php">?&gt;</span></div></li>
+<li><div class="src-line"><a name="a51"></a><span class="src-comm">//Start</span></div></li>
+<li><div class="src-line"><a name="a52"></a><span class="src-id"><a href="../Core/E_FW.html">E_FW</a></span><span class="src-sym">::</span><a href="../Core/E_FW.html#methodrun">run</a><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a53"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a54"></a><span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><a name="a55"></a><span class="src-doc">&nbsp;*&nbsp;Enter&nbsp;description&nbsp;here...</span></div></li>
+<li><div class="src-line"><a name="a56"></a><span class="src-doc">&nbsp;*</span></div></li>
+<li><div class="src-line"><a name="a57"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@package</span><span class="src-doc">&nbsp;Exception</span></div></li>
+<li><div class="src-line"><a name="a58"></a><span class="src-doc">&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a59"></a><span class="src-key">class&nbsp;</span><a href="../Exception/MyException.html">MyException</a>&nbsp;<span class="src-key">extends&nbsp;</span><span class="src-id">Exception</span></div></li>
+<li><div class="src-line"><a name="a60"></a><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a61"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;重定义构造器使&nbsp;message&nbsp;变为必须被指定的属性</span></div></li>
+<li><div class="src-line"><a name="a62"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><span class="src-key">function&nbsp;</span><a href="../Exception/MyException.html#method__construct">__construct</a><span class="src-sym">(</span><span class="src-var">$message</span><span class="src-sym">,&nbsp;</span><span class="src-var">$code&nbsp;</span>=&nbsp;<span class="src-num">0</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a63"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;自定义的代码</span></div></li>
+<li><div class="src-line"><a name="a64"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a65"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;确保所有变量都被正确赋值</span></div></li>
+<li><div class="src-line"><a name="a66"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-id">parent</span><span class="src-sym">::</span><span class="src-id">__construct</span><span class="src-sym">(</span><span class="src-var">$message</span><span class="src-sym">,&nbsp;</span><span class="src-var">$code</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a67"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a68"></a><span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a69"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a70"></a><span class="src-php">?&gt;</span></div></li>
 </ol></div>
 </div>
 	<p class="notes" id="credit">
-		Documentation generated on Tue, 29 Dec 2009 06:51:18 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Tue, 05 Jan 2010 07:35:13 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</body>
 </html>

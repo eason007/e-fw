@@ -6,7 +6,8 @@
 /**
  * 缓存类
  * 
- * 提供页面/数据的缓存服务
+ * 提供缓存服务，目前支持文件及memcache两种方式
+ * memcache使用memcache扩展实现
  * 
  * @package Class
  * @author eason007<eason007@163.com>
@@ -25,8 +26,10 @@ class Class_Cache {
 	 * 			'ext' => ''
 	 * 		),
 	 * 		'Memcache' => array (
-	 * 			'host' => '',
-	 * 			'port' => ''
+	 * 			array(
+	 *	 			'host' => '',
+	 * 				'port' => ''
+	 * 			)
 	 * 		)
 	 * )
 	 * 
@@ -42,6 +45,14 @@ class Class_Cache {
 	 * 
 	 * [File][ext]
 	 * 缓存文件扩展名
+	 * 
+	 * [Memcache][host]
+	 * Memcache的服务器地址
+	 * 
+	 * [Memcache][port]
+	 * Memcache的服务端口
+	 * 
+	 * Memcache支持多台服务器
 	 * </pre>
 	 *
 	 * @var array
@@ -111,9 +122,9 @@ class Class_Cache {
 	 * 如：
 	 * new Class_Cache();			//不设置
 	 * new Class_Cache(array(		//只设置两个类属性
-	 * 		'type' => 'file',
-	 * 		'expireTime' => 86400
-	 * 	)
+	 * 			'type' => 'file',
+	 * 			'expireTime' => 86400
+	 * 		)
 	 * );
 	 * </pre>
 	 *
@@ -127,6 +138,8 @@ class Class_Cache {
 		foreach ($Params as $key => $value) {
 			$this->$key = $value;
 		}
+		
+		$this->type = strtolower($this->type);
 		
 		if ($this->type == 'memcache') {
 			$this->_memCache = new Memcache;
