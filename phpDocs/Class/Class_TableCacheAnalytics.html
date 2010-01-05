@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class Class_TableCacheAnalytics</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> Class_TableCacheAnalytics</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">数据库对象缓存分析类</p>
+<p class="description"><p>用于 Class_TableDataGateway 类中，通过类属性 isCache  决定是否在查询中使用缓存</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> eason007&lt;<a href="mailto:eason007@163.com">eason007@163.com</a>&gt;</li>
+				<li><span class="field">version:</span> 1.0.0.20091230</li>
+				<li><span class="field">copyright:</span> Copyright (c) 2007-2008 eason007&lt;eason007@163.com&gt;</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_class---TableCacheAnalytics.php.html">/class/TableCacheAnalytics.php</a> (line <span class="field"><a href="../__filesource/fsource_Class__classTableCacheAnalytics.php.html#a18">18</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																<div class="method-definition">
+					<img src="../media/images/Constructor.png" alt=" "/>
+											<span class="method-result">Class_TableCacheAnalytics</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">mixed</span>
+										<a href="#chkCache" title="details" class="method-name">chkCache</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$tableName</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$querySql</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#delCache" title="details" class="method-name">delCache</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$tableName</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#setCache" title="details" class="method-name">setCache</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$tableName</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$querySql</span>, <span class="var-type"></span>&nbsp;<span class="var-name">&$queryData</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$queryData</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+													<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Constructor.png" />
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableCacheAnalytics.php.html#a21">21</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">Class_TableCacheAnalytics</span>
+		<span class="method-name">
+			__construct
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodchkCache" id="chkCache"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">chkCache</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableCacheAnalytics.php.html#a34">34</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">检查缓存是否存在</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			chkCache
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$tableName</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$querySql</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$tableName</span><span class="var-description">: 当前打开的数据表名</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$querySql</span><span class="var-description">: 完整的SQL查询语句</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoddelCache" id="delCache"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">delCache</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableCacheAnalytics.php.html#a75">75</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">清理缓存</p>
+<p class="description"><p>清理该数据表名下所有缓存</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			delCache
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$tableName</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$tableName</span><span class="var-description">: 当前打开的数据表名</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetCache" id="setCache"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">setCache</span> (line <span class="line-number"><a href="../__filesource/fsource_Class__classTableCacheAnalytics.php.html#a56">56</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">设置缓存</p>
+<p class="description"><p>缓存的键名为 md5($querySql) 的密文，同时将会记录到该数据表名下  以便有其他 update 操作后，能将与该表有关的所有缓存清理</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setCache
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$tableName</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$querySql</span>, <span class="var-type"></span>&nbsp;<span class="var-name">&$queryData</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$queryData</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$tableName</span><span class="var-description">: 当前打开的数据表名</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$querySql</span><span class="var-description">: 完整的SQL查询语句</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$queryData</span><span class="var-description">: 被缓存的数据</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$queryData</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 05 Jan 2010 08:27:31 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>
