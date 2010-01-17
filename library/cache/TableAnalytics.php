@@ -34,7 +34,7 @@ class Cache_TableAnalytics {
 		
 		if ($queryCache) {
 			echo 'cached';
-			$tableCache = $this->_cache->getCache($tableName);
+			
 			return $queryCache;
 		}
 		else{
@@ -50,7 +50,7 @@ class Cache_TableAnalytics {
 	 *
 	 * @param string $tableName 当前打开的数据表名
 	 * @param string $querySql 完整的SQL查询语句
-	 * @param mixed $queryData 被缓存的数据
+	 * @return mixed $queryData 被缓存的数据
 	 */
 	public function setCache ($tableName, $querySql, &$queryData) {
 		$this->_cache->setCache(md5(strtoupper($querySql)), $queryData);

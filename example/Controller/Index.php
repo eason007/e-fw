@@ -29,19 +29,24 @@ class Controller_Index{
 	 *
 	 */
     function actionIndex(){
-    	$this->_ModelBlog = E_FW::load_Class('Model_Blog');
+    	$output = E_FW::load_Class('Cache_OutputAnalytics');
     	
-    	
-		//数据库操作
-		$this->_ModelBlog->where('');
-		$this->_ModelBlog->order('id desc');
-		$this->_ModelBlog->limit(30);
-		$news = $this->_ModelBlog->select(array(
-			'isCount'	=> true
-		));
-		
-
-		print_r($news);
+    	if (!$output->start('blog_index')){
+	    	$this->_ModelBlog = E_FW::load_Class('Model_Blog');
+	    	
+	    	
+			//数据库操作
+			$this->_ModelBlog->where('');
+			$this->_ModelBlog->order('id desc');
+			$this->_ModelBlog->limit(30);
+			$news = $this->_ModelBlog->select(array(
+				'isCount'	=> true
+			));
+			
+	
+			print_r($news);
+			$output->end();
+    	}
 
 		//throw new MyException('fuck', 0);
     }
