@@ -12,7 +12,7 @@
  * @package Class
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.2.3.20100104
+ * @version 1.2.3.20100117
  */
  
 class Class_TableDataGateway {
@@ -205,7 +205,6 @@ class Class_TableDataGateway {
 
 	function __construct() {
 		E_FW::load_File('class_Validator');
-		E_FW::load_File('class_TableCacheAnalytics');
 		E_FW::load_File('db_Mysql5');
 
 		if (is_null($this->dbParams)){
@@ -216,7 +215,7 @@ class Class_TableDataGateway {
 		}
 		
 		if ($this->isCache) {
-			$this->_cacheAnalytics = E_FW::load_Class('Class_TableCacheAnalytics');
+			$this->_cacheAnalytics = E_FW::load_Class('Cache_TableAnalytics');
 		}
 	}
 

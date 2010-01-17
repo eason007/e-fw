@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Class
+ * @package Cache
  */
 
 /**
@@ -9,19 +9,17 @@
  * 用于 Class_TableDataGateway 类中，通过类属性 isCache
  * 决定是否在查询中使用缓存
  * 
- * @package Class
+ * @package Cache
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.0.20091230
+ * @version 1.0.1.20100117
  */
  
-class Class_TableCacheAnalytics {
+class Cache_TableAnalytics {
 	private $_cache = null;
 	
 	function __construct() {
-		E_FW::load_File('class_Cache');
-		
-		$this->_cache = E_FW::load_Class('Class_Cache');
+		$this->_cache = E_FW::load_Class('Cache_Core');
 	}
 	
 	/**
@@ -35,6 +33,7 @@ class Class_TableCacheAnalytics {
 		$queryCache = $this->_cache->getCache(md5(strtoupper($querySql)));
 		
 		if ($queryCache) {
+			echo 'cached';
 			$tableCache = $this->_cache->getCache($tableName);
 			return $queryCache;
 		}

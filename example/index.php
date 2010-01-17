@@ -16,7 +16,7 @@
 /**
  * 引用框架
  */
-require('../e_fw.php');
+require('../library/e_fw.php');
 
 //将本目录加入到默认引用文件路径中
 E_FW::import(dirname(__FILE__).DS);

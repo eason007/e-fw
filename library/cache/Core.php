@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Class
+ * @package Cache
  */
 
 /**
@@ -9,12 +9,12 @@
  * 提供缓存服务，目前支持文件及memcache两种方式
  * memcache使用memcache扩展实现
  * 
- * @package Class
+ * @package Cache
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 2.0.1.20091229
+ * @version 2.0.1.20100117
  */
-class Class_Cache {
+class Cache_Core {
 	/**
 	 * 缓存配置
 	 * 
