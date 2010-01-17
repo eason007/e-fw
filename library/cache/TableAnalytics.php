@@ -33,8 +33,6 @@ class Cache_TableAnalytics {
 		$queryCache = $this->_cache->getCache(md5(strtoupper($querySql)));
 		
 		if ($queryCache) {
-			echo 'cached';
-			
 			return $queryCache;
 		}
 		else{

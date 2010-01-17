@@ -36,7 +36,6 @@ class Cache_OutputAnalytics {
 		$queryCache = $this->_cache->getCache($t);
 		
 		if ($queryCache) {
-			echo 'output cached';
 			echo $queryCache;
 			
 			return true;
