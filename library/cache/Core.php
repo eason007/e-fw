@@ -219,7 +219,7 @@ class Cache_Core {
 	 */
 	public function setCache ($cacheID, $cacheData, $parSet = array()){
 		$params = array(
-			'expireTime'=> 0,
+			'expireTime'=> $this->expireTime,
 			'serialize'	=> false
 		);
 		foreach ($parSet as $key => $value) {
