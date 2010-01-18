@@ -29,6 +29,37 @@ class Controller_Index{
 	 *
 	 */
     function actionIndex(){
+    	$validator = E_FW::load_Class('Class_Validator');
+    	$f = array();
+    	$v = array(
+    		'title' => array (
+	  			'rule' 	=> 'Alnum',
+	  			'min'	=> 4,
+	  			'max'	=> 20
+	  		),
+	  		'tag' 	=> array (
+	  			'require' 	=> true,
+	  			'rule' 		=> 'English'
+	  		),
+	  		'date' 	=> array (
+	  			'require' 	=> false,
+	  			'rule' 		=> 'Number'
+	  		),
+	  		'content' => array(
+	  			'rule'	=> 'Chinese',
+	  			'min'	=> 4,
+	  			'max'	=> 500
+	  		)
+    	);
+    	$d = array(
+    		'title' => '1q1123',
+    		'tag'	=> 'qwer',
+    		'content' => '阿萨德飞'
+    	);
+    	$validator->set($f, $v, $d);
+    	var_dump($validator->validate());
+    	var_dump($validator);
+    	
     	$output = E_FW::load_Class('Cache_OutputAnalytics');
     	
     	if (!$output->start('blog_index')){
