@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Class
+ * @package DB
  */
 
 /**
@@ -9,13 +9,13 @@
  * 本类采用的是数据入口模式。主要用于实现CRUD的基本操作。
  * 并实现基本的关联操作
  * 
- * @package Class
+ * @package DB
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.2.3.20100117
+ * @version 1.2.4.20100118
  */
  
-class Class_TableDataGateway {
+class DB_TableDataGateway {
 	/**
 	 * 数据表名
 	 *
@@ -238,7 +238,7 @@ class Class_TableDataGateway {
 			switch ($dbParams['dbType']) {
 				case 'Mysqli':
 				case 'PDO' :
-					$this->db = new DB_Mysql5($dbParams);
+					$this->db = E_FW::load_Class('DB_Mysql5', true, $dbParams);
 					break;
 			}
 			

@@ -5,7 +5,7 @@
  */
 
 //引入 model 基类
-E_FW::load_File('class_TableDataGateway');
+E_FW::load_File('db_TableDataGateway');
 
 /**
  * 定义 category 表的 model 类
@@ -17,9 +17,9 @@ E_FW::load_File('class_TableDataGateway');
  *
  * @package Example
  * @subpackage Model
- * @see Class_TableDataGateway
+ * @see DB_TableDataGateway
  */
-class Model_Category extends Class_TableDataGateway{
+class Model_Category extends DB_TableDataGateway{
 	var $tableName 	= 'e_fw_category';
 	var $primaryKey = 'id';
 	

@@ -1,10 +1,12 @@
 <?php
 /**
  * @package DB
+ * @subpackage Driver
  */
 
 /**
  * @package DB
+ * @subpackage Driver
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
  * @version 1.2.1.20091221
