@@ -10,7 +10,7 @@
  * @package Core
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.4.20100118
+ * @version 1.0.5.20100118
  */
 
 /**
@@ -250,11 +250,11 @@ class E_FW {
 		$path = E_FW::get_FilePath($filename);
 
 		if ($path != '') {
-			if ( (E_FW::get_Config('LOAD_FILE_NAME/'.$filename)) and ($loadOnce) ) {
+			if ( (E_FW::get_Config('LOAD_FILE_NAME/'.strtolower($filename))) and ($loadOnce) ) {
 				return true;
 			}
 			
-			E_FW::set_Config(array('LOAD_FILE_NAME' => array($filename => $path)));
+			E_FW::set_Config(array('LOAD_FILE_NAME' => array(strtolower($filename) => $path)));
 			return include($path);
 		}
 	}
