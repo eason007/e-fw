@@ -12,7 +12,7 @@
  * @package Cache
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 2.0.1.20100117
+ * @version 2.0.2.20100118
  */
 class Cache_Core {
 	/**
@@ -111,6 +111,15 @@ class Cache_Core {
 	 */
 	public $isDebug = false;
 	
+	/**
+	 * 缓存标记前缀
+	 * 
+	 * 主要用于程序在单台服务器上能共享
+	 * 
+	 * @var string
+	 */
+	public $prefix = '';
+	
 	private $_memCache = null;
 	
 	/**
@@ -167,6 +176,8 @@ class Cache_Core {
 		if ($this->isDebug){
 			return false;
 		}
+		
+		$cacheID = $this->prefix.$cacheID;
 		
 		switch ($this->type){
 			case 'file':
@@ -226,6 +237,8 @@ class Cache_Core {
 			$params[$key] = $value;
 		}
 		
+		$cacheID = $this->prefix.$cacheID;
+		
 		switch ($this->type){
 			case 'file':
 				if ( ($this->isSerialize) or ($params['serialize']) ){
@@ -257,6 +270,8 @@ class Cache_Core {
 	 * @param string $cacheID 缓存标记名
 	 */
 	public function delCache ($cacheID) {
+		$cacheID = $this->prefix.$cacheID;
+		
 		switch ($this->type){
 			case 'file':
 				$cacheFile = $this->_getHashPath($cacheID);
