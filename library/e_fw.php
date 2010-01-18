@@ -10,7 +10,7 @@
  * @package Core
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.3.20091228
+ * @version 1.0.4.20100118
  */
 
 /**
@@ -209,7 +209,7 @@ class E_FW {
     {
     	$v = E_FW::get_Config('CLASS_OBJ/'.$className);
     	
-		if ( (isset($v)) && (is_object($v)) ){
+		if ( (isset($v)) && (is_object($v)) && (!$isLoad) ){
 			return $v;
 		}
 
