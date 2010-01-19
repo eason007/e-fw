@@ -14,11 +14,11 @@
  
 class Class_Validator {
 	public $rules = array(
-		'Alnum'		=> '/[a-zA-Z0-9]/',
-		'English' 	=> '/[a-zA-Z]/',
-		'Number'	=> '/[0-9]/',
-		'Chinese'	=> '/([\x00-\x7F]|[\x80-\xFE][\x40-\x7E\x80-\xFE])/',
-		'Date'		=> '/[0-9]{4}-(\d{1,2})-(\d{1,2})/',
+		'Alnum'		=> '/[a-zA-Z0-9]+$/',
+		'English' 	=> '/[a-zA-Z]+$/',
+		'Number'	=> '/[0-9]+$/',
+		'Chinese'	=> '/[\x{4e00}-\x{9fa5}]+$/u',
+		'Date'		=> '/[0-9]{4}-(\d{1,2})-(\d{1,2})+$/',
 		'Email'		=> '/^[A-Za-z0-9]+([._\-\+]*[A-Za-z0-9]+)*@([A-Za-z0-9]+[-A-Za-z0-9]*[A-Za-z0-9]+\.)+[A-Za-z0-9]+$/'
 	);
 	
@@ -142,18 +142,18 @@ class Class_Validator {
 					continue;
 				}
 				
-				if ( isset($value['min']) && isset($value['max']) ) {
-					if ( (mb_strlen($this->_data[$key], 'UTF-8') < $value['min']) || 
-						(mb_strlen($this->_data[$key], 'UTF-8') > $value['max'])){
+				switch (true){
+					case (isset($value['min'])) && mb_strlen($this->_data[$key], 'UTF-8') < $value['min']:
 						$this->invalid[$key] = 'length';
-
-						continue;
-					}
+						continue 2;
+					case (isset($value['max'])) && mb_strlen($this->_data[$key], 'UTF-8') > $value['max']:
+						$this->invalid[$key] = 'length';
+						continue 2;
 				}
 				
-				echo $key.'='.preg_match_all($this->rules[$value['rule']], $this->_data[$key], $t).'='.strlen($this->_data[$key]).'<br>';
+				echo $key.'='.preg_match($this->rules[$value['rule']], $this->_data[$key]).'<br>';
 				
-				if (preg_match_all($this->rules[$value['rule']], $this->_data[$key], $t) != strlen($this->_data[$key])){
+				if (!preg_match($this->rules[$value['rule']], $this->_data[$key])){
 					$this->invalid[$key] = 'rule';
 				}
 			}
