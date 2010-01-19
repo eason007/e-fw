@@ -43,18 +43,24 @@ class Controller_Index{
 	  		),
 	  		'date' 	=> array (
 	  			'require' 	=> false,
-	  			'rule' 		=> 'Number'
+	  			'rule' 		=> 'Date'
 	  		),
 	  		'content' => array(
 	  			'rule'	=> 'Chinese',
 	  			'min'	=> 4,
 	  			'max'	=> 500
+	  		),
+	  		'postTime' => array(
+	  			'min'	=> 11,
+	  			'rule' 	=> 'Number'
 	  		)
     	);
     	$d = array(
     		'title' => '1q1123',
     		'tag'	=> 'qwer',
-    		'content' => '阿萨德飞'
+    		'content' => '阿萨德飞',
+    		'date'	=> '1300-11-11',
+    		'postTime' => '12345678900'
     	);
     	$validator->set($f, $v, $d);
     	var_dump($validator->validate());
