@@ -1,18 +1,30 @@
 <?php
 /**
- * @package Class
+ * @package Data
  */
 
 /**
  * 数据校验类
  * 
- * @package Class
+ * <per>
+ * 本类主要着眼于对数据的操作，包含的功能有：过滤和校验。
+ * </pre>
+ * 
+ * @package Data
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2009 eason007<eason007@163.com>
  * @version 1.0.0.20100119
  */
  
-class Class_Validator {
+class Data_Validator {
+	/**
+	 * 默认的校验种类
+	 * 
+	 * 可以自行添加正则表达式进行扩展
+	 * 
+	 * @var array
+	 * @access public
+	 */
 	public $validatorRules = array(
 		'Alnum'		=> '/[a-zA-Z0-9]+$/',
 		'English' 	=> '/[a-zA-Z]+$/',
@@ -22,6 +34,14 @@ class Class_Validator {
 		'Email'		=> '/^[A-Za-z0-9]+([._\-\+]*[A-Za-z0-9]+)*@([A-Za-z0-9]+[-A-Za-z0-9]*[A-Za-z0-9]+\.)+[A-Za-z0-9]+$/'
 	);
 	
+	/**
+	 * 默认的过滤种类
+	 * 
+	 * 可以自行添加正则表达式进行扩展
+	 * 
+	 * @var array
+	 * @access public
+	 */
 	public $filterRules = array (
 		'Alnum'		=> '/[^a-zA-Z0-9]/',
 		'English' 	=> '/[^a-zA-Z]/',
@@ -33,6 +53,17 @@ class Class_Validator {
 	
 	private $_validatorFields = null;
 	
+	/**
+	 * 全局的校验设置
+	 * 
+	 * <pre>
+	 * require
+	 * 即所有经 $validators 声明的数据均为必填，除非在 $validators 中有单独指定 require
+	 * </pre>
+	 * 
+	 * @var array
+	 * @access private
+	 */
 	private $_globalOptions = array(
 		'require' 	=> true,
 		'breakChain'=> true
@@ -40,14 +71,58 @@ class Class_Validator {
 	
 	private $_data = null;
 	
+	/**
+	 * 未知的数据
+	 * 
+	 * 即没有在 $validators 中声明，但又存在于 $data 里的数据
+	 * 
+	 * @var array
+	 * @access public
+	 */
 	public $unknown  = array();
 	
+	/**
+	 * 校验失败的数据
+	 * 
+	 * <pre>
+	 * 在返回的数据中，会以字段名为数组键名，具体错误的信息为值
+	 * length 指数据长度不符合
+	 * require 指必填字段为空
+	 * rule 指无法通过校验规则
+	 * 如：
+	 * array (
+	 * 		'title' => 'length',
+	 * 		'tag'	=> 'rule'
+	 * )
+	 * </pre>
+	 * 
+	 * @var array
+	 * @access public
+	 */
 	public $invalid = array();
 	
+	/**
+	 * 缺失的数据
+	 * 
+	 * 即在 $validators 中声明，但又不存在于 $data 里的字段
+	 * 
+	 * @var array
+	 * @access public
+	 */
 	public $missing = array(); 
 	
 	/**
+	 * 设置过滤/校验的条件及数据
+	 * 
 	 * <pre>
+	 * $filters = array(
+	 * 		'title' => array (
+	 * 			'rule' 	=> 'Alnum'
+	 * 		),
+	 * 		'tag' 	=> array (
+	 * 			'rule' 		=> 'English'
+	 * 		)
+	 * )
 	 * $validators = array(
 	 * 		'title' => array (
 	 * 			'rule' 	=> 'Alnum',
@@ -56,7 +131,7 @@ class Class_Validator {
 	 * 		),
 	 * 		'tag' 	=> array (
 	 * 			'require'	=> false,
-	 * 			'rule' 		=> ''
+	 * 			'rule' 		=> 'English'
 	 * 		)
 	 * )
 	 * </pre>
@@ -74,13 +149,21 @@ class Class_Validator {
 			}
 		}
 		
-		$this->_data = $data;
+		$this->_data = &$data;
 		$this->_filterFields = $filters;
 		$this->_validatorFields = $validators;
 		
 		$this->invalid = $this->unknown = $this->missing = null;
 	}
 	
+	/**
+	 * 过滤数据
+	 * 
+	 * 如果参数为空，则返回过滤后的整个数据块，否则返回指定数据内容
+	 * 
+	 * @param string $fieldName
+	 * @return mixed
+	 */
 	public function filter ($fieldName = '') {
 		$this->_filter();
 		
@@ -108,6 +191,15 @@ class Class_Validator {
 		}
 	}
 	
+	/**
+	 * 校验数据
+	 * 
+	 * 如果参数为空，则返回整个数据块的校验结果，包括是否存在缺失数据
+	 * 否则返回指定的数据校验结果，但忽略是否存在于缺失数据中
+	 * 
+	 * @param string $fieldName
+	 * @return bool
+	 */
 	public function validate ($fieldName = '') {
 		$this->_validate();
 		
@@ -148,8 +240,6 @@ class Class_Validator {
 						$this->invalid[$key] = 'length';
 						continue 2;
 				}
-				
-				//echo $key.'='.preg_match($this->rules[$value['rule']], $this->_data[$key]).'<br>';
 				
 				if (!preg_match($this->validatorRules[$value['rule']], $this->_data[$key])){
 					$this->invalid[$key] = 'rule';
