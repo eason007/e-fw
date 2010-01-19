@@ -204,7 +204,6 @@ class DB_TableDataGateway {
 
 
 	function __construct() {
-		E_FW::load_File('class_Validator');
 		E_FW::load_File('db_Mysql5');
 
 		if (is_null($this->dbParams)){
