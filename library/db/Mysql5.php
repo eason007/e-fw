@@ -130,7 +130,7 @@ class DB_Mysql5 {
 
 /**
  * @package DB
- * @subpackage DB_Driver
+ * @subpackage Driver
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
  * @version 1.1.1.20091221
@@ -206,7 +206,7 @@ class DB_Driver_Mysqli {
 
 /**
  * @package DB
- * @subpackage DB_Driver
+ * @subpackage Driver
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
  * @version 1.1.1.20091221
