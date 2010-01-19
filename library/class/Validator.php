@@ -9,11 +9,11 @@
  * @package Class
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2009 eason007<eason007@163.com>
- * @version 1.0.0.20090108
+ * @version 1.0.0.20100119
  */
  
 class Class_Validator {
-	public $rules = array(
+	public $validatorRules = array(
 		'Alnum'		=> '/[a-zA-Z0-9]+$/',
 		'English' 	=> '/[a-zA-Z]+$/',
 		'Number'	=> '/[0-9]+$/',
@@ -22,9 +22,16 @@ class Class_Validator {
 		'Email'		=> '/^[A-Za-z0-9]+([._\-\+]*[A-Za-z0-9]+)*@([A-Za-z0-9]+[-A-Za-z0-9]*[A-Za-z0-9]+\.)+[A-Za-z0-9]+$/'
 	);
 	
-	private $_filterRules = null;
+	public $filterRules = array (
+		'Alnum'		=> '/[^a-zA-Z0-9]/',
+		'English' 	=> '/[^a-zA-Z]/',
+		'Number'	=> '/[^0-9]/',
+		'Chinese'	=> '/[^\x{4e00}-\x{9fa5}]/u'
+	);
 	
-	private $_validatorRules = null;
+	private $_filterFields = null;
+	
+	private $_validatorFields = null;
 	
 	private $_globalOptions = array(
 		'require' 	=> true,
@@ -68,8 +75,8 @@ class Class_Validator {
 		}
 		
 		$this->_data = $data;
-		$this->_filterRules = $filters;
-		$this->_validatorRules = $validators;
+		$this->_filterFields = $filters;
+		$this->_validatorFields = $validators;
 		
 		$this->invalid = $this->unknown = $this->missing = null;
 	}
@@ -87,24 +94,15 @@ class Class_Validator {
 	
 	private function _filter () {
 		foreach ($this->_data as $key => $value) {
-			if (!array_key_exists($key, $this->_filterRules)){
+			if (!array_key_exists($key, $this->_filterFields)){
 				$this->unknown[] = $key;
 			}
 		}
 		
-		foreach ($this->_filterRules as $key => $value) {
+		foreach ($this->_filterFields as $key => $value) {
 			if (array_key_exists($key, $this->_data)){
-				if ($this->_data[$key] != ''){
-					
-				}
-			}
-			else{
-				switch (true){
-					case isset($value['require']) && !$value['require']:
-						break;
-					case isset($value['require']) && $value['require']:
-					case $this->_globalOptions['require']:
-						$this->missing[] = $key;
+				if ( ($this->_data[$key] != '') && (isset($this->filterRules[$value['rule']])) ) {
+					$this->_data[$key] = preg_replace($this->filterRules[$value['rule']], '', $this->_data[$key]);
 				}
 			}
 		}
@@ -123,12 +121,12 @@ class Class_Validator {
 	
 	private function _validate () {
 		foreach ($this->_data as $key => $value) {
-			if (!array_key_exists($key, $this->_validatorRules)){
+			if (!array_key_exists($key, $this->_validatorFields)){
 				$this->unknown[] = $key;
 			}
 		}
 		
-		foreach ($this->_validatorRules as $key => $value) {
+		foreach ($this->_validatorFields as $key => $value) {
 			if (array_key_exists($key, $this->_data)){
 				if ($this->_data[$key] == ''){
 					switch (true){
@@ -151,9 +149,9 @@ class Class_Validator {
 						continue 2;
 				}
 				
-				echo $key.'='.preg_match($this->rules[$value['rule']], $this->_data[$key]).'<br>';
+				//echo $key.'='.preg_match($this->rules[$value['rule']], $this->_data[$key]).'<br>';
 				
-				if (!preg_match($this->rules[$value['rule']], $this->_data[$key])){
+				if (!preg_match($this->validatorRules[$value['rule']], $this->_data[$key])){
 					$this->invalid[$key] = 'rule';
 				}
 			}

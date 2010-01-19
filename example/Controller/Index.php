@@ -30,7 +30,23 @@ class Controller_Index{
 	 */
     function actionIndex(){
     	$validator = E_FW::load_Class('Class_Validator');
-    	$f = array();
+    	$f = array(
+    		'title' => array(
+    			'rule' 	=> 'Alnum'
+    		),
+    		'tag' 	=> array (
+	  			'rule' 	=> 'English'
+	  		),
+	  		'date' 	=> array (
+	  			'rule' 	=> 'Date'
+	  		),
+	  		'content' => array(
+	  			'rule'	=> 'Chinese'
+	  		),
+	  		'postTime' => array(
+	  			'rule' 	=> 'Number'
+	  		)
+    	);
     	$v = array(
     		'title' => array (
 	  			'rule' 	=> 'Alnum',
@@ -56,15 +72,15 @@ class Controller_Index{
 	  		)
     	);
     	$d = array(
-    		'title' => '1q1123',
-    		'tag'	=> 'qwer',
-    		'content' => '阿萨德飞',
-    		'date'	=> '1300-11-11',
-    		'postTime' => '12345678900'
+    		'title' => '1q1123@',
+    		'tag'	=> 'qwer1',
+    		'content' => '阿萨德飞1',
+    		'date'	=> '1300-11-11a',
+    		'postTime' => '12345678900a'
     	);
     	$validator->set($f, $v, $d);
-    	var_dump($validator->validate());
-    	var_dump($validator);
+    	var_dump($validator->filter('content'));
+    	//var_dump($validator);
     	
     	$output = E_FW::load_Class('Cache_OutputAnalytics');
     	
@@ -85,7 +101,7 @@ class Controller_Index{
 			$output->end();
     	}
 
-		//throw new MyException('fuck', 0);
+		//throw new MyException('fuck');
     }
 
 	function actionPost () {
