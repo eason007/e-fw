@@ -8,7 +8,7 @@
 			<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
 		</head>
 		<body>
-			<div class="page-body">			
+			<div class="page-body">			
 <h2 class="class-name"><img src="../../media/images/Class_logo.png"
 														alt=" Class"
 														title=" Class"
@@ -26,20 +26,21 @@
 	<div class="info-box-body">
         		<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">定义 blog 表的 model 类</p>
-<p class="description"><p><pre> 类名以 [目录名]_[类名] 方式命名
+<p class="description"><p>定义 blog 表的 model 类
+ <pre> 类名以 [目录名]_[类名] 方式命名
  需继承自 class_TableDataGateway 类</pre></p></p>
 	<ul class="tags">
 				<li><span class="field">author:</span> eason007&lt;<a href="mailto:eason007@163.com">eason007@163.com</a>&gt;</li>
-				<li><span class="field">version:</span> 1.2.3.20100104</li>
+				<li><span class="field">version:</span> 1.2.4.20100118</li>
 				<li><span class="field">copyright:</span> Copyright (c) 2007-2008 eason007&lt;eason007@163.com&gt;</li>
-				<li><span class="field">see:</span> <a href="../../Class/Class_TableDataGateway.html">Class_TableDataGateway</a></li>
+				<li><span class="field">see:</span> <a href="../../DB/DB_TableDataGateway.html">DB_TableDataGateway</a></li>
 			</ul>
 		<p class="notes">
 			Located in <a class="field" href="_example---Model---Blog.php.html">/example/Model/Blog.php</a> (line <span class="field"><a href="../../__filesource/fsource_Example_Model_exampleModelBlog.php.html#a22">22</a></span>)
 		</p>
 		
 				
-		<pre><a href="../../Class/Class_TableDataGateway.html">Class_TableDataGateway</a>
+		<pre><a href="../../DB/DB_TableDataGateway.html">DB_TableDataGateway</a>
    |
    --Model_Blog</pre>
 	
@@ -122,8 +123,8 @@
 			<hr class="separator" />
 		<div class="notes">Redefinition of:</div>
 		<dl>
-			<dt><a href="../../Class/Class_TableDataGateway.html#var$autoLink">Class_TableDataGateway::$autoLink</a></dt>
-						<dd>是否在执行数据库中自动执行关联操作  仅在select和del方法中有效</dd>
+			<dt><a href="../../DB/DB_TableDataGateway.html#var$autoLink">DB_TableDataGateway::$autoLink</a></dt>
+						<dd>是否在执行数据库中自动执行关联操作</dd>
 					</dl>
 		
 		
@@ -147,7 +148,7 @@
 			<hr class="separator" />
 		<div class="notes">Redefinition of:</div>
 		<dl>
-			<dt><a href="../../Class/Class_TableDataGateway.html#var$belongsTo">Class_TableDataGateway::$belongsTo</a></dt>
+			<dt><a href="../../DB/DB_TableDataGateway.html#var$belongsTo">DB_TableDataGateway::$belongsTo</a></dt>
 						<dd>从属关联</dd>
 					</dl>
 		
@@ -162,7 +163,7 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$dbParams</span>
-			 = <span class="var-default">array(<br />		'dbServer' 	=&gt; 'localhost',<br />		'dbPort' 	=&gt; '3306',<br />		'dbName' 	=&gt; 'test2',<br />		'dbUser' 	=&gt; 'root',<br />		'dbPassword'=&gt; '',<br />		'dbType' 	=&gt; 'Mysqli'<br />	)</span>			(line <span class="line-number"><a href="../../__filesource/fsource_Example_Model_exampleModelBlog.php.html#a34">34</a></span>)
+			 = <span class="var-default">array(<br />		'dbServer' 	=&gt; 'localhost',<br />		'dbPort' 	=&gt; '3306',<br />		'dbName' 	=&gt; 'test2',<br />		'dbUser' 	=&gt; 'root',<br />		'dbPassword'=&gt; '',<br />		'dbType' 	=&gt; 'PDO'<br />	)</span>			(line <span class="line-number"><a href="../../__filesource/fsource_Example_Model_exampleModelBlog.php.html#a34">34</a></span>)
 		</span>
 	</div>
 
@@ -172,7 +173,7 @@
 			<hr class="separator" />
 		<div class="notes">Redefinition of:</div>
 		<dl>
-			<dt><a href="../../Class/Class_TableDataGateway.html#var$dbParams">Class_TableDataGateway::$dbParams</a></dt>
+			<dt><a href="../../DB/DB_TableDataGateway.html#var$dbParams">DB_TableDataGateway::$dbParams</a></dt>
 						<dd>数据表所在数据库的连接信息</dd>
 					</dl>
 		
@@ -197,7 +198,7 @@
 			<hr class="separator" />
 		<div class="notes">Redefinition of:</div>
 		<dl>
-			<dt><a href="../../Class/Class_TableDataGateway.html#var$primaryKey">Class_TableDataGateway::$primaryKey</a></dt>
+			<dt><a href="../../DB/DB_TableDataGateway.html#var$primaryKey">DB_TableDataGateway::$primaryKey</a></dt>
 						<dd>主键字段名</dd>
 					</dl>
 		
@@ -222,32 +223,60 @@
 			<hr class="separator" />
 		<div class="notes">Redefinition of:</div>
 		<dl>
-			<dt><a href="../../Class/Class_TableDataGateway.html#var$tableName">Class_TableDataGateway::$tableName</a></dt>
+			<dt><a href="../../DB/DB_TableDataGateway.html#var$tableName">DB_TableDataGateway::$tableName</a></dt>
 						<dd>数据表名</dd>
 					</dl>
 		
 		
 
 </div>
-							<h4>Inherited Variables</h4>
+							<h4>Inherited Variables</h4>
 				<A NAME='inherited_vars'><!-- --></A>
-									<p>Inherited from <span class="classname"><a href="../../Class/Class_TableDataGateway.html">Class_TableDataGateway</a></span></p>
+									<p>Inherited from <span class="classname"><a href="../../DB/DB_TableDataGateway.html">DB_TableDataGateway</a></span></p>
 					<blockquote>
-													<img src="../../media/images/Variable.png" />
+													<img src="../../media/images/PrivateVariable.png" />
 							<span class="var-title">
-								<span class="var-name"><a href="../../Class/Class_TableDataGateway.html#var$hasMany">Class_TableDataGateway::$hasMany</a></span><br>
+								<span class="var-name"><a href="../../DB/DB_TableDataGateway.html#var$db">DB_TableDataGateway::$db</a></span><br>
 							</span>
 													<img src="../../media/images/Variable.png" />
 							<span class="var-title">
-								<span class="var-name"><a href="../../Class/Class_TableDataGateway.html#var$hasOne">Class_TableDataGateway::$hasOne</a></span><br>
+								<span class="var-name"><a href="../../DB/DB_TableDataGateway.html#var$hasMany">DB_TableDataGateway::$hasMany</a></span><br>
 							</span>
 													<img src="../../media/images/Variable.png" />
 							<span class="var-title">
-								<span class="var-name"><a href="../../Class/Class_TableDataGateway.html#var$isCache">Class_TableDataGateway::$isCache</a></span><br>
+								<span class="var-name"><a href="../../DB/DB_TableDataGateway.html#var$hasOne">DB_TableDataGateway::$hasOne</a></span><br>
 							</span>
 													<img src="../../media/images/Variable.png" />
 							<span class="var-title">
-								<span class="var-name"><a href="../../Class/Class_TableDataGateway.html#var$manyToMany">Class_TableDataGateway::$manyToMany</a></span><br>
+								<span class="var-name"><a href="../../DB/DB_TableDataGateway.html#var$isCache">DB_TableDataGateway::$isCache</a></span><br>
+							</span>
+													<img src="../../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../../DB/DB_TableDataGateway.html#var$manyToMany">DB_TableDataGateway::$manyToMany</a></span><br>
+							</span>
+													<img src="../../media/images/PrivateVariable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../../DB/DB_TableDataGateway.html#var$_cacheAnalytics">DB_TableDataGateway::$_cacheAnalytics</a></span><br>
+							</span>
+													<img src="../../media/images/PrivateVariable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../../DB/DB_TableDataGateway.html#var$_field">DB_TableDataGateway::$_field</a></span><br>
+							</span>
+													<img src="../../media/images/PrivateVariable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../../DB/DB_TableDataGateway.html#var$_limit">DB_TableDataGateway::$_limit</a></span><br>
+							</span>
+													<img src="../../media/images/PrivateVariable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../../DB/DB_TableDataGateway.html#var$_order">DB_TableDataGateway::$_order</a></span><br>
+							</span>
+													<img src="../../media/images/PrivateVariable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../../DB/DB_TableDataGateway.html#var$_other">DB_TableDataGateway::$_other</a></span><br>
+							</span>
+													<img src="../../media/images/PrivateVariable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../../DB/DB_TableDataGateway.html#var$_where">DB_TableDataGateway::$_where</a></span><br>
 							</span>
 											</blockquote> 
 										
@@ -268,56 +297,58 @@
 							<h4>Inherited Methods</h4>
 				<a name='inherited_methods'><!-- --></a>	
 									<!-- =========== Summary =========== -->
-					<p>Inherited From <span class="classname"><a href="../../Class/Class_TableDataGateway.html">Class_TableDataGateway</a></span></p>
+					<p>Inherited From <span class="classname"><a href="../../DB/DB_TableDataGateway.html">DB_TableDataGateway</a></span></p>
 					<blockquote>
 													<img src="../../media/images/Constructor.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#method__construct">Class_TableDataGateway::__construct()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#method__construct">DB_TableDataGateway::__construct()</a></span><br>
+													<img src="../../media/images/PrivateMethod.png" alt=" "/>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#methodclear">DB_TableDataGateway::clear()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#methoddel">Class_TableDataGateway::del()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#methoddel">DB_TableDataGateway::del()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#methodfield">Class_TableDataGateway::field()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#methodfield">DB_TableDataGateway::field()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#methodgetSubSql">Class_TableDataGateway::getSubSql()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#methodgetSubSql">DB_TableDataGateway::getSubSql()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#methodinsert">Class_TableDataGateway::insert()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#methodinsert">DB_TableDataGateway::insert()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#methodlimit">Class_TableDataGateway::limit()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#methodlimit">DB_TableDataGateway::limit()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#methodorder">Class_TableDataGateway::order()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#methodorder">DB_TableDataGateway::order()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#methodother">Class_TableDataGateway::other()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#methodother">DB_TableDataGateway::other()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#methodselect">Class_TableDataGateway::select()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#methodselect">DB_TableDataGateway::select()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#methodselectSQL">Class_TableDataGateway::selectSQL()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#methodselectSQL">DB_TableDataGateway::selectSQL()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#methodsetDB">Class_TableDataGateway::setDB()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#methodsetDB">DB_TableDataGateway::setDB()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#methodsqlEncode">Class_TableDataGateway::sqlEncode()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#methodsqlEncode">DB_TableDataGateway::sqlEncode()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#methodupdate">Class_TableDataGateway::update()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#methodupdate">DB_TableDataGateway::update()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#methodwhere">Class_TableDataGateway::where()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#methodwhere">DB_TableDataGateway::where()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#method_afterDelete">Class_TableDataGateway::_afterDelete()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#method_afterDelete">DB_TableDataGateway::_afterDelete()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#method_afterInsert">Class_TableDataGateway::_afterInsert()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#method_afterInsert">DB_TableDataGateway::_afterInsert()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#method_afterUpdate">Class_TableDataGateway::_afterUpdate()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#method_afterUpdate">DB_TableDataGateway::_afterUpdate()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#method_beforeDelete">Class_TableDataGateway::_beforeDelete()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#method_beforeDelete">DB_TableDataGateway::_beforeDelete()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#method_beforeInsert">Class_TableDataGateway::_beforeInsert()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#method_beforeInsert">DB_TableDataGateway::_beforeInsert()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#method_beforeUpdate">Class_TableDataGateway::_beforeUpdate()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#method_beforeUpdate">DB_TableDataGateway::_beforeUpdate()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#method_delLinkData">Class_TableDataGateway::_delLinkData()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#method_delLinkData">DB_TableDataGateway::_delLinkData()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#method_getLinkData">Class_TableDataGateway::_getLinkData()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#method_getLinkData">DB_TableDataGateway::_getLinkData()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#method_insertLinkData">Class_TableDataGateway::_insertLinkData()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#method_insertLinkData">DB_TableDataGateway::_insertLinkData()</a></span><br>
 													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../Class/Class_TableDataGateway.html#method_updateLinkData">Class_TableDataGateway::_updateLinkData()</a></span><br>
+							<span class="method-name"><a href="../../DB/DB_TableDataGateway.html#method_updateLinkData">DB_TableDataGateway::_updateLinkData()</a></span><br>
 											</blockquote>
 										
 		</div>
@@ -325,7 +356,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Tue, 05 Jan 2010 08:25:33 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Tue, 19 Jan 2010 10:11:53 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
 	</p>
 	</div></body>
-</html>
+</html>

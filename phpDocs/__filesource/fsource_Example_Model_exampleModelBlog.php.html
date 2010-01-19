@@ -8,7 +8,7 @@
 			<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
 		</head>
 		<body>
-						<h1>Source for file Blog.php</h1>
+						<h1>Source for file Blog.php</h1>
 <p>Documentation is available at <a href="../Example/Model/_example---Model---Blog.php.html">Blog.php</a></p>
 <div class="src-code">
 <div class="src-code"><ol><li><div class="src-line"><a name="a1"></a><span class="src-php">&lt;?php</span></div></li>
@@ -18,7 +18,7 @@
 <li><div class="src-line"><a name="a5"></a><span class="src-doc">&nbsp;*/</span></div></li>
 <li><div class="src-line"><a name="a6"></a>&nbsp;</div></li>
 <li><div class="src-line"><a name="a7"></a><span class="src-comm">//引入&nbsp;model&nbsp;基类</span></div></li>
-<li><div class="src-line"><a name="a8"></a><span class="src-id"><a href="../Core/E_FW.html">E_FW</a></span><span class="src-sym">::</span><a href="../Core/E_FW.html#methodload_File">load_File</a><span class="src-sym">(</span><span class="src-str">'class_TableDataGateway'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a8"></a><span class="src-id"><a href="../Core/E_FW.html">E_FW</a></span><span class="src-sym">::</span><a href="../Core/E_FW.html#methodload_File">load_File</a><span class="src-sym">(</span><span class="src-str">'db_TableDataGateway'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line"><a name="a9"></a>&nbsp;</div></li>
 <li><div class="src-line"><a name="a10"></a><span class="src-doc">/**</span></div></li>
 <li><div class="src-line"><a name="a11"></a><span class="src-doc">&nbsp;*&nbsp;定义&nbsp;blog&nbsp;表的&nbsp;model&nbsp;类</span></div></li>
@@ -30,9 +30,9 @@
 <li><div class="src-line"><a name="a17"></a><span class="src-doc">&nbsp;*</span></div></li>
 <li><div class="src-line"><a name="a18"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@package</span><span class="src-doc">&nbsp;Example</span></div></li>
 <li><div class="src-line"><a name="a19"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@subpackage</span><span class="src-doc">&nbsp;Model</span></div></li>
-<li><div class="src-line"><a name="a20"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@see</span><span class="src-doc">&nbsp;Class_TableDataGateway</span></div></li>
+<li><div class="src-line"><a name="a20"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@see</span><span class="src-doc">&nbsp;DB_TableDataGateway</span></div></li>
 <li><div class="src-line"><a name="a21"></a><span class="src-doc">&nbsp;*/</span></div></li>
-<li><div class="src-line"><a name="a22"></a><span class="src-key">class&nbsp;</span><a href="../Example/Model/Model_Blog.html">Model_Blog</a>&nbsp;<span class="src-key">extends&nbsp;</span><a href="../Class/Class_TableDataGateway.html">Class_TableDataGateway</a><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a22"></a><span class="src-key">class&nbsp;</span><a href="../Example/Model/Model_Blog.html">Model_Blog</a>&nbsp;<span class="src-key">extends&nbsp;</span><a href="../DB/DB_TableDataGateway.html">DB_TableDataGateway</a><span class="src-sym">{</span></div></li>
 <li><div class="src-line"><a name="a23"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">var&nbsp;</span><a href="../Example/Model/Model_Blog.html#var$tableName">$tableName</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="src-str">'e_fw_blog'</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line"><a name="a24"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">var&nbsp;</span><a href="../Example/Model/Model_Blog.html#var$primaryKey">$primaryKey</a>&nbsp;=&nbsp;<span class="src-str">'id'</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line"><a name="a25"></a>&nbsp;</div></li>
@@ -50,7 +50,7 @@
 <li><div class="src-line"><a name="a37"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'dbName'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">'test2'</span><span class="src-sym">,</span></div></li>
 <li><div class="src-line"><a name="a38"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'dbUser'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">'root'</span><span class="src-sym">,</span></div></li>
 <li><div class="src-line"><a name="a39"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'dbPassword'</span>=&gt;&nbsp;<span class="src-str">''</span><span class="src-sym">,</span></div></li>
-<li><div class="src-line"><a name="a40"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'dbType'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">'Mysqli'</span></div></li>
+<li><div class="src-line"><a name="a40"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'dbType'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">'PDO'</span></div></li>
 <li><div class="src-line"><a name="a41"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line"><a name="a42"></a><span class="src-sym">}</span></div></li>
 <li><div class="src-line"><a name="a43"></a>&nbsp;</div></li>
@@ -69,9 +69,9 @@
 <li><div class="src-line"><a name="a56"></a><span class="src-doc">&nbsp;*</span></div></li>
 <li><div class="src-line"><a name="a57"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@package</span><span class="src-doc">&nbsp;Example</span></div></li>
 <li><div class="src-line"><a name="a58"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@subpackage</span><span class="src-doc">&nbsp;Model</span></div></li>
-<li><div class="src-line"><a name="a59"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@see</span><span class="src-doc">&nbsp;Class_TableDataGateway</span></div></li>
+<li><div class="src-line"><a name="a59"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@see</span><span class="src-doc">&nbsp;DB_TableDataGateway</span></div></li>
 <li><div class="src-line"><a name="a60"></a><span class="src-doc">&nbsp;*/</span></div></li>
-<li><div class="src-line"><a name="a61"></a><span class="src-key">class&nbsp;</span><a href="../Example/Model/Model_Category_ForBlog.html">Model_Category_ForBlog</a>&nbsp;<span class="src-key">extends&nbsp;</span><a href="../Class/Class_TableDataGateway.html">Class_TableDataGateway</a><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a61"></a><span class="src-key">class&nbsp;</span><a href="../Example/Model/Model_Category_ForBlog.html">Model_Category_ForBlog</a>&nbsp;<span class="src-key">extends&nbsp;</span><a href="../DB/DB_TableDataGateway.html">DB_TableDataGateway</a><span class="src-sym">{</span></div></li>
 <li><div class="src-line"><a name="a62"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">var&nbsp;</span><a href="../Example/Model/Model_Category_ForBlog.html#var$tableName">$tableName</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="src-str">'e_fw_category'</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line"><a name="a63"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">var&nbsp;</span><a href="../Example/Model/Model_Category_ForBlog.html#var$primaryKey">$primaryKey</a>&nbsp;=&nbsp;<span class="src-str">'id'</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line"><a name="a64"></a>&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
@@ -90,7 +90,7 @@
 </ol></div>
 </div>
 	<p class="notes" id="credit">
-		Documentation generated on Tue, 05 Jan 2010 08:25:33 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Tue, 19 Jan 2010 10:11:53 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
 	</p>
 	</body>
-</html>
+</html>
