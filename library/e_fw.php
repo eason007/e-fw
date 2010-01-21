@@ -2,19 +2,17 @@
 /**
  * 框架引导文件
  * 
- * <pre>
- * 当使用框架时，只需引用本文件即可，并调用静态 E_FW 类的 run 方法即可。
  * 当引用本文件时，会进行运行环境的初始化工作。
- * </pre>
  * 
  * @package Core
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.5.20100118
+ * @version 1.0.6.20100122
  */
 
 /**
  * 标记文件启动时间
+ * @global int $_load_time
  */
 global $_load_time;
 $_load_time = microtime();
@@ -25,34 +23,37 @@ define('DS', DIRECTORY_SEPARATOR);
 define('E_FW_VAR', '_E_FW_CORE_');
 
 /**
- * 初始化框架
+ * 框架默认设置
+ * @global array $GLOBALS
  */
 $GLOBALS[E_FW_VAR] = array(
-    'VERSION' => '1.0.3.20091228',							//框架版本号
-	'DSN' => array(),										//数据库连接配置信息。dbServer/dbPort/dbName/dbUser/dbPassword/dbType
+    'VERSION' 	=> '1.0.6.20100122',					//框架版本号
+	'DSN' 		=> array(),								//数据库连接配置信息。dbServer/dbPort/dbName/dbUser/dbPassword/dbType
 	'FILE_PATH' => array(),
-	'LOAD_FILE_NAME' => array(),
-	'SEARCH_FILE_NAME' => array(),
-	'CONTROLLER' => array(
-		'controllerAccessor' => 'controller',				//控制器键名
-		'defaultController' => 'controller_default',		//默认控制器名称
-		'actionAccessor' => 'action',						//方法键名
-		'defaultaction' => 'index',							//默认方法名称
-		'actionMethodPrefix' => 'action',					//方法名前缀
-		'actionMethodSuffix' => ''							//方法名后缀
+	'LOAD_FILE_NAME' 	=> array(),
+	'SEARCH_FILE_NAME' 	=> array(),
+	'CONTROLLER'=> array(
+		'controllerAccessor'=> 'controller',			//控制器键名
+		'defaultController' => 'controller_default',	//默认控制器名称
+		'actionAccessor' 	=> 'action',				//方法键名
+		'defaultAction' 	=> 'index',					//默认方法名称
+		'actionMethodPrefix'=> 'action',				//方法名前缀
+		'actionMethodSuffix'=> ''						//方法名后缀
 	),
 	'CLASS_OBJ' => array(),
-	'VIEW' => array(),										//模版类配置信息。class/templateDir
-	'TIME_FORMAT' => 'zh_CN',								//默认时间格式
-	'TIME_ZONE' => 'Asia/Shanghai',							//默认时区
-	'CHARSET'	=> 'utf-8',									//默认页面编码
-	'URL_MODEL' => 0										//URL模式
+	'VIEW' 		=> array(),								//模版类配置信息
+	'TIME_FORMAT' => 'zh_CN',							//默认时间格式
+	'TIME_ZONE' => 'Asia/Shanghai',						//默认时区
+	'CHARSET'	=> 'utf-8',								//默认页面编码
+	'URL_MODEL' => 1									//路由模式，0=URL Rewrite，1=PATHINFO
 );
 
 $GLOBALS[E_FW_VAR]['FILE_PATH'][] = dirname(__FILE__).DS;
 
 /**
- * Enter description here...
+ * E_FW 类
+ * 
+ * 当使用框架时，只需引用本文件即可，并调用静态 E_FW 类的 run 方法即可。
  *
  * @package Core
  */
@@ -61,9 +62,11 @@ class E_FW {
 	 * 启动框架
 	 * 
 	 * <pre>
-	 * 目前只支持 url_rewrite 使用 GET 方法。
-	 * 如：
-	 * ?controller=abc&action=123
+	 * 分析URL
+	 * 如果是 url rewrite 模式，则从 $_GET 中获取，规则为
+	 * ?[controllerAccessor]=xxx&[actionAccessor]=yyy&zzz=111...
+	 * 如果是pathinfo 模式，规则为
+	 * /[controllerAccessor]/[actionAccessor]/key1/value1/key2/value2...
 	 * </pre>
 	 * 
 	 * @return void
@@ -91,29 +94,24 @@ class E_FW {
 				break;
 
 			case 1:
-				$parts = explode('/', substr($_SERVER['REQUEST_URI'], 1));
+				if (isset($_SERVER['PATH_INFO'])){
+					$parts = explode('/', substr($_SERVER['PATH_INFO'], 1));
+					print_r($parts);
+	
+					if (isset($parts[0])) {
+						$controllerName = $parts[0];
+					}
+					if (isset($parts[1])) {
+						$actionName = $parts[1];
+					}
 
-				$controllerName = isset($parts[0]) ? $parts[0] : '';
-				$actionName = isset($parts[1]) ? $parts[1] : '';
-
-				$style = E_FW::get_Config('URL_ParameterSPLIT');
-				if ($style == '/') {
 					for ($i = 2; $i < count($parts); $i += 2) {
 						if (isset($parts[$i + 1])) {
 							$_GET[$parts[$i]] = $parts[$i + 1];
 						}
 					}
 				}
-				else {
-					for ($i = 2; $i < count($parts); $i++) {
-						$p = $parts[$i];
-						$arr = explode($style, $p);
-						if (isset($arr[1])) {
-							$_GET[$arr[0]] = $arr[1];
-						}
-					}
-				}
-
+				
 				break;
 				
 			default:
@@ -124,7 +122,7 @@ class E_FW {
 			$controllerName = E_FW::get_Config('CONTROLLER/defaultController');
 		}
 		if (!isset($actionName)) {
-			$actionName = E_FW::get_Config('CONTROLLER/defaultaction');
+			$actionName = E_FW::get_Config('CONTROLLER/defaultAction');
 		}
 
 		E_FW::execute_Action($controllerName, $actionName);
@@ -268,7 +266,9 @@ class E_FW {
 	 * 并将该文件内的内容，追加到全局变量中。
 	 * 因此该文件内容必须为数组形式。
 	 * 如传入参数为数组时，则追加或覆盖全局变量
-	 * 如：
+	 * </pre>
+	 * 
+	 * <code>
 	 * set_Config('config/global.php');
 	 * set_Config(
 	 * 		array(
@@ -282,7 +282,7 @@ class E_FW {
 	 * 			'DSN/dbServer' => '192.168.0.10'
 	 * 		)
 	 * );
-	 * </pre>
+	 * </code>
 	 *
 	 * @param string/array $params
 	 * @return void
@@ -324,7 +324,9 @@ class E_FW {
 	 * <pre>
 	 * 可以获取所有的全局变量，或部分变量
 	 * 根据传入的数据路径决定，如在多层结点下，利用 / 号分隔。
-	 * 如全局变量是：
+	 * </pre>
+	 * 
+	 * <code>
 	 * array(
 	 * 		'DSN' => array(
 	 * 			'name' => 'a',
@@ -332,11 +334,11 @@ class E_FW {
 	 * 		),
 	 * 		'CACHE' => true
 	 * )
-	 * 则：
+	 * 
 	 * get_Config();			//获取所有
 	 * get_Config('DSN');		//仅获取 DSN 结点
 	 * get_Config('DSN/name');	//仅获取 DSN 结点下的 name
-	 * </pre>
+	 * </code>
 	 *
 	 * @param string $path
 	 * @return mixed
@@ -386,10 +388,12 @@ class E_FW {
 	 * 当检测到存在该文件时，返回正确的路径地址
 	 * 文件后缀必须为 .php
 	 * 在 linux 下，区分路径大小写
-	 * 如：
+	 * </pre>
+	 * 
+	 * <code>
 	 * get_FilePath('class_cache');		//返回class/cache.php
 	 * get_FilePath('db_Mysql5.php');	//返回db/Mysql5.php
-	 * </pre>
+	 * </code>
 	 *
 	 * @param string $filename
 	 * @return string
