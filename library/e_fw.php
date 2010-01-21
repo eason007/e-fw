@@ -42,7 +42,7 @@ $GLOBALS[E_FW_VAR] = array(
 	),
 	'CLASS_OBJ' => array(),
 	'VIEW' 		=> array(),								//模版类配置信息
-	'TIME_FORMAT' => 'zh_CN',							//默认时间格式
+	'TIME_FORMAT' 	=> 'zh_CN',							//默认时间格式
 	'TIME_ZONE' => 'Asia/Shanghai',						//默认时区
 	'CHARSET'	=> 'utf-8',								//默认页面编码
 	'URL_MODEL' => 1									//路由模式，0=URL Rewrite，1=PATHINFO
