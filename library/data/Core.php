@@ -193,7 +193,7 @@ class Data_Core {
 	}
 	
 	/**
-	 * @access prviate
+	 * @access private
 	 * @return void
 	 */
 	private function _filter () {

@@ -6,7 +6,7 @@
  */
 
 /**
- * Include the {@link shared.make_timestamp.php} plugin
+ * Include the @link shared.make_timestamp.php plugin
  */
 require_once $smarty->_get_plugin_filepath('shared', 'make_timestamp');
 /**
