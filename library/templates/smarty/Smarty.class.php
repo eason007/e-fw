@@ -26,7 +26,7 @@
  * @copyright 2001-2005 New Digital Group, Inc.
  * @author Monte Ohrt <monte at ohrt dot com>
  * @author Andrei Zmievski <andrei@php.net>
- * @package Smarty
+ * @subpackage Smarty
  * @version 2.6.26
  */
 
@@ -59,7 +59,7 @@ define('SMARTY_PHP_REMOVE',     2);
 define('SMARTY_PHP_ALLOW',      3);
 
 /**
- * @package Smarty
+ * @subpackage Smarty
  */
 class Smarty
 {

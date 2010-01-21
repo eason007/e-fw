@@ -374,7 +374,7 @@ class E_FW {
 	 * @return object
 	 */
 	public function get_view() {
-		return E_FW::load_Class(E_FW::get_Config('VIEW/class'));
+		return E_FW::load_Class('templates_'.E_FW::get_Config('VIEW/class').'_Plus');
 	}
 
 	

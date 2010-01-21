@@ -1,6 +1,7 @@
 <?php
 /**
- * @package PHPLib
+ * @package Templates
+ * @subpackage PHPLib
  */
 
 /*
@@ -65,7 +66,8 @@
 /**
  * Enter description here...
  *
- * @package PHPLib
+ * @package Templates
+ * @subpackage PHPLib
  */
 class Template
 {

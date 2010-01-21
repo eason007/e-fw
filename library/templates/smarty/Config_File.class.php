@@ -26,14 +26,14 @@
  * @copyright Copyright: 2001-2005 New Digital Group, Inc.
  * @author Andrei Zmievski <andrei@php.net>
  * @access public
- * @package Smarty
+ * @subpackage Smarty
  */
 
 /* $Id: Config_File.class.php 3149 2009-05-23 20:59:25Z monte.ohrt $ */
 
 /**
  * Config file reading class
- * @package Smarty
+ * @subpackage Smarty
  */
 class Config_File {
     /**#@+
