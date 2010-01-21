@@ -40,7 +40,7 @@ class Cache_OutputAnalytics {
 	 * 查找标记为 $cacheID 的缓存是否存在，如果存在，则直接输出缓存，并返回 true
 	 * 如果不存在，则开始记录缓存，并返回 false
 	 *
-	 * @param string $cacheID cache key
+	 * @param string $cacheID
 	 * @return bool
 	 * @access public
 	 */
@@ -66,7 +66,7 @@ class Cache_OutputAnalytics {
 	/**
 	 * 缓存终止
 	 * 
-	 * 缓存记录终止，并且保存缓存
+	 * 停止缓存记录，并且保存缓存
 	 * 如果 $options[flash] = true,则马上输出缓存
 	 *  $options[time] = 缓存时间
 	 *
@@ -100,6 +100,9 @@ class Cache_OutputAnalytics {
 	}
 	
 	/**
+	 * 删除缓存
+	 * 
+	 * 根据传入的 cacheID，删除缓存
 	 * 
 	 * @param string $cacheID
 	 * @return void

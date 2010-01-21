@@ -16,6 +16,12 @@
  */
  
 class Cache_TableAnalytics {
+	/**
+	 * 
+	 * @var object
+	 * @see Cache_Core
+	 * @access private
+	 */
 	private $_cache = null;
 	
 	function __construct() {
