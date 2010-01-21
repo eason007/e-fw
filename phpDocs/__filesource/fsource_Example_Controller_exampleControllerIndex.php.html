@@ -43,9 +43,9 @@
 <li><div class="src-line"><a name="a30"></a><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span></div></li>
 <li><div class="src-line"><a name="a31"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">function&nbsp;</span><a href="../Example/Controller/Controller_Index.html#methodactionIndex">actionIndex</a><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">{</span></div></li>
 <li><div class="src-line"><a name="a32"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$tpl&nbsp;</span>=&nbsp;<span class="src-id"><a href="../Core/E_FW.html">E_FW</a></span><span class="src-sym">::</span><a href="../Core/E_FW.html#methodget_view">get_view</a><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
-<li><div class="src-line"><a name="a33"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.php.net/var_dump">var_dump</a><span class="src-sym">(</span><span class="src-var">$tpl</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a33"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//var_dump($tpl);</span></div></li>
 <li><div class="src-line"><a name="a34"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
-<li><div class="src-line"><a name="a35"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$validator&nbsp;</span>=&nbsp;<span class="src-id"><a href="../Core/E_FW.html">E_FW</a></span><span class="src-sym">::</span><a href="../Core/E_FW.html#methodload_Class">load_Class</a><span class="src-sym">(</span><span class="src-str">'Data_Validator'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a35"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$validator&nbsp;</span>=&nbsp;<span class="src-id"><a href="../Core/E_FW.html">E_FW</a></span><span class="src-sym">::</span><a href="../Core/E_FW.html#methodload_Class">load_Class</a><span class="src-sym">(</span><span class="src-str">'Data_Core'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line"><a name="a36"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$f&nbsp;</span>=&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
 <li><div class="src-line"><a name="a37"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'title'&nbsp;</span>=&gt;&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
 <li><div class="src-line"><a name="a38"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'rule'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">'Alnum'</span></div></li>
@@ -95,7 +95,7 @@
 <li><div class="src-line"><a name="a82"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'postTime'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'12345678900a'</span></div></li>
 <li><div class="src-line"><a name="a83"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line"><a name="a84"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$validator</span><span class="src-sym">-&gt;</span><span class="src-id">set</span><span class="src-sym">(</span><span class="src-var">$f</span><span class="src-sym">,&nbsp;</span><span class="src-var">$v</span><span class="src-sym">,&nbsp;</span><span class="src-var">$d</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
-<li><div class="src-line"><a name="a85"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.php.net/var_dump">var_dump</a><span class="src-sym">(</span><span class="src-var">$validator</span><span class="src-sym">-&gt;</span><span class="src-id">filter</span><span class="src-sym">(</span><span class="src-sym">))</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a85"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$validator</span><span class="src-sym">-&gt;</span><span class="src-id">filter</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line"><a name="a86"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.php.net/var_dump">var_dump</a><span class="src-sym">(</span><span class="src-var">$d</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
 <li><div class="src-line"><a name="a87"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
 <li><div class="src-line"><a name="a88"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$output&nbsp;</span>=&nbsp;<span class="src-id"><a href="../Core/E_FW.html">E_FW</a></span><span class="src-sym">::</span><a href="../Core/E_FW.html#methodload_Class">load_Class</a><span class="src-sym">(</span><span class="src-str">'Cache_OutputAnalytics'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
@@ -156,7 +156,7 @@
 </ol></div>
 </div>
 	<p class="notes" id="credit">
-		Documentation generated on Thu, 21 Jan 2010 06:45:54 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+		Documentation generated on Thu, 21 Jan 2010 13:37:36 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
 	</p>
 	</body>
 </html>
