@@ -12,27 +12,13 @@
  * @package Cache
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 2.0.2.20100118
+ * @version 2.0.3.20100122
  */
 class Cache_Core {
 	/**
 	 * 缓存配置
 	 * 
 	 * <pre>
-	 * 格式：array(
-	 * 		'File' => array (
-	 * 			'dir' => '',
-	 * 			'hashFile' => '',
-	 * 			'ext' => ''
-	 * 		),
-	 * 		'Memcache' => array (
-	 * 			array(
-	 *	 			'host' => '',
-	 * 				'port' => ''
-	 * 			)
-	 * 		)
-	 * )
-	 * 
 	 * [File][dir]
 	 * 缓存目录
 	 * 
@@ -54,6 +40,22 @@ class Cache_Core {
 	 * 
 	 * Memcache支持多台服务器
 	 * </pre>
+	 * 
+	 * <code>
+	 * array(
+	 * 		'File' => array (
+	 * 			'dir' => '',
+	 * 			'hashFile' => '',
+	 * 			'ext' => ''
+	 * 		),
+	 * 		'Memcache' => array (
+	 * 			array(
+	 *	 			'host' => '',
+	 * 				'port' => ''
+	 * 			)
+	 * 		)
+	 * )
+	 * </code>
 	 *
 	 * @var array
 	 * @access public
@@ -134,14 +136,16 @@ class Cache_Core {
 	 * <pre>
 	 * 可以在实例化缓存类时，同时把设置参数以数组形式传递入内
 	 * 可以对类的属性进行全部、部分或不设置
-	 * 如：
+	 * </pre>
+	 * 
+	 * <code>
 	 * new Class_Cache();			//不设置
 	 * new Class_Cache(array(		//只设置两个类属性
 	 * 			'type' => 'file',
 	 * 			'expireTime' => 86400
 	 * 		)
 	 * );
-	 * </pre>
+	 * </code>
 	 *
 	 * @param array $Params
 	 */
@@ -256,10 +260,7 @@ class Cache_Core {
 				$cacheFile = $this->_getHashPath($cacheID, false);
 				@file_put_contents($cacheFile, $cacheData);
 				
-				if ($cacheTime == 0) {
-					$cacheTime = $this->$params['expireTime'];
-				}
-				@touch($cacheFile, time() + $cacheTime);
+				@touch($cacheFile, time() + $params['expireTime']);
 				
 				break;
 				
