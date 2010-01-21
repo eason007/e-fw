@@ -49,8 +49,18 @@ class Data_Validator {
 		'Chinese'	=> '/[^\x{4e00}-\x{9fa5}]/u'
 	);
 	
+	/**
+	 * 
+	 * @var array
+	 * @access private
+	 */
 	private $_filterFields = null;
 	
+	/**
+	 * 
+	 * @var array
+	 * @access private
+	 */
 	private $_validatorFields = null;
 	
 	/**
@@ -69,6 +79,11 @@ class Data_Validator {
 		'breakChain'=> true
 	);
 	
+	/**
+	 * 
+	 * @var array
+	 * @access private
+	 */
 	private $_data = null;
 	
 	/**
@@ -136,6 +151,7 @@ class Data_Validator {
 	 * )
 	 * </pre>
 	 * 
+	 * @access public
 	 * @param array $filters
 	 * @param array $validators
 	 * @param array $data
@@ -161,6 +177,7 @@ class Data_Validator {
 	 * 
 	 * 如果参数为空，则返回过滤后的整个数据块，否则返回指定数据内容
 	 * 
+	 * @access public
 	 * @param string $fieldName
 	 * @return mixed
 	 */
@@ -175,6 +192,10 @@ class Data_Validator {
 		}
 	}
 	
+	/**
+	 * @access prviate
+	 * @return void
+	 */
 	private function _filter () {
 		foreach ($this->_data as $key => $value) {
 			if (!array_key_exists($key, $this->_filterFields)){
@@ -199,6 +220,7 @@ class Data_Validator {
 	 * 
 	 * @param string $fieldName
 	 * @return bool
+	 * @access public
 	 */
 	public function validate ($fieldName = '') {
 		$this->_validate();
@@ -211,6 +233,10 @@ class Data_Validator {
 		}
 	}
 	
+	/**
+	 * @access private
+	 * @return void
+	 */
 	private function _validate () {
 		foreach ($this->_data as $key => $value) {
 			if (!array_key_exists($key, $this->_validatorFields)){

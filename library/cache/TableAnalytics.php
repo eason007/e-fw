@@ -25,6 +25,7 @@ class Cache_TableAnalytics {
 	/**
 	 * 检查缓存是否存在
 	 *
+	 * @access public
 	 * @param string $tableName 当前打开的数据表名
 	 * @param string $querySql 完整的SQL查询语句
 	 * @return mixed
@@ -46,6 +47,7 @@ class Cache_TableAnalytics {
 	 * 缓存的键名为 md5($querySql) 的密文，同时将会记录到该数据表名下
 	 * 以便有其他 update 操作后，能将与该表有关的所有缓存清理
 	 *
+	 * @access public
 	 * @param string $tableName 当前打开的数据表名
 	 * @param string $querySql 完整的SQL查询语句
 	 * @return mixed $queryData 被缓存的数据
@@ -67,7 +69,9 @@ class Cache_TableAnalytics {
 	 * 
 	 * 清理该数据表名下所有缓存
 	 *
+	 * @access public
 	 * @param string $tableName 当前打开的数据表名
+	 * @return void
 	 */
 	public function delCache ($tableName) {
 		$tableCache = $this->_cache->getCache($tableName);

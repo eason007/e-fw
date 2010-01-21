@@ -56,6 +56,7 @@ class Cache_Core {
 	 * </pre>
 	 *
 	 * @var array
+	 * @access public
 	 */
 	public $cacheParams = array(
 		'File' 		=> array(
@@ -80,6 +81,7 @@ class Cache_Core {
 	 * </pre>
 	 * 
 	 * @var string
+	 * @access public
 	 */
 	public $type = null;
 	
@@ -89,6 +91,7 @@ class Cache_Core {
 	 * 以秒为单位
 	 *
 	 * @var int
+	 * @access public
 	 */
 	public $expireTime = 3600;
 	
@@ -96,6 +99,7 @@ class Cache_Core {
 	 * 是否将缓存数据序列化后保存
 	 *
 	 * @var bool
+	 * @access public
 	 */
 	public $isSerialize = false;
 	
@@ -108,6 +112,7 @@ class Cache_Core {
 	 * </pre>
 	 *
 	 * @var bool
+	 * @access public
 	 */
 	public $isDebug = false;
 	
@@ -117,6 +122,7 @@ class Cache_Core {
 	 * 主要用于程序在单台服务器上能共享
 	 * 
 	 * @var string
+	 * @access public
 	 */
 	public $prefix = '';
 	
@@ -168,6 +174,7 @@ class Cache_Core {
 	 * 如数据存在但过期，或者不存在，或者 isDebug 属性为 true，则返回 false
 	 * </pre>
 	 *
+	 * @access public
 	 * @param string $cacheID 缓存标记名
 	 * @param bool $unserialize 是否反序列化
 	 * @return mixed
@@ -224,6 +231,7 @@ class Cache_Core {
 	 * serialize = 是否序列化数据再保存
 	 * </pre>
 	 *
+	 * @access public
 	 * @param string $cacheID 缓存标记名
 	 * @param mixed $cacheData 缓存内容
 	 * @param array $parSet 
@@ -267,7 +275,9 @@ class Cache_Core {
 	/**
 	 * 删除缓存
 	 *
+	 * @access public
 	 * @param string $cacheID 缓存标记名
+	 * @return void
 	 */
 	public function delCache ($cacheID) {
 		$cacheID = $this->prefix.$cacheID;
@@ -299,6 +309,7 @@ class Cache_Core {
 	 * $cacheDir./a/D/4/s/aD4stsdfsd3Dtsfg6sdfsid1dn3iidji.$cacheFileExt
 	 * </pre>
 	 *
+	 * @access private
 	 * @param string $cacheID 缓存标记名
 	 * @param bool $isRead 是否只读，如为true，则不自动创建目录
 	 * @return string
