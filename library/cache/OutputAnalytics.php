@@ -11,11 +11,23 @@
  * @package Cache
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.0.20100117
+ * @version 1.0.1.20100121
  */
  
 class Cache_OutputAnalytics {
+	/**
+	 * 
+	 * @var object
+	 * @see Cache_Core
+	 * @access private
+	 */
 	private $_cache = null;
+	
+	/**
+	 * 
+	 * @var string
+	 * @access private
+	 */
 	private $_cacheID = null;
 	
 	function __construct() {
@@ -29,7 +41,8 @@ class Cache_OutputAnalytics {
 	 * 如果不存在，则开始记录缓存，并返回 false
 	 *
 	 * @param string $cacheID cache key
-	 * @return mixed
+	 * @return bool
+	 * @access public
 	 */
 	public function start ($cacheID) {
 		$t = md5(strtoupper($cacheID));
@@ -54,14 +67,17 @@ class Cache_OutputAnalytics {
 	 * 缓存终止
 	 * 
 	 * 缓存记录终止，并且保存缓存
-	 * 如果 $options[flash] = true,则输出缓存
+	 * 如果 $options[flash] = true,则马上输出缓存
+	 *  $options[time] = 缓存时间
 	 *
 	 * @param array $options
 	 * @return void
+	 * @access public
 	 */
 	public function end ($options = array()) {
 		$params = array(
-			'flash'	=> true
+			'flash'	=> true,
+			'time'	=> null
 		);
 		foreach ($options as $key => $value) {
 			$params[$key] = $value;
@@ -70,12 +86,27 @@ class Cache_OutputAnalytics {
 		$data = ob_get_contents();
 		ob_end_clean();
 		
-		$this->_cache->setCache($this->_cacheID, $data);
+		if (is_null($params['time'])){
+			$this->_cache->setCache($this->_cacheID, $data);
+		}
+		else{
+			$this->_cache->setCache($this->_cacheID, $data, array('expireTime' => $params['time']));
+		}
 		$this->_cacheID = null;
 		
 		if ($params['flash']){
 			echo $data;
 		}
+	}
+	
+	/**
+	 * 
+	 * @param string $cacheID
+	 * @return void
+	 * @access public
+	 */
+	public function clear ($cacheID) {
+		$this->_cache->delCache(md5(strtoupper($cacheID)));
 	}
 }
 
