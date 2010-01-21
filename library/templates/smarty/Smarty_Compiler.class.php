@@ -23,6 +23,7 @@
  * @author Andrei Zmievski <andrei@php.net>
  * @version 2.6.26
  * @copyright 2001-2005 New Digital Group, Inc.
+ * @package Templates
  * @subpackage Smarty
  */
 
@@ -30,6 +31,7 @@
 
 /**
  * Template compiling class
+ * @package Templates
  * @subpackage Smarty
  */
 class Smarty_Compiler extends Smarty {

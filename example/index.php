@@ -32,7 +32,7 @@ $Config = array(
 		'dbType' => 'PDO'										//DB类连接类型
 	),
 	'VIEW' => array(
-		'class' 		=> 'smarty_templateClassPlus',			//设置调用的模版类
+		'class' 		=> 'phplib',							//设置调用的模版类
 		'template_dir' 	=> '.'.DS.'res'.DS.'templates',			//设置模版存放目录
 		'compile_dir' 	=> '.'.DS.'res'.DS.'templates_c',		//设置模版缓存目录
 		'left_delimiter'=> '${'									//设置模版左定界符号

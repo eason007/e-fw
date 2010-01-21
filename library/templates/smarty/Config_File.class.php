@@ -26,6 +26,7 @@
  * @copyright Copyright: 2001-2005 New Digital Group, Inc.
  * @author Andrei Zmievski <andrei@php.net>
  * @access public
+ * @package Templates
  * @subpackage Smarty
  */
 
@@ -33,6 +34,7 @@
 
 /**
  * Config file reading class
+ * @package Templates
  * @subpackage Smarty
  */
 class Config_File {

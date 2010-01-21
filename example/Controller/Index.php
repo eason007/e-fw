@@ -29,6 +29,9 @@ class Controller_Index{
 	 *
 	 */
     function actionIndex(){
+    	$tpl = E_FW::get_view();
+    	var_dump($tpl);
+    	
     	$validator = E_FW::load_Class('Data_Validator');
     	$f = array(
     		'title' => array(
