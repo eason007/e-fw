@@ -30,9 +30,9 @@ class Controller_Index{
 	 */
     function actionIndex(){
     	$tpl = E_FW::get_view();
-    	var_dump($tpl);
+    	//var_dump($tpl);
     	
-    	$validator = E_FW::load_Class('Data_Validator');
+    	$validator = E_FW::load_Class('Data_Core');
     	$f = array(
     		'title' => array(
     			'rule' 	=> 'Alnum'
@@ -82,7 +82,7 @@ class Controller_Index{
     		'postTime' => '12345678900a'
     	);
     	$validator->set($f, $v, $d);
-    	var_dump($validator->filter());
+    	$validator->filter();
     	var_dump($d);
     	
     	$output = E_FW::load_Class('Cache_OutputAnalytics');

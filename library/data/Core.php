@@ -16,7 +16,7 @@
  * @version 1.0.0.20100119
  */
  
-class Data_Validator {
+class Data_Core {
 	/**
 	 * 默认的校验种类
 	 * 
