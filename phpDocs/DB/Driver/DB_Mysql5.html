@@ -117,9 +117,9 @@
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
-											<span class="method-result">void</span>
+											<span class="method-result">mixed</span>
 										<a href="#query" title="details" class="method-name">query</a>
-											(<span class="var-type"></span>&nbsp;<span class="var-name">$TSQL</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">''</span>])
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$TSQL</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">''</span>])
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
@@ -153,7 +153,7 @@
 		<span class="var-title">
 			<span class="var-type">object</span>
 			<span class="var-name">$db</span>
-			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a23">23</a></span>)
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a24">24</a></span>)
 		</span>
 	</div>
 
@@ -179,7 +179,7 @@
 		<span class="var-title">
 			<span class="var-type">int</span>
 			<span class="var-name">$rowCount</span>
-			 = <span class="var-default"> 0</span>			(line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a37">37</a></span>)
+			 = <span class="var-default"> 0</span>			(line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a40">40</a></span>)
 		</span>
 	</div>
 
@@ -203,13 +203,13 @@
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$sqlBox</span>
-			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a30">30</a></span>)
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a32">32</a></span>)
 		</span>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Enter description here.</p>
-<p class="description"><p>Enter description here...</p></p>
+<p class="short-description">查询SQL日志</p>
+<p class="description"><p>查询SQL日志</p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -239,7 +239,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Constructor.png" />
-		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a39">39</a></span>)
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a42">42</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -265,7 +265,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Destructor.png" />
-		<span class="method-title">Destructor __destruct</span> (line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a45">45</a></span>)
+		<span class="method-title">Destructor __destruct</span> (line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a48">48</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -286,10 +286,12 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">beginT</span> (line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a96">96</a></span>)
+		<span class="method-title">beginT</span> (line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a128">128</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">启动事务</p>
+<p class="description"><p>启动事务</p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -310,10 +312,12 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">commitT</span> (line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a120">120</a></span>)
+		<span class="method-title">commitT</span> (line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a164">164</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">提交事务</p>
+<p class="description"><p>提交事务</p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -334,10 +338,13 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/PrivateMethod.png" />
-		<span class="method-title">dbConnect</span> (line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a49">49</a></span>)
+		<span class="method-title">dbConnect</span> (line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a60">60</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">连接数据库</p>
+<p class="description"><p>连接数据库
+ 根据 dbType 的设定，调用不同的 driver 连接数据库</p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> private</li>
 			</ul>
@@ -358,28 +365,34 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">query</span> (line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a76">76</a></span>)
+		<span class="method-title">query</span> (line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a102">102</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">操作数据库</p>
+<p class="description"><p>操作数据库
+ <pre> 对于不同的操作，会有不同的返回值
+ $type = 'LastID',则返回 lastinsertId
+ $type = 'RowCount',则返回 删除或更新的影响行数
+ $type = 'None',则返回恒返回 1</pre></p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
 	
 	<div class="method-signature">
-		<span class="method-result">void</span>
+		<span class="method-result">mixed</span>
 		<span class="method-name">
 			query
 		</span>
-					(<span class="var-type"></span>&nbsp;<span class="var-name">$TSQL</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">''</span>])
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$TSQL</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">''</span>])
 			</div>
 	
 			<ul class="parameters">
 					<li>
-				<span class="var-type"></span>
+				<span class="var-type">string</span>
 				<span class="var-name">$TSQL</span>			</li>
 					<li>
-				<span class="var-type"></span>
+				<span class="var-type">string</span>
 				<span class="var-name">$type</span>			</li>
 				</ul>
 		
@@ -390,10 +403,12 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">rollBackT</span> (line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a111">111</a></span>)
+		<span class="method-title">rollBackT</span> (line <span class="line-number"><a href="../../__filesource/fsource_DB_Driver_librarydbMysql5.php.html#a149">149</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">回滚事务</p>
+<p class="description"><p>回滚事务</p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -415,7 +430,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Thu, 21 Jan 2010 13:37:42 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+		Documentation generated on Fri, 22 Jan 2010 16:17:48 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
 	</p>
 	</div></body>
 </html>

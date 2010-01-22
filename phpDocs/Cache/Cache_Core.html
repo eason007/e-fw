@@ -27,14 +27,15 @@
         		<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">缓存类</p>
 <p class="description"><p>缓存类
- 提供缓存服务，目前支持文件及memcache两种方式 memcache使用memcache扩展实现</p></p>
+ <pre> 提供缓存服务，目前支持文件及memcache两种方式
+ memcache使用memcache扩展实现</pre></p></p>
 	<ul class="tags">
 				<li><span class="field">author:</span> eason007&lt;<a href="mailto:eason007@163.com">eason007@163.com</a>&gt;</li>
-				<li><span class="field">version:</span> 2.0.2.20100118</li>
+				<li><span class="field">version:</span> 2.0.3.20100122</li>
 				<li><span class="field">copyright:</span> Copyright (c) 2007-2008 eason007&lt;eason007@163.com&gt;</li>
 			</ul>
 		<p class="notes">
-			Located in <a class="field" href="_library---cache---Core.php.html">/library/cache/Core.php</a> (line <span class="field"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a17">17</a></span>)
+			Located in <a class="field" href="_library---cache---Core.php.html">/library/cache/Core.php</a> (line <span class="field"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a19">19</a></span>)
 		</p>
 		
 				
@@ -164,28 +165,14 @@
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$cacheParams</span>
-			 = <span class="var-default">array(<br />		'File' 		=&gt; array(<br />			'dir' 		=&gt; null,<br />			'hashFile'	=&gt; 2,<br />			'ext'		=&gt; '.EFW-Cache'<br />		),'Memcache'=&gt;array(array('host'=&gt;'127.0.0.1','port'=&gt;'11211')))</span>			(line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a61">61</a></span>)
+			 = <span class="var-default">array(<br />		'File' 		=&gt; array(<br />			'dir' 		=&gt; null,<br />			'hashFile'	=&gt; 2,<br />			'ext'		=&gt; '.EFW-Cache'<br />		),'Memcache'=&gt;array(array('host'=&gt;'127.0.0.1','port'=&gt;'11211')))</span>			(line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a65">65</a></span>)
 		</span>
 	</div>
 
 	<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">缓存配置</p>
 <p class="description"><p>缓存配置
- <pre> 格式：array(
- 		'File' => array (
- 			'dir' => '',
- 			'hashFile' => '',
- 			'ext' => ''
- 		),
- 		'Memcache' => array (
- 			array(
-	 			'host' => '',
- 				'port' => ''
- 			)
- 		)
- )
-
- [File][dir]
+ <pre> [File][dir]
  缓存目录
 
  [File][hashFile]
@@ -204,7 +191,21 @@
  [Memcache][port]
  Memcache的服务端口
 
- Memcache支持多台服务器</pre></p></p>
+ Memcache支持多台服务器</pre>
+ <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'File'&nbsp;</span>=&gt;&nbsp;<span class="src-key">array&nbsp;</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'dir'&nbsp;</span>=&gt;&nbsp;<span class="src-str">''</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'hashFile'&nbsp;</span>=&gt;&nbsp;<span class="src-str">''</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'ext'&nbsp;</span>=&gt;&nbsp;<span class="src-str">''</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'Memcache'&nbsp;</span>=&gt;&nbsp;<span class="src-key">array&nbsp;</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'host'&nbsp;</span>=&gt;&nbsp;<span class="src-str">''</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'port'&nbsp;</span>=&gt;&nbsp;<span class="src-str">''</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">)</span></div></li>
+</ol></div></p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -222,7 +223,7 @@
 		<span class="var-title">
 			<span class="var-type">int</span>
 			<span class="var-name">$expireTime</span>
-			 = <span class="var-default"> 3600</span>			(line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a96">96</a></span>)
+			 = <span class="var-default"> 3600</span>			(line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a100">100</a></span>)
 		</span>
 	</div>
 
@@ -247,7 +248,7 @@
 		<span class="var-title">
 			<span class="var-type">bool</span>
 			<span class="var-name">$isDebug</span>
-			 = <span class="var-default"> false</span>			(line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a117">117</a></span>)
+			 = <span class="var-default"> false</span>			(line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a121">121</a></span>)
 		</span>
 	</div>
 
@@ -273,7 +274,7 @@
 		<span class="var-title">
 			<span class="var-type">bool</span>
 			<span class="var-name">$isSerialize</span>
-			 = <span class="var-default"> false</span>			(line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a104">104</a></span>)
+			 = <span class="var-default"> false</span>			(line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a108">108</a></span>)
 		</span>
 	</div>
 
@@ -297,7 +298,7 @@
 		<span class="var-title">
 			<span class="var-type">string</span>
 			<span class="var-name">$prefix</span>
-			 = <span class="var-default"> ''</span>			(line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a127">127</a></span>)
+			 = <span class="var-default"> ''</span>			(line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a131">131</a></span>)
 		</span>
 	</div>
 
@@ -322,7 +323,7 @@
 		<span class="var-title">
 			<span class="var-type">string</span>
 			<span class="var-name">$type</span>
-			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a86">86</a></span>)
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a90">90</a></span>)
 		</span>
 	</div>
 
@@ -348,7 +349,7 @@
 		<span class="var-title">
 			<span class="var-type">mixed</span>
 			<span class="var-name">$_memCache</span>
-			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a129">129</a></span>)
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a133">133</a></span>)
 		</span>
 	</div>
 
@@ -382,21 +383,21 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Constructor.png" />
-		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a148">148</a></span>)
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a154">154</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">类的初始化</p>
 <p class="description"><p>类的初始化
  <pre> 可以在实例化缓存类时，同时把设置参数以数组形式传递入内
- 可以对类的属性进行全部、部分或不设置
- 如：
- new Class_Cache();			//不设置
- new Class_Cache(array(		//只设置两个类属性
- 			'type' => 'file',
- 			'expireTime' => 86400
- 		)
- );</pre></p></p>
+ 可以对类的属性进行全部、部分或不设置</pre>
+ <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">Class_Cache</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="src-comm">//不设置</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">Class_Cache</span><span class="src-sym">(</span><span class="src-key">array</span><span class="src-sym">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="src-comm">//只设置两个类属性</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'type'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'file'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'expireTime'&nbsp;</span>=&gt;&nbsp;<span class="src-num">86400</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+</ol></div></p></p>
 	
 	<div class="method-signature">
 		<span class="method-result">Cache_Core</span>
@@ -419,7 +420,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">delCache</span> (line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a282">282</a></span>)
+		<span class="method-title">delCache</span> (line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a285">285</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -450,7 +451,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">getCache</span> (line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a182">182</a></span>)
+		<span class="method-title">getCache</span> (line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a188">188</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -486,7 +487,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">setCache</span> (line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a239">239</a></span>)
+		<span class="method-title">setCache</span> (line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a245">245</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -528,7 +529,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/PrivateMethod.png" />
-		<span class="method-title">_getHashPath</span> (line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a317">317</a></span>)
+		<span class="method-title">_getHashPath</span> (line <span class="line-number"><a href="../__filesource/fsource_Cache__librarycacheCore.php.html#a320">320</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -568,7 +569,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Thu, 21 Jan 2010 13:37:20 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+		Documentation generated on Fri, 22 Jan 2010 16:17:28 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
 	</p>
 	</div></body>
 </html>

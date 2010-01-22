@@ -24,10 +24,11 @@
 					</div>
 	<div class="info-box-body">
         		<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Enter description here.</p>
-<p class="description"><p>Enter description here...</p></p>
+<p class="short-description">E_FW 类</p>
+<p class="description"><p>E_FW 类
+ 当使用框架时，只需引用本文件即可，并调用静态 E_FW 类的 run 方法即可。</p></p>
 		<p class="notes">
-			Located in <a class="field" href="_library---e_fw.php.html">/library/e_fw.php</a> (line <span class="field"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a59">59</a></span>)
+			Located in <a class="field" href="_library---e_fw.php.html">/library/e_fw.php</a> (line <span class="field"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a64">64</a></span>)
 		</p>
 		
 				
@@ -122,7 +123,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">execute_Action</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a148">148</a></span>)
+		<span class="method-title">execute_Action</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a150">150</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -162,26 +163,26 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">get_Config</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a344">344</a></span>)
+		<span class="method-title">get_Config</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a350">350</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">获取全局变量</p>
 <p class="description"><p>获取全局变量
  <pre> 可以获取所有的全局变量，或部分变量
- 根据传入的数据路径决定，如在多层结点下，利用 / 号分隔。
- 如全局变量是：
- array(
- 		'DSN' => array(
- 			'name' => 'a',
- 			'pwd' => 'b'
- 		),
- 		'CACHE' => true
- )
- 则：
- get_Config();			//获取所有
- get_Config('DSN');		//仅获取 DSN 结点
- get_Config('DSN/name');	//仅获取 DSN 结点下的 name</pre></p></p>
+ 根据传入的数据路径决定，如在多层结点下，利用 / 号分隔。</pre>
+ <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'DSN'&nbsp;</span>=&gt;&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'name'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'a'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'pwd'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'b'</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'CACHE'&nbsp;</span>=&gt;&nbsp;<span class="src-id">true</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;</div></li>
+<li><div class="src-line">&nbsp;<a href="../Core/E_FW.html#methodget_Config">get_Config</a><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="src-comm">//获取所有</span></div></li>
+<li><div class="src-line">&nbsp;<a href="../Core/E_FW.html#methodget_Config">get_Config</a><span class="src-sym">(</span><span class="src-str">'DSN'</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="src-comm">//仅获取&nbsp;DSN&nbsp;结点</span></div></li>
+<li><div class="src-line">&nbsp;<a href="../Core/E_FW.html#methodget_Config">get_Config</a><span class="src-sym">(</span><span class="src-str">'DSN/name'</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="src-comm">//仅获取&nbsp;DSN&nbsp;结点下的&nbsp;name</span></div></li>
+</ol></div></p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -210,7 +211,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/PrivateMethod.png" />
-		<span class="method-title">get_FilePath</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a397">397</a></span>)
+		<span class="method-title">get_FilePath</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a405">405</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -219,10 +220,10 @@
  <pre> 按一定规则拆分输入的字符串参数为目录路径
  当检测到存在该文件时，返回正确的路径地址
  文件后缀必须为 .php
- 在 linux 下，区分路径大小写
- 如：
- get_FilePath('class_cache');		//返回class/cache.php
- get_FilePath('db_Mysql5.php');	//返回db/Mysql5.php</pre></p></p>
+ 在 linux 下，区分路径大小写</pre>
+ <div class="src-code"><ol><li><div class="src-line">&nbsp;<a href="../Core/E_FW.html#methodget_FilePath">get_FilePath</a><span class="src-sym">(</span><span class="src-str">'class_cache'</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="src-comm">//返回class/cache.php</span></div></li>
+<li><div class="src-line">&nbsp;<a href="../Core/E_FW.html#methodget_FilePath">get_FilePath</a><span class="src-sym">(</span><span class="src-str">'db_Mysql5.php'</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="src-comm">//返回db/Mysql5.php</span></div></li>
+</ol></div></p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> private</li>
 			</ul>
@@ -248,7 +249,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">get_view</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a376">376</a></span>)
+		<span class="method-title">get_view</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a382">382</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -274,7 +275,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">import</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a185">185</a></span>)
+		<span class="method-title">import</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a187">187</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -305,7 +306,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">load_Class</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a208">208</a></span>)
+		<span class="method-title">load_Class</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a210">210</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -345,7 +346,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">load_File</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a249">249</a></span>)
+		<span class="method-title">load_File</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a251">251</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -383,15 +384,14 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">run</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a71">71</a></span>)
+		<span class="method-title">run</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a78">78</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">启动框架</p>
+<p class="short-description">启动框架
+ &lt;p&gt; 分析URL 如果是 url rewrite 模式，则从 $_GET 中获取，规则为 ?[controllerAccessor]=xxx&amp;[actionAccessor]=yyy&amp;zzz=111.</p>
 <p class="description"><p>启动框架
- <pre> 目前只支持 url_rewrite 使用 GET 方法。
- 如：
- ?controller=abc&action=123</pre></p></p>
+   分析URL  如果是 url rewrite 模式，则从 $_GET 中获取，规则为  ?[controllerAccessor]=xxx&amp;[actionAccessor]=yyy&amp;zzz=111...  如果是 pathinfo 模式，规则为  /[controllerAccessor]/[actionAccessor]/key1/value1/key2/value2...</p><p></p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -412,7 +412,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">set_Config</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a290">290</a></span>)
+		<span class="method-title">set_Config</span> (line <span class="line-number"><a href="../__filesource/fsource_Core__librarye_fw.php.html#a294">294</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -421,21 +421,21 @@
  <pre> 当传入一个字符串时，则假定为文件路径，程序会试图包含该文件
  并将该文件内的内容，追加到全局变量中。
  因此该文件内容必须为数组形式。
- 如传入参数为数组时，则追加或覆盖全局变量
- 如：
- set_Config('config/global.php');
- set_Config(
- 		array(
- 			'LOAD_FILE_NAME' => array (
- 				'config/global.php' => 'config/global.php'
- 			)
- 		)
- );
- set_Config(
- 		array(
- 			'DSN/dbServer' => '192.168.0.10'
- 		)
- );</pre></p></p>
+ 如传入参数为数组时，则追加或覆盖全局变量</pre>
+ <div class="src-code"><ol><li><div class="src-line">&nbsp;<a href="../Core/E_FW.html#methodset_Config">set_Config</a><span class="src-sym">(</span><span class="src-str">'config/global.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<a href="../Core/E_FW.html#methodset_Config">set_Config</a><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'LOAD_FILE_NAME'&nbsp;</span>=&gt;&nbsp;<span class="src-key">array&nbsp;</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'config/global.php'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'config/global.php'</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<a href="../Core/E_FW.html#methodset_Config">set_Config</a><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'DSN/dbServer'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'192.168.0.10'</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+</ol></div></p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -462,7 +462,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Thu, 21 Jan 2010 13:37:27 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+		Documentation generated on Fri, 22 Jan 2010 16:17:34 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
 	</p>
 	</div></body>
 </html>

@@ -199,7 +199,7 @@
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$invalid</span>
-			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_Data__librarydataCore.php.html#a117">117</a></span>)
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_Data__librarydataCore.php.html#a119">119</a></span>)
 		</span>
 	</div>
 
@@ -209,12 +209,12 @@
  <pre> 在返回的数据中，会以字段名为数组键名，具体错误的信息为值
  length 指数据长度不符合
  require 指必填字段为空
- rule 指无法通过校验规则
- 如：
- array (
- 		'title' => 'length',
- 		'tag'	=> 'rule'
- )</pre></p></p>
+ rule 指无法通过校验规则</pre>
+ <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-key">array&nbsp;</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'title'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'length'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'tag'&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">'rule'</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">)</span></div></li>
+</ol></div></p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -232,7 +232,7 @@
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$missing</span>
-			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_Data__librarydataCore.php.html#a127">127</a></span>)
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_Data__librarydataCore.php.html#a129">129</a></span>)
 		</span>
 	</div>
 
@@ -411,7 +411,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">filter</span> (line <span class="line-number"><a href="../__filesource/fsource_Data__librarydataCore.php.html#a184">184</a></span>)
+		<span class="method-title">filter</span> (line <span class="line-number"><a href="../__filesource/fsource_Data__librarydataCore.php.html#a186">186</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -443,31 +443,32 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">set</span> (line <span class="line-number"><a href="../__filesource/fsource_Data__librarydataCore.php.html#a161">161</a></span>)
+		<span class="method-title">set</span> (line <span class="line-number"><a href="../__filesource/fsource_Data__librarydataCore.php.html#a163">163</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
 <p class="short-description">设置过滤/校验的条件及数据</p>
 <p class="description"><p>设置过滤/校验的条件及数据
- <pre> $filters = array(
- 		'title' => array (
- 			'rule' 	=> 'Alnum'
- 		),
- 		'tag' 	=> array (
- 			'rule' 		=> 'English'
- 		)
- )
- $validators = array(
- 		'title' => array (
- 			'rule' 	=> 'Alnum',
- 			'min'	=> 4,
- 			'max'	=> 20
- 		),
- 		'tag' 	=> array (
- 			'require'	=> false,
- 			'rule' 		=> 'English'
- 		)
- )</pre></p></p>
+ <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$filters&nbsp;</span>=&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'title'&nbsp;</span>=&gt;&nbsp;<span class="src-key">array&nbsp;</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'rule'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">'Alnum'</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'tag'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-key">array&nbsp;</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'rule'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">'English'</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$validators&nbsp;</span>=&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'title'&nbsp;</span>=&gt;&nbsp;<span class="src-key">array&nbsp;</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'rule'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">'Alnum'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'min'&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-num">4</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'max'&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-num">20</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'tag'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-key">array&nbsp;</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'require'&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-id">false</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'rule'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">'English'</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-sym">)</span></div></li>
+</ol></div></p></p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -505,7 +506,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/Method.png" />
-		<span class="method-title">validate</span> (line <span class="line-number"><a href="../__filesource/fsource_Data__librarydataCore.php.html#a225">225</a></span>)
+		<span class="method-title">validate</span> (line <span class="line-number"><a href="../__filesource/fsource_Data__librarydataCore.php.html#a227">227</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -537,7 +538,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/PrivateMethod.png" />
-		<span class="method-title">_filter</span> (line <span class="line-number"><a href="../__filesource/fsource_Data__librarydataCore.php.html#a199">199</a></span>)
+		<span class="method-title">_filter</span> (line <span class="line-number"><a href="../__filesource/fsource_Data__librarydataCore.php.html#a201">201</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -561,7 +562,7 @@
 	
 	<div class="method-header">
 		<img src="../media/images/PrivateMethod.png" />
-		<span class="method-title">_validate</span> (line <span class="line-number"><a href="../__filesource/fsource_Data__librarydataCore.php.html#a240">240</a></span>)
+		<span class="method-title">_validate</span> (line <span class="line-number"><a href="../__filesource/fsource_Data__librarydataCore.php.html#a242">242</a></span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -586,7 +587,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Thu, 21 Jan 2010 13:37:21 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+		Documentation generated on Fri, 22 Jan 2010 16:17:29 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
 	</p>
 	</div></body>
 </html>
