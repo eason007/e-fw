@@ -6,8 +6,10 @@
 /**
  * 缓存类
  * 
+ * <pre>
  * 提供缓存服务，目前支持文件及memcache两种方式
  * memcache使用memcache扩展实现
+ * </pre>
  * 
  * @package Cache
  * @author eason007<eason007@163.com>

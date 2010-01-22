@@ -37,7 +37,6 @@ class Templates_PHPLib_Plus extends Template {
         }
 	}
 
-
 	public function getFinish () {
 		$replaceVar = $this->getUndefined("index", "_");
 		foreach($replaceVar as $varName){

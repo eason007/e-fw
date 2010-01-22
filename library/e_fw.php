@@ -2,7 +2,9 @@
 /**
  * 框架引导文件
  * 
+ * <pre>
  * 当引用本文件时，会进行运行环境的初始化工作。
+ * </pre>
  * 
  * @package Core
  * @author eason007<eason007@163.com>
@@ -12,6 +14,7 @@
 
 /**
  * 标记文件启动时间
+ * 
  * @global int $_load_time
  */
 global $_load_time;
@@ -24,6 +27,7 @@ define('E_FW_VAR', '_E_FW_CORE_');
 
 /**
  * 框架默认设置
+ * 
  * @global array $GLOBALS
  */
 $GLOBALS[E_FW_VAR] = array(
@@ -61,13 +65,13 @@ class E_FW {
 	/**
 	 * 启动框架
 	 * 
-	 * <pre>
+	 * <p>
 	 * 分析URL
 	 * 如果是 url rewrite 模式，则从 $_GET 中获取，规则为
 	 * ?[controllerAccessor]=xxx&[actionAccessor]=yyy&zzz=111...
-	 * 如果是pathinfo 模式，规则为
+	 * 如果是 pathinfo 模式，规则为
 	 * /[controllerAccessor]/[actionAccessor]/key1/value1/key2/value2...
-	 * </pre>
+	 * </p>
 	 * 
 	 * @return void
 	 */

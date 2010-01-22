@@ -14,7 +14,6 @@ E_FW::load_File('templates/smarty/Smarty.class.php');
  * @subpackage Smarty
  */
 class Templates_Smarty_Plus extends Smarty {
-
 	public function __construct () {
 		$viewConfig = E_FW::get_Config('VIEW');
 

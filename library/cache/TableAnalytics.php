@@ -6,8 +6,10 @@
 /**
  * 数据库对象缓存分析类
  * 
+ * <pre>
  * 用于 Class_TableDataGateway 类中，通过类属性 isCache
  * 决定是否在查询中使用缓存
+ * </pre>
  * 
  * @package Cache
  * @author eason007<eason007@163.com>

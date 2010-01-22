@@ -6,8 +6,10 @@
 /**
  * 数据库对象操作类
  * 
+ * <pre>
  * 本类采用的是数据入口模式。主要用于实现CRUD的基本操作。
  * 并实现基本的关联操作
+ * </pre>
  * 
  * @package DB
  * @author eason007<eason007@163.com>
@@ -142,14 +144,16 @@ class DB_TableDataGateway {
 	 * 查询条件
 	 * 
 	 * <pre>
-	 * 数据库操作时的条件，可接受多种格式的数据，如：
-	 * 1、$clsTable->where = 23，赋为数字，则以主键字段为查找字段
-	 * 2、$clsTable->where = 'name = \'dualface\''，赋为字符串，则直接作为查询条件
-	 * 3、$clsTable->where = array('name <> \'dualface\'', 'sex = \'male\'')
-	 * 	$clsTable->where = array('born = \'1977/10/24\'', '13')
-	 * 	$clsTable->where = array('sex' => 'sex', 'id' => 1)
-	 * 赋为数组，则单独解释各维，各维之间为 AND 关键字
+	 * 数据库操作时的条件，可接受多种格式的数据
 	 * </pre>
+	 * 
+	 * <code>
+	 * $clsTable->where(23)						//赋为数字，则以主键字段为查找字段
+	 * $clsTable->where('name = \'dualface\'')	//赋为字符串，则直接作为查询条件
+	 * $clsTable->where(array('name <> \'dualface\'', 'sex' => 'sex'))
+	 * $clsTable->where(array('born = \'1977/10/24\'', '13'))
+	 * $clsTable->where(array('sex' => 'sex')) 	//赋为数组，则单独解释各维，各维之间为 AND 关键字
+	 * </code>
 	 *
 	 * @var mixed
 	 * @access private
@@ -281,12 +285,13 @@ class DB_TableDataGateway {
 	 * 如 link 参数不为空，则无论是否 autoLink 是否为 true ，均返回$link中指定的关联数据
 	 * 如 isExecute 参数为 false，则不返回数据数组，而返回解释相关属性后的T-SQL语句
 	 * 如需要同时返回符合条件的总记录数，则必须指定 isCount 参数为 true
-	 *
-	 * 例子：
+	 * </pre>
+	 * 
+	 * <code>
 	 * $clsTab->select(array('link' => 'belongsTo'));
 	 * $clsTab->select(array('isExecute' => true));
 	 * $clsTab->select(array('link' => 'belongsTo', 'isCount' => true));
-	 * </pre>
+	 * </code>
 	 *
 	 * @param array $parSet
 	 * @return mixed
@@ -629,11 +634,12 @@ class DB_TableDataGateway {
 	 * 
 	 * 如 link 参数不为空，则无论是否 autoLink 是否为 true ，均返回$link中指定的关联数据
 	 * 如 isExecute 参数为 false，则不返回数据数组，而返回解释相关属性后的T-SQL语句
+	 * </pre>
 	 * 
-	 * 例子：
+	 * <code>
 	 * $clsTab->del(array('link' => 'hasOne,hasMany'));
 	 * $clsTab->del(array('isExecute' => false));
-	 * </pre>
+	 * </code>
 	 *
 	 * @param array $parSet
 	 * @return array
@@ -848,6 +854,7 @@ class DB_TableDataGateway {
 	 *
 	 * @param array $rt
 	 * @param string $linkType
+	 * @return void
 	 * @access protected
 	 */
 	protected function _getLinkData (&$rt, $linkType) {
@@ -1006,13 +1013,16 @@ class DB_TableDataGateway {
 	 * 
 	 * <pre>
 	 * 可同时获取多种子句，条件以英文,号分隔
-	 * 如：
+	 * </pre>
+	 * 
+	 * <code>
 	 * $clsTab->getSubSql('WHERE');
 	 * $clsTab->getSubSql('WHERE,OTHER');
-	 * </pre>
+	 * </code>
 	 *
 	 * @param string $codeList
 	 * @return string
+	 * @access protected
 	 */
 	protected function getSubSql ($codeList) {
 		$codeList = explode(',', $codeList);
@@ -1044,6 +1054,7 @@ class DB_TableDataGateway {
 	 * $clsTab->field('id, title');
 	 * 
 	 * @param string $p
+	 * @return void
 	 * @access public
 	 */
 	public function field ($p) {
@@ -1053,7 +1064,8 @@ class DB_TableDataGateway {
 	/**
 	 * 设置条件子句
 	 *
-	 * @return mixed $p
+	 * @param mixed $p
+	 * @return void
 	 * @access public
 	 */
 	public function where ($p) {
@@ -1089,7 +1101,8 @@ class DB_TableDataGateway {
 	/**
 	 * 设置复合条件子句
 	 *
-	 * @return string
+	 * @param string $p
+	 * @return void
 	 * @access public
 	 */
 	public function other ($p) {
@@ -1099,7 +1112,8 @@ class DB_TableDataGateway {
 	/**
 	 * 设置排序条件子句
 	 *
-	 * @return string
+	 * @param string $p
+	 * @return void
 	 * @access public
 	 */
 	public function order ($p) {
@@ -1109,7 +1123,8 @@ class DB_TableDataGateway {
 	/**
 	 * 设置分页条件子句
 	 *
-	 * @return mixed
+	 * @param mixed $p
+	 * @return void
 	 * @access public
 	 */
 	public function limit ($p) {
@@ -1124,33 +1139,76 @@ class DB_TableDataGateway {
 	/**
 	 * 清理属性
 	 *
+	 * @return void
+	 * @access private
 	 */
 	private function clear () {
 		$this->_field = '*';
 		$this->_where = $this->_other = $this->_order = $this->_limit = '';
 	}
 
-
+	/**
+	 * 插入操作前执行的方法 
+	 * 
+	 * 提供给子类复写
+	 * 
+	 * @access protected
+	 */
 	protected function _beforeInsert (){
 		return true;
 	}
 	
+	/**
+	 * 插入操作后执行的方法 
+	 * 
+	 * 提供给子类复写
+	 * 
+	 * @access protected
+	 */
 	protected function _afterInsert () {
 		
 	}
 
+	/**
+	 * 更新操作前执行的方法 
+	 * 
+	 * 提供给子类复写
+	 * 
+	 * @access protected
+	 */
 	protected function _beforeUpdate () {
 		return true;
 	}
 	
+	/**
+	 * 更新操作后执行的方法 
+	 * 
+	 * 提供给子类复写
+	 * 
+	 * @access protected
+	 */
 	protected function _afterUpdate () {
 		
 	}
 
+	/**
+	 * 删除操作前执行的方法 
+	 * 
+	 * 提供给子类复写
+	 * 
+	 * @access protected
+	 */
 	protected function _beforeDelete () {
 		return true;
 	}
 	
+	/**
+	 * 删除操作后执行的方法 
+	 * 
+	 * 提供给子类复写
+	 * 
+	 * @access protected
+	 */
 	protected function _afterDelete () {
 		
 	}

@@ -104,12 +104,14 @@ class Data_Core {
 	 * length 指数据长度不符合
 	 * require 指必填字段为空
 	 * rule 指无法通过校验规则
-	 * 如：
+	 * </pre>
+	 * 
+	 * <code>
 	 * array (
 	 * 		'title' => 'length',
 	 * 		'tag'	=> 'rule'
 	 * )
-	 * </pre>
+	 * </code>
 	 * 
 	 * @var array
 	 * @access public
@@ -129,7 +131,7 @@ class Data_Core {
 	/**
 	 * 设置过滤/校验的条件及数据
 	 * 
-	 * <pre>
+	 * <code>
 	 * $filters = array(
 	 * 		'title' => array (
 	 * 			'rule' 	=> 'Alnum'
@@ -149,7 +151,7 @@ class Data_Core {
 	 * 			'rule' 		=> 'English'
 	 * 		)
 	 * )
-	 * </pre>
+	 * </code>
 	 * 
 	 * @access public
 	 * @param array $filters

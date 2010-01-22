@@ -19,13 +19,15 @@ class DB_Mysql5 {
 	 * @var object
 	 * @see DB_Driver_Mysqli
 	 * @see DB_Driver_PDO
+	 * @access private
 	 */
 	private $db = null;
 	
 	/**
-	 * Enter description here...
+	 * 查询SQL日志
 	 *
 	 * @var array
+	 * @access public
 	 */
 	public $sqlBox = array();
 
@@ -33,6 +35,7 @@ class DB_Mysql5 {
 	 * Enter description here...
 	 *
 	 * @var int
+	 * @access public
 	 */
 	public $rowCount = 0;
 
@@ -46,6 +49,14 @@ class DB_Mysql5 {
 		$this->db = null;
 	}
 
+	/**
+	 * 连接数据库
+	 * 
+	 * 根据 dbType 的设定，调用不同的 driver 连接数据库
+	 * 
+	 * @return void
+	 * @access private
+	 */
 	private function dbConnect () {
 		switch ($this->dbType) {
 			case 'Mysqli':
@@ -73,6 +84,21 @@ class DB_Mysql5 {
 		$this->query('SET NAMES \'utf8\';', 'None');
 	}
 
+	/**
+	 * 操作数据库
+	 * 
+	 * <pre>
+	 * 对于不同的操作，会有不同的返回值
+	 * $type = 'LastID',则返回 lastinsertId
+	 * $type = 'RowCount',则返回 删除或更新的影响行数
+	 * $type = 'None',则返回恒返回 1
+	 * </pre>
+	 * 
+	 * @param string $TSQL
+	 * @param string $type
+	 * @access public
+	 * @return mixed
+	 */
 	public function query ($TSQL, $type = '') {
 		if (is_null($this->db)){
 			$this->dbConnect();
@@ -93,6 +119,12 @@ class DB_Mysql5 {
 		}
 	}
 
+	/**
+	 * 启动事务
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function beginT () {
 		if (is_null($this->db)){
 			$this->dbConnect();
@@ -108,6 +140,12 @@ class DB_Mysql5 {
 		}
 	}
 
+	/**
+	 * 回滚事务
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function rollBackT () {
 		switch ($this->dbType) {
 			case 'Mysqli':
@@ -117,6 +155,12 @@ class DB_Mysql5 {
 		}
 	}
 
+	/**
+	 * 提交事务
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function commitT () {
 		switch ($this->dbType) {
 			case 'Mysqli':
