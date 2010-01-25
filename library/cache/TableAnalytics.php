@@ -27,7 +27,7 @@ class Cache_TableAnalytics {
 	private $_cache = null;
 	
 	function __construct() {
-		$this->_cache = E_FW::load_Class('Cache_Core');
+		$this->_cache = E_FW::load_Class('cache_Core');
 	}
 	
 	/**

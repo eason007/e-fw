@@ -208,8 +208,6 @@ class DB_TableDataGateway {
 
 
 	function __construct() {
-		E_FW::load_File('db_Mysql5');
-
 		if (is_null($this->dbParams)){
 			$this->setDB(E_FW::get_Config('DSN'));
 		}
@@ -218,7 +216,7 @@ class DB_TableDataGateway {
 		}
 		
 		if ($this->isCache) {
-			$this->_cacheAnalytics = E_FW::load_Class('Cache_TableAnalytics');
+			$this->_cacheAnalytics = E_FW::load_Class('cache_TableAnalytics');
 		}
 	}
 
@@ -241,7 +239,7 @@ class DB_TableDataGateway {
 			switch ($dbParams['dbType']) {
 				case 'Mysqli':
 				case 'PDO' :
-					$this->db = E_FW::load_Class('DB_Mysql5', true, $dbParams);
+					$this->db = E_FW::load_Class('db_Mysql5', true, $dbParams);
 					break;
 			}
 			
