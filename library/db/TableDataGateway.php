@@ -265,7 +265,20 @@ class DB_TableDataGateway {
 	 * @access public
 	 */
 	public function selectSQL ($sql) {
-		return $this->db->query($sql);
+		if ($this->isCache) {
+			$result = $this->_cacheAnalytics->chkCache($this->tableName, $sql);
+			
+			if (!$result) {
+				$result = $this->db->query($sql);
+				
+				$this->_cacheAnalytics->setCache($this->tableName, $sql, $result);
+			}
+		}
+		else {
+			$result = $this->db->query($sql);
+		}
+		
+		return $result;
 	}
 
 
