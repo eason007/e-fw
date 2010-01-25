@@ -335,7 +335,7 @@ class Cache_Core {
 			return $path.$hashName.$this->cacheParams['File']['ext'];
 		}
 		else{
-			return $this->cacheParams['File']['dir'].DS.$cacheID.$this->$this->cacheParams['File']['ext'];
+			return $this->cacheParams['File']['dir'].DS.$cacheID.$this->cacheParams['File']['ext'];
 		}
 	}
 }
