@@ -14,7 +14,7 @@
  * @package DB
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.2.4.20100118
+ * @version 1.2.4.20100126
  */
  
 class DB_TableDataGateway {
@@ -982,7 +982,7 @@ class DB_TableDataGateway {
 				foreach($relateData as $key => $val){
 					foreach($linkData as $v){
 						if ($val[$linkSetting['linkKey']] == $v[$linkClass->primaryKey]){
-							$relateData[$key][] = $v;
+							$relateData[$key] = array_merge($val, $v);
 						}
 					}
 				}
