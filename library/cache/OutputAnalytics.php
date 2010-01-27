@@ -11,7 +11,7 @@
  * @package Cache
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.1.20100121
+ * @version 1.0.2.20100127
  */
  
 class Cache_OutputAnalytics {
@@ -30,6 +30,13 @@ class Cache_OutputAnalytics {
 	 */
 	private $_cacheID = null;
 	
+	/**
+	 * 
+	 * @var string
+	 * @access private
+	 */
+	private $_tableID = null;
+	
 	function __construct() {
 		$this->_cache = E_FW::load_Class('cache_Core');
 	}
@@ -39,12 +46,15 @@ class Cache_OutputAnalytics {
 	 * 
 	 * 查找标记为 $cacheID 的缓存是否存在，如果存在，则直接输出缓存，并返回 true
 	 * 如果不存在，则开始记录缓存，并返回 false
+	 * 如果设定 $tableID，则可以关联后端的数据缓存
+	 * 当数据改变时，前端页面缓存会同时失效
 	 *
 	 * @param string $cacheID
+	 * @param string $tableID
 	 * @return bool
 	 * @access public
 	 */
-	public function start ($cacheID) {
+	public function start ($cacheID, $tableID = NULL) {
 		$t = md5(strtoupper($cacheID));
 		$queryCache = $this->_cache->getCache($t);
 		
@@ -93,6 +103,12 @@ class Cache_OutputAnalytics {
 			$this->_cache->setCache($this->_cacheID, $data, array('expireTime' => $params['time']));
 		}
 		$this->_cacheID = null;
+		
+		$tableCache = $this->_cache->getCache($this->_tableID);
+		if (!$tableCache) {
+			$tableCache = array();
+		}
+		$tableCache[md5(strtoupper($this->_cacheID))] = mb_strlen($data, 'UTF-8');
 		
 		if ($params['flash']){
 			echo $data;
