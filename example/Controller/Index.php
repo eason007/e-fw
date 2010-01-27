@@ -32,7 +32,7 @@ class Controller_Index{
     	$tpl = E_FW::get_view();
     	//var_dump($tpl);
     	
-    	$validator = E_FW::load_Class('Data_Core');
+    	$validator = E_FW::load_Class('data_Core');
     	$f = array(
     		'title' => array(
     			'rule' 	=> 'Alnum'
@@ -85,11 +85,10 @@ class Controller_Index{
     	$validator->filter();
     	var_dump($d);
     	
-    	$output = E_FW::load_Class('Cache_OutputAnalytics');
+    	$output = E_FW::load_Class('cache_OutputAnalytics');
     	
     	if (!$output->start('blog_index')){
 	    	$this->_ModelBlog = E_FW::load_Class('Model_Blog');
-	    	
 	    	
 			//数据库操作
 			$this->_ModelBlog->where('');
