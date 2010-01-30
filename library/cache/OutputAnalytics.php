@@ -11,7 +11,7 @@
  * @package Cache
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.2.20100127
+ * @version 1.0.2.20100130
  */
  
 class Cache_OutputAnalytics {
@@ -68,6 +68,7 @@ class Cache_OutputAnalytics {
         	ob_implicit_flush(false);
         	
         	$this->_cacheID = $t;
+			$this->_tableID = $tableID;
         	
 			return false;
 		}
@@ -85,6 +86,10 @@ class Cache_OutputAnalytics {
 	 * @access public
 	 */
 	public function end ($options = array()) {
+		if ($this->_cacheID == null) {
+			return false;
+		}
+
 		$params = array(
 			'flash'	=> true,
 			'time'	=> null
@@ -109,6 +114,7 @@ class Cache_OutputAnalytics {
 			$tableCache = array();
 		}
 		$tableCache[md5(strtoupper($this->_cacheID))] = mb_strlen($data, 'UTF-8');
+		$this->_tableID = null;
 		
 		if ($params['flash']){
 			echo $data;
