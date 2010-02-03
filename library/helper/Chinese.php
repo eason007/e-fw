@@ -135,7 +135,7 @@ class helper_Chinese
 	 * @返回值    无
 	 * @throws
 	 */
-	function Chinese( $SourceLang , $TargetLang , $SourceString='', $CodetableDir='')
+	function helper_Chinese( $SourceLang , $TargetLang , $SourceString='', $CodetableDir='')
 	{
 		if ($SourceLang != '') {
 		    $this->config['SourceLang'] = $SourceLang;
