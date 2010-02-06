@@ -24,12 +24,12 @@ E_FW::import(dirname(__FILE__).DS);
 //定义系统配置
 $Config = array(
 	'DSN' => array(
-		'dbServer' => 'localhost',								//数据库地址
-		'dbPort' => '3306',										//数据库端口
-		'dbName' => 'test',										//数据库名
-		'dbUser' => 'root',										//登陆用户名
-		'dbPassword' => '',										//登陆密码
-		'dbType' => 'PDO'										//DB类连接类型
+		'dbServer' 	=> 'localhost',								//数据库地址
+		'dbPort' 	=> '3306',									//数据库端口
+		'dbName' 	=> 'test',									//数据库名
+		'dbUser' 	=> 'root',									//登陆用户名
+		'dbPassword'=> '',										//登陆密码
+		'dbType' 	=> 'PDO'									//DB类连接类型
 	),
 	'VIEW' => array(
 		'class' 		=> 'phplib',							//设置调用的模版类
@@ -66,5 +66,4 @@ class MyException extends Exception
         parent::__construct($message, $code);
     }
 }
-
 ?>
