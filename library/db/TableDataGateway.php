@@ -22,16 +22,16 @@ class DB_TableDataGateway {
 	 * 数据表名
 	 *
 	 * @var string
-	 * @access protected
+	 * @access public
 	 */
-	protected $tableName = null;
+	public $tableName = null;
 	/**
 	 * 主键字段名
 	 *
 	 * @var string
-	 * @access protected 
+	 * @access public 
 	 */
-	protected $primaryKey = null;
+	public $primaryKey = null;
 
 	/**
 	 * 从属关联
@@ -319,7 +319,10 @@ class DB_TableDataGateway {
 		}
 
 
-		$sql = 'SELECT '.$this->_field.','.$this->primaryKey;
+		$sql = 'SELECT '.$this->_field;
+		if ($this->_field != '*') {
+			$sql.= ','.$this->primaryKey;
+		}
 		$sql.= ' FROM `'.$this->tableName.'` AS MT';
 		$sql.= $this->getSubSql('WHERE,OTHER,ORDER,LIMIT');
 
