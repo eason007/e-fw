@@ -49,7 +49,7 @@ $GLOBALS[E_FW_VAR] = array(
 	'TIME_FORMAT' 	=> 'zh_CN',							//默认时间格式
 	'TIME_ZONE' => 'Asia/Shanghai',						//默认时区
 	'CHARSET'	=> 'utf-8',								//默认页面编码
-	'URL_MODEL' => 1									//路由模式，0=URL Rewrite，1=PATHINFO
+	'URL_MODEL' => 0									//路由模式，0=URL Rewrite，1=PATHINFO
 );
 
 $GLOBALS[E_FW_VAR]['FILE_PATH'][] = dirname(__FILE__).DS;
@@ -100,7 +100,6 @@ class E_FW {
 			case 1:
 				if (isset($_SERVER['PATH_INFO'])){
 					$parts = explode('/', substr($_SERVER['PATH_INFO'], 1));
-					print_r($parts);
 	
 					if (isset($parts[0])) {
 						$controllerName = $parts[0];
