@@ -47,9 +47,9 @@ class DB_TableDataGateway {
 	 * </pre>
 	 *
 	 * @var array
-	 * @access protected
+	 * @access public
 	 */
-	protected $belongsTo = null;
+	public $belongsTo = null;
 	/**
 	 * 一对一关联
 	 * 
@@ -65,9 +65,9 @@ class DB_TableDataGateway {
 	 * </pre>
 	 *
 	 * @var array
-	 * @access protected
+	 * @access public
 	 */
-	protected $hasOne = null;
+	public $hasOne = null;
 	/**
 	 * 一对多关系
 	 * 
@@ -82,9 +82,9 @@ class DB_TableDataGateway {
 	 * </pre>
 	 *
 	 * @var array
-	 * @access protected
+	 * @access public
 	 */
-	protected $hasMany = null;
+	public $hasMany = null;
 	/**
 	 * 多对多关系
 	 * 
@@ -102,18 +102,18 @@ class DB_TableDataGateway {
 	 * </pre>
 	 *
 	 * @var array
-	 * @access protected
+	 * @access public
 	 */
-	protected $manyToMany = null;
+	public $manyToMany = null;
 
 	/**
 	 * 是否在执行数据库中自动执行关联操作
 	 * 仅在select和del方法中有效
 	 *
 	 * @var bool
-	 * @access protected
+	 * @access public
 	 */
-	protected $autoLink = false;
+	public $autoLink = false;
 	
 	/**
 	 * 数据表所在数据库的连接信息
@@ -121,17 +121,17 @@ class DB_TableDataGateway {
 	 * 主要用于数据分区时对表的存储位置进行单独定义
 	 *
 	 * @var array
-	 * @access protected
+	 * @access public
 	 */
-	protected $dbParams = null;
+	public $dbParams = null;
 	
 	/**
 	 * 是否对查询开启缓存
 	 *
 	 * @var bool
-	 * @access protected
+	 * @access public
 	 */
-	protected $isCache = true;
+	public $isCache = true;
 
 	/**
 	 * 显示字段名列表
@@ -325,7 +325,7 @@ class DB_TableDataGateway {
 		}
 		$sql.= ' FROM `'.$this->tableName.'` AS MT';
 		$sql.= $this->getSubSql('WHERE,OTHER,ORDER,LIMIT');
-
+		
 		$c_sql = 'SELECT COUNT('.$this->primaryKey.') AS RCount';
 		$c_sql.= ' FROM `'.$this->tableName.'` AS MT';
 		$c_sql.= $this->getSubSql('WHERE,OTHER,ORDER');
