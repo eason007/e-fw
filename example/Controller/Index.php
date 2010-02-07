@@ -137,5 +137,18 @@ class Controller_Index{
 
 		print_r($this->_ModelBlog->del());
 	}
+	
+	function actionTest () {
+		E_FW::load_File('Model_BlogActiveRecord');
+		
+		$test = Model_BlogActiveRecord::find('Model_BlogActiveRecord', array(
+			'where' => 'id < 100'
+		));
+		
+		foreach ($test as $value) {
+			echo 'id:'.$value->id.' = '.$value->title.'<br />';
+			echo 'Category-id:'.$value->category_id.' = '.$value->Category->title.'<p />';
+		}
+	}
 }
 ?>
