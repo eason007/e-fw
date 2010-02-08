@@ -11,7 +11,7 @@
  * @package Cache
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.2.20100130
+ * @version 1.0.3.20100208
  */
  
 class Cache_OutputAnalytics {
@@ -109,12 +109,15 @@ class Cache_OutputAnalytics {
 		}
 		$this->_cacheID = null;
 		
-		$tableCache = $this->_cache->getCache($this->_tableID);
-		if (!$tableCache) {
-			$tableCache = array();
+		if (!is_null($this->_tableID)) {
+			$tableCache = $this->_cache->getCache($this->_tableID);
+			if (!$tableCache) {
+				$tableCache = array();
+			}
+			$tableCache[md5(strtoupper($this->_cacheID))] = mb_strlen($data, 'UTF-8');
+			$this->_cache->setCache($this->_tableID, $tableCache);
+			$this->_tableID = null;
 		}
-		$tableCache[md5(strtoupper($this->_cacheID))] = mb_strlen($data, 'UTF-8');
-		$this->_tableID = null;
 		
 		if ($params['flash']){
 			echo $data;
