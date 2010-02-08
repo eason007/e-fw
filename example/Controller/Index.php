@@ -138,7 +138,8 @@ class Controller_Index{
 		print_r($this->_ModelBlog->del());
 	}
 	
-	function actionTest () {
+	function actionT1 () {
+		//list
 		E_FW::load_File('Model_BlogActiveRecord');
 		
 		$test = Model_BlogActiveRecord::find('Model_BlogActiveRecord', array(
@@ -149,6 +150,31 @@ class Controller_Index{
 			echo 'id:'.$value->id.' = '.$value->title.'<br />';
 			echo 'Category-id:'.$value->category_id.' = '.$value->Category->title.'<p />';
 		}
+	}
+	
+	function actionT2 () {
+		//insert
+		$blog = E_FW::load_Class('Model_BlogActiveRecord', true, array(
+			'id'	=> '10a',
+			'category_id' => 4,
+			'title' => 'a3b'
+		));
+		
+		var_dump($blog->save());
+		var_dump($blog);
+	}
+	
+	function actionT3 () {
+		//update
+		E_FW::load_File('Model_BlogActiveRecord');
+		
+		$blog = Model_BlogActiveRecord::find('Model_BlogActiveRecord', array(
+			'where' => 1
+		));
+		$blog->title = 'test_update';
+		
+		var_dump($blog->save());
+		var_dump($blog);
 	}
 }
 ?>
