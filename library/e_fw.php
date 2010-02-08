@@ -49,7 +49,7 @@ $GLOBALS[E_FW_VAR] = array(
 	'TIME_FORMAT' 	=> 'zh_CN',							//默认时间格式
 	'TIME_ZONE' => 'Asia/Shanghai',						//默认时区
 	'CHARSET'	=> 'utf-8',								//默认页面编码
-	'URL_MODEL' => 0									//路由模式，0=URL Rewrite，1=PATHINFO
+	'URL_MODEL' => 1									//路由模式，0=URL Rewrite，1=PATHINFO
 );
 
 $GLOBALS[E_FW_VAR]['FILE_PATH'][] = dirname(__FILE__).DS;
@@ -128,7 +128,7 @@ class E_FW {
 			$actionName = E_FW::get_Config('CONTROLLER/defaultAction');
 		}
 
-		E_FW::execute_Action($controllerName, $actionName);
+		E_FW::execute_Action('Controller_'.$controllerName, $actionName);
 	}
 
 	
