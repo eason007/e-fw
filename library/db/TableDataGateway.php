@@ -7,14 +7,18 @@
  * 数据库对象操作类
  * 
  * <pre>
- * 本类采用的是数据入口模式。主要用于实现CRUD的基本操作。
- * 并实现基本的关联操作
+ * 本类是 TableDataGateway 模式。
+ * 实现了：
+ * CRUD的基本操作；(v1.0)
+ * 基本的关联操作；(v1.0)
+ * 数据分布式存储；(v1.1)
+ * 查询的自缓存；(v1.2)
  * </pre>
  * 
  * @package DB
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.2.4.20100126
+ * @version 1.2.5.20100208
  */
  
 class DB_TableDataGateway {
@@ -472,7 +476,7 @@ class DB_TableDataGateway {
 		}
 
 		$rt = $this->db->query($sql, 'LastID');
-		$result[$this->primaryKey] = $rt;
+		$result['lastID'] = $rt;
 
 		if ($rt > 0){
 			$rowData[$this->primaryKey] = $rt;
@@ -572,7 +576,7 @@ class DB_TableDataGateway {
 		$sql.= ' SET '.substr($pk, 0, - 2);
 		$sql.= $subSql;
 
-		if ($params['isExecute']) {
+		if ( ($params['isExecute']) and (!empty($linkData)) ) {
 			$this->field($this->primaryKey);
 			$this->_where = $countSql;
 
