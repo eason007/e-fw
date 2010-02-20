@@ -9,7 +9,7 @@
  * @package Core
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.6.20100122
+ * @version 1.0.6.20100220
  */
 
 /**
@@ -31,14 +31,14 @@ define('E_FW_VAR', '_E_FW_CORE_');
  * @global array $GLOBALS
  */
 $GLOBALS[E_FW_VAR] = array(
-    'VERSION' 	=> '1.0.6.20100122',					//框架版本号
+    'VERSION' 	=> '1.0.6.20100220',					//框架版本号
 	'DSN' 		=> array(),								//数据库连接配置信息。dbServer/dbPort/dbName/dbUser/dbPassword/dbType
 	'FILE_PATH' => array(),
 	'LOAD_FILE_NAME' 	=> array(),
 	'SEARCH_FILE_NAME' 	=> array(),
 	'CONTROLLER'=> array(
 		'controllerAccessor'=> 'controller',			//控制器键名
-		'defaultController' => 'controller_default',	//默认控制器名称
+		'defaultController' => 'default',				//默认控制器名称
 		'actionAccessor' 	=> 'action',				//方法键名
 		'defaultAction' 	=> 'index',					//默认方法名称
 		'actionMethodPrefix'=> 'action',				//方法名前缀
