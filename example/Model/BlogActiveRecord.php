@@ -38,8 +38,7 @@ class Model_BlogActiveRecord extends DB_ActiveRecord{
 				'Category'	=> array(
 					'linkType'		=> 'belongsTo',
 					'tableClass'	=> 'Model_CategoryActiveRecord',
-					'joinKey'		=> 'category_id',
-					'mappingName'	=> 'Category'
+					'joinKey'		=> 'category_id'
 				)
 			)
 		);

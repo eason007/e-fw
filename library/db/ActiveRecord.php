@@ -39,6 +39,16 @@ class DB_ActiveRecord {
 		unset($this->_props[self::$_define['props']['primaryKey']]);
 	}
 	
+	/**
+	 * 设定属性（魔术方法）
+	 * 
+	 * 如果设定的属性为非主键字段，则记录到 _chgProps 属性中
+	 * 以便调用 save 方法时使用
+	 * 
+	 * @param $prop_name
+	 * @param $value
+	 * @return void
+	 */
 	function __set($prop_name, $value) {
 		$pkName = self::$_define['props']['primaryKey'];
 		
@@ -48,6 +58,15 @@ class DB_ActiveRecord {
 		}
 	}
 	
+	/**
+	 * 获取属性（魔术方法）
+	 * 
+	 * 如果是对象基本属性，则直接返回。
+	 * 如果是关联属性，则实时查询数据库获取。
+	 * 
+	 * @param $prop_name
+	 * @access mixed
+	 */
 	function __get ($prop_name) {
 		if (isset($this->_props[$prop_name])) {
 			return $this->_props[$prop_name];
@@ -58,6 +77,7 @@ class DB_ActiveRecord {
 			
 			switch ($funcSet['linkType']){
 				case 'belongsTo':
+				case 'hasMany':
 					E_FW::load_File($funcSet['tableClass']);
 					
 					return call_user_func_array(array(
@@ -67,10 +87,36 @@ class DB_ActiveRecord {
 							'where' => $this->$funcSet['joinKey']
 						)
 					));
+					
+					break;
+				case 'hasOne':
+					E_FW::load_File($funcSet['tableClass']);
+					
+					return call_user_func_array(array(
+						$funcSet['tableClass'], 'find'
+					), array(
+						$funcSet['tableClass'], array(
+							'where' => $this->$funcSet['joinKey'].' = '.$this->$funcSet['linkKey']
+						)
+					));
+					
+					break;
 			}
 		}
 	}
 	
+	/**
+	 * 获取 Model 的定义
+	 * 
+	 * 调用 Model 的 _define 方法，获取对 Model 的定义
+	 * _define 返回的为多维数组，其中
+	 * props 代表对数据库连接的定义
+	 * funcs 代表对模型的定义
+	 * 
+	 * @param string $class_name
+	 * @return array
+	 * @access static
+	 */
 	static function _defMeta ($class_name) {
 		$define = (array) call_user_func(array($class_name, '_define'));
 		
@@ -90,6 +136,17 @@ class DB_ActiveRecord {
 		return $define;
 	}
 	
+	/**
+	 * 查找数据（静态方法）
+	 * 
+	 * 通过 $args 的指定，查找符合的数据
+	 * 返回对象或对象集合
+	 * 
+	 * @param string $class_name 数据 Model 名
+	 * @param array $args 查找的条件，与 TableDataGateway 的方法对应
+	 * @return mixed
+	 * @access static
+	 */
 	static function find ($class_name, $args) {
 		$define = self::_defMeta($class_name);
 		
@@ -121,6 +178,15 @@ class DB_ActiveRecord {
 		}
 	}
 	
+	/**
+	 * 保存数据
+	 * 
+	 * 将对象内的数据保存到数据库
+	 * 如果主键属性为空，则为新增记录，否则为更新记录
+	 * 
+	 * @access public
+	 * @return bool
+	 */
 	public function save () {
 		$pkName = self::$_define['props']['primaryKey'];
 		
