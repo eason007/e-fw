@@ -128,7 +128,7 @@ class Controller_Index{
 	 * 控制器方法
 	 *
 	 */
-    function actionIndex(){
+    function actionRead(){
     	$output = E_FW::load_Class('cache_OutputAnalytics');
     	
     	if (!$output->start('blog_index')){
@@ -147,7 +147,7 @@ class Controller_Index{
     	}
     }
 
-	function actionPost () {
+	function actionCreate () {
 		$insert = array(
 			'category_id' 	=> '2',
 			'category_title'=> 'qwe',
@@ -179,7 +179,7 @@ class Controller_Index{
 		print_r($this->_ModelBlog->del());
 	}
 	
-	function actionT1 () {
+	function actionReadWithActiveRecord () {
 		//list
 		E_FW::load_File('Model_BlogActiveRecord');
 		
@@ -193,7 +193,7 @@ class Controller_Index{
 		}
 	}
 	
-	function actionT2 () {
+	function actionSaveWithActiveRecord () {
 		//insert
 		$blog = E_FW::load_Class('Model_BlogActiveRecord', true, array(
 			'id'	=> '10a',
@@ -205,7 +205,7 @@ class Controller_Index{
 		var_dump($blog);
 	}
 	
-	function actionT3 () {
+	function actionDeleteWithActiveRecord () {
 		//update
 		E_FW::load_File('Model_BlogActiveRecord');
 		
