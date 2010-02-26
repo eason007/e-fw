@@ -9,8 +9,6 @@ Date: 2010/2/26 15:35:49
 
 SET FOREIGN_KEY_CHECKS=0;
 
-create database test; 
-
 use test;
 
 -- ----------------------------
