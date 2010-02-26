@@ -177,7 +177,7 @@ class DB_Mysql5 {
  * @subpackage Driver
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.1.1.20091221
+ * @version 1.1.2.20100126
  */
 class DB_Driver_Mysqli {
 	public $dbConnect= null;
@@ -193,7 +193,8 @@ class DB_Driver_Mysqli {
 	) {
 		$this->dbConnect = @new mysqli($dbServer, $dbUser, $dbPassword, $dbName, $dbPort);
 		if(mysqli_connect_errno()) {
-			throw new MyException('1 is an invalid parameter');
+			E_FW::load_Class('exception_DB');
+			throw new exception_DB('Database Not Exists.');
 		}
 		else {
 			return $this->dbConnect;
@@ -253,7 +254,7 @@ class DB_Driver_Mysqli {
  * @subpackage Driver
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.1.1.20091221
+ * @version 1.1.2.20100226
  */
 class DB_Driver_PDO {
 	public $dbConnect= null;
@@ -276,7 +277,8 @@ class DB_Driver_PDO {
 		}
 		catch (PDOException $e)
 		{
-			throw new MyException('1 is an invalid parameter');
+			E_FW::load_Class('exception_DB');
+			throw new exception_DB('Database Not Exists.');
 		}
 	}
 

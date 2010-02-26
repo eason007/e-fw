@@ -9,7 +9,7 @@
  * @package Core
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.0.6.20100220
+ * @version 1.0.7.20100226
  */
 
 /**
@@ -31,28 +31,31 @@ define('E_FW_VAR', '_E_FW_CORE_');
  * @global array $GLOBALS
  */
 $GLOBALS[E_FW_VAR] = array(
-    'VERSION' 	=> '1.0.6.20100220',					//框架版本号
-	'DSN' 		=> array(),								//数据库连接配置信息。dbServer/dbPort/dbName/dbUser/dbPassword/dbType
+    'VERSION' 	=> '1.0.6.20100220',			//框架版本号
+	'DSN' 		=> array(),						//数据库连接配置信息。dbServer/dbPort/dbName/dbUser/dbPassword/dbType
 	'FILE_PATH' => array(),
-	'LOAD_FILE_NAME' 	=> array(),
+	'LOAD_FILE_NAME'	=> array(),
 	'SEARCH_FILE_NAME' 	=> array(),
 	'CONTROLLER'=> array(
-		'controllerAccessor'=> 'controller',			//控制器键名
-		'defaultController' => 'default',				//默认控制器名称
-		'actionAccessor' 	=> 'action',				//方法键名
-		'defaultAction' 	=> 'index',					//默认方法名称
-		'actionMethodPrefix'=> 'action',				//方法名前缀
-		'actionMethodSuffix'=> ''						//方法名后缀
+		'controllerAccessor'=> 'controller',	//控制器键名
+		'defaultController' => 'default',		//默认控制器名称
+		'actionAccessor' 	=> 'action',		//方法键名
+		'defaultAction' 	=> 'index',			//默认方法名称
+		'actionMethodPrefix'=> 'action',		//方法名前缀
+		'actionMethodSuffix'=> ''				//方法名后缀
 	),
 	'CLASS_OBJ' => array(),
-	'VIEW' 		=> array(),								//模版类配置信息
-	'TIME_FORMAT' 	=> 'zh_CN',							//默认时间格式
-	'TIME_ZONE' => 'Asia/Shanghai',						//默认时区
-	'CHARSET'	=> 'utf-8',								//默认页面编码
-	'URL_MODEL' => 1									//路由模式，0=URL Rewrite，1=PATHINFO
+	'VIEW' 		=> array(),						//模版类配置信息
+	'TIME_FORMAT'	=> 'zh_CN',					//默认时间格式
+	'TIME_ZONE' => 'Asia/Shanghai',				//默认时区
+	'CHARSET'	=> 'utf-8',						//默认页面编码
+	'URL_MODEL' => 1,							//路由模式，0=URL Rewrite，1=PATHINFO
+	'DEBUG'		=> 1							//调试模式，0=否，1=是
 );
 
 $GLOBALS[E_FW_VAR]['FILE_PATH'][] = dirname(__FILE__).DS;
+
+E_FW::load_Class('Exception_Core', false);
 
 /**
  * E_FW 类

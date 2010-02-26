@@ -14,7 +14,7 @@
  * @package Cache
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 2.0.3.20100122
+ * @version 2.0.4.20100226
  */
 class Cache_Core {
 	/**
@@ -163,10 +163,21 @@ class Cache_Core {
 		$this->type = strtolower($this->type);
 		
 		if ($this->type == 'memcache') {
-			$this->_memCache = new Memcache;
+			if (!class_exists('Memcache', false)){
+				E_FW::load_Class('exception_Cache');
+				throw new Exception_Cache('Cache Object Not Exists.');
+			}		
+			else{
+				$this->_memCache = new Memcache;
+			}
 			
 			foreach ($this->cacheParams['Memcache'] as $value) {
 				$this->_memCache->addServer($value['host'], $value['port']);
+			}
+			
+			if (!@$this->_memCache->getStats()){
+				E_FW::load_Class('exception_Cache');
+				throw new Exception_Cache('Cache Service Not Exists.');
 			}
 		}
 	}
