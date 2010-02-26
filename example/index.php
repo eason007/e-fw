@@ -39,9 +39,6 @@ $Config = array(
 	),
 	'CONTROLLER' => array(
 		'defaultController' => 'Index'							//设置默认控制器名
-	),
-	'CACHE' => array(
-		'type' => 'memcache'
 	)
 );
 
@@ -50,20 +47,4 @@ E_FW::set_Config($Config);
 
 //Start
 E_FW::run();
-
-/**
- * Enter description here...
- *
- * @package Exception
- */
-class MyException extends Exception
-{
-    // 重定义构造器使 message 变为必须被指定的属性
-    public function __construct($message, $code = 0) {
-        // 自定义的代码
-
-        // 确保所有变量都被正确赋值
-        parent::__construct($message, $code);
-    }
-}
 ?>

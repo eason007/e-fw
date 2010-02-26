@@ -22,18 +22,22 @@ class Controller_Index{
 	function __construct(){
 
 	}
- 
 	
-	/**
-	 * 控制器方法
-	 *
-	 */
-    function actionIndex(){
-    	$tpl = E_FW::get_view();
-    	//var_dump($tpl);
+	function actionDataFilter () {
+		echo 'source data:';
+		$data = array(
+    		'title' => '1q1123@',
+    		'tag'	=> 'qwer1',
+    		'content' => '阿萨德飞1',
+    		'date'	=> '1300-11-11a',
+    		'postTime' => '12345678900a'
+    	);
+    	var_dump($data);
     	
+		//获取数据对象
     	$validator = E_FW::load_Class('data_Core');
-    	$f = array(
+    	//设定过滤规则
+    	$filterRule = array(
     		'title' => array(
     			'rule' 	=> 'Alnum'
     		),
@@ -50,7 +54,30 @@ class Controller_Index{
 	  			'rule' 	=> 'Number'
 	  		)
     	);
-    	$v = array(
+    	
+    	$validator->set($filterRule, null, $data);
+    	$validator->filter();
+    	
+    	echo 'format data:';
+    	var_dump($data);
+	}
+	
+	function actionValidator () {
+		echo 'source data:';
+		$data = array(
+    		'title' 	=> '1q1123@',
+    		'tag'		=> '',
+    		'content' 	=> '阿萨德飞1',
+    		'date'		=> '1300-11-11a',
+    		'postTime' 	=> '1234',
+			'test'		=> 'abc'
+    	);
+    	var_dump($data);
+    	
+		//获取数据对象
+    	$validator = E_FW::load_Class('data_Core');
+		//设定校验规则
+    	$validatorRule = array(
     		'title' => array (
 	  			'rule' 	=> 'Alnum',
 	  			'min'	=> 4,
@@ -72,19 +99,36 @@ class Controller_Index{
 	  		'postTime' => array(
 	  			'min'	=> 11,
 	  			'rule' 	=> 'Number'
+	  		),
+	  		'author'	=> array(
+	  			'max'	=> 50
 	  		)
     	);
-    	$d = array(
-    		'title' => '1q1123@',
-    		'tag'	=> 'qwer1',
-    		'content' => '阿萨德飞1',
-    		'date'	=> '1300-11-11a',
-    		'postTime' => '12345678900a'
-    	);
-    	$validator->set($f, $v, $d);
-    	$validator->filter();
-    	var_dump($d);
     	
+    	$validator->set(null, $validatorRule, $data);
+    	$validator->validate();
+    	
+    	echo 'unknown data:';
+    	var_dump($validator->unknown);
+    	
+    	echo 'invalid data:';
+    	var_dump($validator->invalid);
+    	
+    	echo 'missing data:';
+    	var_dump($validator->missing);
+	}
+	
+	function actionTemplate() {
+		//获取模板对象
+    	$tpl = E_FW::get_view();
+	}
+ 
+	
+	/**
+	 * 控制器方法
+	 *
+	 */
+    function actionIndex(){
     	$output = E_FW::load_Class('cache_OutputAnalytics');
     	
     	if (!$output->start('blog_index')){
@@ -98,12 +142,9 @@ class Controller_Index{
 				'isCount'	=> true
 			));
 			
-	
 			print_r($news);
 			$output->end();
     	}
-
-		//throw new MyException('fuck');
     }
 
 	function actionPost () {
