@@ -14,7 +14,7 @@
  * @package Cache
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 2.0.4.20100226
+ * @version 2.0.5.20100226
  */
 class Cache_Core {
 	/**
@@ -156,6 +156,11 @@ class Cache_Core {
 			$Params = E_FW::get_Config('CACHE');
 		}
 		
+		if (!$Params) {
+			$this->isDebug = 1;
+			return 1;
+		}
+		
 		foreach ($Params as $key => $value) {
 			$this->$key = $value;
 		}
@@ -254,6 +259,10 @@ class Cache_Core {
 	 * @param array $parSet 
 	 */
 	public function setCache ($cacheID, $cacheData, $parSet = array()){
+		if ($this->isDebug){
+			return 1;
+		}
+		
 		$params = array(
 			'expireTime'=> $this->expireTime,
 			'serialize'	=> false
