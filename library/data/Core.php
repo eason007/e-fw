@@ -13,7 +13,7 @@
  * @package Data
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2009 eason007<eason007@163.com>
- * @version 1.0.0.20100119
+ * @version 1.0.1.20100226
  */
  
 class Data_Core {
@@ -269,8 +269,10 @@ class Data_Core {
 						continue 2;
 				}
 				
-				if (!preg_match($this->validatorRules[$value['rule']], $this->_data[$key])){
-					$this->invalid[$key] = 'rule';
+				if (array_key_exists('rule', $value)){
+					if (!preg_match($this->validatorRules[$value['rule']], $this->_data[$key])){
+						$this->invalid[$key] = 'rule';
+					}
 				}
 			}
 			else{
