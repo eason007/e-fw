@@ -13,7 +13,7 @@
  * 
  * @package Cache
  * @author eason007<eason007@163.com>
- * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
+ * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
  * @version 2.0.5.20100226
  */
 class Cache_Core {

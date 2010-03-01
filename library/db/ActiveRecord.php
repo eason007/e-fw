@@ -14,7 +14,7 @@ E_FW::load_File('db_TableDataGateway');
  * 
  * @package DB
  * @author eason007<eason007@163.com>
- * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
+ * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
  * @version 1.0.0.20100207
  */
 

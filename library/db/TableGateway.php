@@ -17,11 +17,11 @@
  * 
  * @package DB
  * @author eason007<eason007@163.com>
- * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.2.5.20100208
+ * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
+ * @version 1.2.5.20100301
  */
  
-class DB_TableDataGateway {
+class DB_TableGateway {
 	/**
 	 * 数据表名
 	 *
