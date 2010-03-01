@@ -29,61 +29,6 @@ class Controller_Index{
     	
     	echo $tpl->fetch('index.html');
 	}
- 
-	/**
-	 * 控制器方法
-	 *
-	 */
-    function actionRead(){
-    	$output = E_FW::load_Class('cache_OutputAnalytics');
-    	
-    	if (!$output->start('blog_index')){
-	    	$this->_ModelBlog = E_FW::load_Class('Model_Blog');
-	    	
-			//数据库操作
-			$this->_ModelBlog->where('');
-			$this->_ModelBlog->order('id desc');
-			$this->_ModelBlog->limit(30);
-			$news = $this->_ModelBlog->select(array(
-				'isCount'	=> true
-			));
-			
-			print_r($news);
-			$output->end();
-    	}
-    }
-
-	function actionCreate () {
-		$insert = array(
-			'category_id' 	=> '2',
-			'category_title'=> 'qwe',
-			'title'			=> 'hello word!',
-			'content'		=> 'single push data'
-		);
-
-		$this->_ModelBlog = E_FW::load_Class('Model_Blog');
-
-		print_r($this->_ModelBlog->insert($insert));
-	}
-	
-	function actionUpdate () {
-		$update = array(
-			'id' 		 => '2',
-			'category_id'=> '1'
-		);
-
-		$this->_ModelBlog = E_FW::load_Class('Model_Blog');
-
-		print_r($this->_ModelBlog->update($update));
-	}
-	
-	function actionDelete () {
-		$this->_ModelBlog = E_FW::load_Class('Model_Blog');
-		
-		$this->_ModelBlog->where('id in (20,19,18,17,16,15,14)');
-
-		print_r($this->_ModelBlog->del());
-	}
 	
 	function actionReadWithActiveRecord () {
 		//list
