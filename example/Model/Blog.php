@@ -5,7 +5,7 @@
  */
 
 //引入 model 基类
-E_FW::load_File('db_TableDataGateway');
+E_FW::load_File('db_TableGateway');
 
 /**
  * 定义 blog 表的 model 类
@@ -19,7 +19,7 @@ E_FW::load_File('db_TableDataGateway');
  * @subpackage Model
  * @see DB_TableDataGateway
  */
-class Model_Blog extends DB_TableDataGateway{
+class Model_Blog extends DB_TableGateway {
 	var $tableName 	= 'e_fw_blog';
 	var $primaryKey = 'id';
 
@@ -58,7 +58,7 @@ class Model_Blog extends DB_TableDataGateway{
  * @subpackage Model
  * @see DB_TableDataGateway
  */
-class Model_Category_ForBlog extends DB_TableDataGateway{
+class Model_Category_ForBlog extends DB_TableGateway {
 	var $tableName 	= 'e_fw_category';
 	var $primaryKey = 'id';
 }
