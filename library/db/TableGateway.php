@@ -576,7 +576,7 @@ class DB_TableGateway {
 		$sql.= ' SET '.substr($pk, 0, - 2);
 		$sql.= $subSql;
 
-		if ( ($params['isExecute']) and (!empty($linkData)) ) {
+		if ( ($params['isExecute']) or (!empty($linkData)) ) {
 			$this->field($this->primaryKey);
 			$this->_where = $countSql;
 
