@@ -9,7 +9,7 @@
  * 
  * @package Example
  * @author eason007<eason007@163.com>
- * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
+ * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
  * @version 1.1.1.20091215
  */
 
@@ -32,9 +32,9 @@ $Config = array(
 		'dbType' 	=> 'PDO'									//DB类连接类型
 	),
 	'VIEW' => array(
-		'class' 		=> 'phplib',							//设置调用的模版类
-		'template_dir' 	=> '.'.DS.'res'.DS.'templates',			//设置模版存放目录
-		'compile_dir' 	=> '.'.DS.'res'.DS.'templates_c',		//设置模版缓存目录
+		'class' 		=> 'smarty',							//设置调用的模版类
+		'template_dir' 	=> '.'.DS.'Res',						//设置模版存放目录
+		'compile_dir' 	=> '.'.DS.'Compiler',					//设置模版缓存目录
 		'left_delimiter'=> '${'									//设置模版左定界符号
 	),
 	'CONTROLLER' => array(
