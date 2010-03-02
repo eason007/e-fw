@@ -7,7 +7,7 @@
  * DB_ActiveRecord 类
  * 
  * <pre>
- * 基于 TableDataGateway 上实现的 ActiveRecord 模式
+ * 基于 TableGateway 上实现的 ActiveRecord 模式
  * </pre>
  * 
  * @package DB
@@ -238,11 +238,22 @@ class DB_ActiveRecord {
 		}
 	}
 	
+	/**
+	 * 销毁对象
+	 * 
+	 * @access public
+	 * @return bool
+	 */
 	public function destroy () {
 		$pkName = self::$_define['props']['primaryKey'];
 		
 		self::$_meta->where = $this->_props[$pkName];
 		$rt = self::$_meta->del();
+		
+		if ($rt['rowCount']) {
+			unset($this->_props[$pkName]);
+		}
+		
 		return $rt['rowCount'];
 	}
 }

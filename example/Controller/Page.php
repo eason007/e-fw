@@ -20,6 +20,7 @@ class Controller_Page{
     function actionCache(){
     	$output = E_FW::load_Class('cache_OutputAnalytics');
     	
+    	//开始页面缓存
     	if (!$output->start('blog_index')){
 	    	$this->_ModelBlog = E_FW::load_Class('Model_Blog');
 	    	
