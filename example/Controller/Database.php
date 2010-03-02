@@ -28,7 +28,7 @@ class Controller_Database{
 			'isCount'	=> true
 		));
 		
-		print_r($news);
+		var_dump($news);
     }
 
 	public function actionCreate () {
@@ -41,7 +41,7 @@ class Controller_Database{
 
 		$this->_ModelBlog = E_FW::load_Class('Model_Blog');
 
-		print_r($this->_ModelBlog->insert($insert));
+		var_dump($this->_ModelBlog->insert($insert));
 	}
 	
 	public function actionUpdate () {
@@ -52,7 +52,7 @@ class Controller_Database{
 
 		$this->_ModelBlog = E_FW::load_Class('Model_Blog');
 
-		print_r($this->_ModelBlog->update($update));
+		var_dump($this->_ModelBlog->update($update));
 	}
 	
 	public function actionDelete () {
@@ -60,7 +60,7 @@ class Controller_Database{
 		
 		$this->_ModelBlog->where(1);
 
-		print_r($this->_ModelBlog->del());
+		var_dump($this->_ModelBlog->del());
 	}
 }
 ?>

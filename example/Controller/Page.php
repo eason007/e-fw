@@ -31,7 +31,7 @@ class Controller_Page{
 				'isCount'	=> true
 			));
 			
-			print_r($news);
+			var_dump($news);
 			$output->end();
     	}
     }

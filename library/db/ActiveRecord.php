@@ -3,8 +3,6 @@
  * @package DB
  */
 
-E_FW::load_File('db_TableDataGateway');
-
 /**
  * DB_ActiveRecord 类
  * 
@@ -15,7 +13,7 @@ E_FW::load_File('db_TableDataGateway');
  * @package DB
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 1.0.0.20100207
+ * @version 1.0.1.20100302
  */
 
 class DB_ActiveRecord {
@@ -30,13 +28,13 @@ class DB_ActiveRecord {
 	static $_define;
 	
 	function __construct($props) {
-		$define = self::_defMeta(get_class($this));
+		$define = (array) call_user_func(array(get_class($this), '_define'));
+		
 		if (isset($define['funcs'])){
 			$this->_funcs = $define['funcs'];
 		}
 		
 		$this->_props = $props;
-		unset($this->_props[self::$_define['props']['primaryKey']]);
 	}
 	
 	/**
@@ -120,18 +118,16 @@ class DB_ActiveRecord {
 	static function _defMeta ($class_name) {
 		$define = (array) call_user_func(array($class_name, '_define'));
 		
-		if (!isset(self::$_meta)){
-			self::$_meta = E_FW::load_Class('DB_TableDataGateway');
-			
-			foreach ($define['props'] as $key => $value) {
-				self::$_meta->$key = $value;
-			}
-			if (isset($define['props']['dbParams'])){
-				self::$_meta->setDB($define['props']['dbParams'], true);
-			}
-			
-			self::$_define = $define;
+		self::$_meta = E_FW::load_Class('db_TableGateway');
+		
+		foreach ($define['props'] as $key => $value) {
+			self::$_meta->$key = $value;
 		}
+		if (isset($define['props']['dbParams'])){
+			self::$_meta->setDB($define['props']['dbParams'], true);
+		}
+		
+		self::$_define = $define;
 		
 		return $define;
 	}
@@ -143,7 +139,7 @@ class DB_ActiveRecord {
 	 * 返回对象或对象集合
 	 * 
 	 * @param string $class_name 数据 Model 名
-	 * @param array $args 查找的条件，与 TableDataGateway 的方法对应
+	 * @param array $args 查找的条件，与 TableGateway 的方法对应
 	 * @return mixed
 	 * @access static
 	 */
@@ -168,7 +164,7 @@ class DB_ActiveRecord {
 			
 			return $rowSet;
 		}
-		else{
+		else if (count($row) == 1) {
 			$t = E_FW::load_Class($class_name, true, $row[0]);
 			if (isset($define['funcs'])){
 				$t->_funcs = $define['funcs'];
@@ -176,6 +172,31 @@ class DB_ActiveRecord {
 			
 			return $t;
 		}
+		else{
+			return E_FW::load_Class($class_name, true, array());
+		}
+	}
+	
+	/**
+	 * 删除记录
+	 * 
+	 * 通过 $args 的指定，删除符合的数据
+	 * 返回删除记录的行数
+	 * 
+	 * @param string $class_name 数据 Model 名
+	 * @param array $args 查找的条件，与 TableGateway 的方法对应
+	 * @return int
+	 * @access static
+	 */
+	static function destroyWhere ($class_name, $args) {
+		$define = self::_defMeta($class_name);
+		
+		foreach ($args as $key => $value) {
+			self::$_meta->$key($value);
+		}
+		$rt = self::$_meta->del();
+		
+		return $rt['rowCount'];
 	}
 	
 	/**
@@ -215,6 +236,14 @@ class DB_ActiveRecord {
 				return false;
 			}
 		}
+	}
+	
+	public function destroy () {
+		$pkName = self::$_define['props']['primaryKey'];
+		
+		self::$_meta->where = $this->_props[$pkName];
+		$rt = self::$_meta->del();
+		return $rt['rowCount'];
 	}
 }
 
