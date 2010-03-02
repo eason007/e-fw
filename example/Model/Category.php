@@ -12,12 +12,12 @@ E_FW::load_File('db_TableGateway');
  * 
  * <pre>
  * 类名以 [目录名]_[类名] 方式命名
- * 需继承自 class_TableDataGateway 类
+ * 需继承自 db_TableGateway 类
  * </pre>
  *
  * @package Example
  * @subpackage Model
- * @see DB_TableDataGateway
+ * @see DB_TableGateway
  */
 class Model_Category extends DB_TableGateway {
 	var $tableName 	= 'e_fw_category';
