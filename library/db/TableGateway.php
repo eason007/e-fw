@@ -7,7 +7,7 @@
  * 数据库对象操作类
  * 
  * <pre>
- * 本类是 TableDataGateway 模式。
+ * 本类是 TableGateway 模式。
  * 实现了：
  * CRUD的基本操作；(v1.0)
  * 基本的关联操作；(v1.0)
