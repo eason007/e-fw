@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>File Source for Core.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+		</head>
+		<body>
+						<h1>Source for file Core.php</h1>
+<p>Documentation is available at <a href="../Exception/_library---exception---Core.php.html">Core.php</a></p>
+<div class="src-code">
+<div class="src-code"><ol><li><div class="src-line"><a name="a1"></a><span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line"><a name="a2"></a><span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><a name="a3"></a><span class="src-doc">&nbsp;*&nbsp;Enter&nbsp;description&nbsp;here...</span></div></li>
+<li><div class="src-line"><a name="a4"></a><span class="src-doc">&nbsp;*</span></div></li>
+<li><div class="src-line"><a name="a5"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@package</span><span class="src-doc">&nbsp;Exception</span></div></li>
+<li><div class="src-line"><a name="a6"></a><span class="src-doc">&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a7"></a><span class="src-key">class&nbsp;</span><a href="../Exception/Exception_Core.html">Exception_Core</a>&nbsp;<span class="src-key">extends&nbsp;</span><span class="src-id">Exception</span></div></li>
+<li><div class="src-line"><a name="a8"></a><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a9"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><a href="../Exception/Exception_Core.html#var$message">$message</a>&nbsp;=&nbsp;<span class="src-str">''</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a10"></a>&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a11"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//重定义构造器使&nbsp;message&nbsp;变为必须被指定的属性</span></div></li>
+<li><div class="src-line"><a name="a12"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><span class="src-key">function&nbsp;</span><a href="../Exception/Exception_Core.html#method__construct">__construct</a><span class="src-sym">(</span><span class="src-var">$message</span><span class="src-sym">,&nbsp;</span><span class="src-var">$code&nbsp;</span>=&nbsp;<span class="src-num">0</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a13"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//确保所有变量都被正确赋值</span></div></li>
+<li><div class="src-line"><a name="a14"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-id">parent</span><span class="src-sym">::</span><span class="src-id">__construct</span><span class="src-sym">(</span><span class="src-var">$message</span><span class="src-sym">,&nbsp;</span><span class="src-var">$code</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a15"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a16"></a>&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a17"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;自定义字符串输出的样式</span></div></li>
+<li><div class="src-line"><a name="a18"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><span class="src-key">function&nbsp;</span><a href="../Exception/Exception_Core.html#method__toString">__toString</a><span class="src-sym">(</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a19"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-id"><a href="../Core/E_FW.html">E_FW</a></span><span class="src-sym">::</span><a href="../Core/E_FW.html#methodget_Config">get_Config</a><span class="src-sym">(</span><span class="src-str">'DEBUG'</span><span class="src-sym">))</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a20"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">return&nbsp;</span><span class="src-id">parent</span><span class="src-sym">::</span><span class="src-id">__toString</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a21"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a22"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">else</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a23"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">return&nbsp;</span>__CLASS__&nbsp;.&nbsp;<span class="src-str">&quot;</span><span class="src-str">:&nbsp;[{<span class="src-var">$this</span></span><span class="src-sym">-&gt;</span><span class="src-var">code</span><span class="src-sym">}</span>]:&nbsp;{<span class="src-var">$this</span><span class="src-sym">-&gt;</span><a href="../Exception/Exception_Core.html#var$message">message</a><span class="src-sym">}</span>\n</span><span class="src-str"><span class="src-str">"</span><span class="src-sym">;</span></span></div></li>
+<li><div class="src-line"><a name="a24"></a></span><span class="src-str">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></span></div></li>
+<li><div class="src-line"><a name="a25"></a></span><span class="src-str">&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></span></div></li>
+<li><div class="src-line"><a name="a26"></a></span><span class="src-str"><span class="src-sym">}</span></span></div></li>
+</ol></div>
+</div>
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 02 Mar 2010 07:30:17 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+	</p>
+	</body>
+</html>

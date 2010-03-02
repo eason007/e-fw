@@ -1,0 +1,1741 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class DB_TableGateway</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> DB_TableGateway</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">数据库对象操作类</p>
+<p class="description"><p>数据库对象操作类
+ <pre> 本类是 TableGateway 模式。
+ 实现了：
+ CRUD的基本操作；(v1.0)
+ 基本的关联操作；(v1.0)
+ 数据分布式存储；(v1.1)
+ 查询的自缓存；(v1.2)</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> eason007&lt;<a href="mailto:eason007@163.com">eason007@163.com</a>&gt;</li>
+				<li><span class="field">version:</span> 1.2.5.20100301</li>
+				<li><span class="field">copyright:</span> Copyright (c) 2007-2010 eason007&lt;eason007@163.com&gt;</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_library---db---TableGateway.php.html">/library/db/TableGateway.php</a> (line <span class="field"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a24">24</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../Example/Model/Model_Blog.html">Model_Blog</a>
+					</td>
+					<td>
+											定义 blog 表的 model 类
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../Example/Model/Model_Category_ForBlog.html">Model_Category_ForBlog</a>
+					</td>
+					<td>
+											定义 category 表的 model 类
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../Example/Model/Model_Category.html">Model_Category</a>
+					</td>
+					<td>
+											定义 category 表的 model 类
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendants</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																																																																																																																																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">bool</span>
+					<a href="#$autoLink" title="details" class="var-name">$autoLink</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">array</span>
+					<a href="#$belongsTo" title="details" class="var-name">$belongsTo</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/PrivateVariable.png" alt=" " />
+					<span class="var-type">object</span>
+					<a href="#$db" title="details" class="var-name">$db</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">array</span>
+					<a href="#$dbParams" title="details" class="var-name">$dbParams</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">array</span>
+					<a href="#$hasMany" title="details" class="var-name">$hasMany</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">array</span>
+					<a href="#$hasOne" title="details" class="var-name">$hasOne</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">bool</span>
+					<a href="#$isCache" title="details" class="var-name">$isCache</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">array</span>
+					<a href="#$manyToMany" title="details" class="var-name">$manyToMany</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$primaryKey" title="details" class="var-name">$primaryKey</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$tableName" title="details" class="var-name">$tableName</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/PrivateVariable.png" alt=" " />
+					<span class="var-type">object</span>
+					<a href="#$_cacheAnalytics" title="details" class="var-name">$_cacheAnalytics</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/PrivateVariable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$_field" title="details" class="var-name">$_field</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/PrivateVariable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$_limit" title="details" class="var-name">$_limit</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/PrivateVariable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$_order" title="details" class="var-name">$_order</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/PrivateVariable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$_other" title="details" class="var-name">$_other</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/PrivateVariable.png" alt=" " />
+					<span class="var-type">mixed</span>
+					<a href="#$_where" title="details" class="var-name">$_where</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendants</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																																								<div class="method-definition">
+					<img src="../media/images/Constructor.png" alt=" "/>
+											<span class="method-result">DB_TableGateway</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/PrivateMethod.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#clear" title="details" class="method-name">clear</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#del" title="details" class="method-name">del</a>
+											([<span class="var-type">array</span>&nbsp;<span class="var-name">$parSet</span> = <span class="var-default">array()</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#field" title="details" class="method-name">field</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$p</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#getSubSql" title="details" class="method-name">getSubSql</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$codeList</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#insert" title="details" class="method-name">insert</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$rowData</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$parSet</span> = <span class="var-default">array()</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#limit" title="details" class="method-name">limit</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$p</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#order" title="details" class="method-name">order</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$p</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#other" title="details" class="method-name">other</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$p</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">mixed</span>
+										<a href="#select" title="details" class="method-name">select</a>
+											([<span class="var-type">array</span>&nbsp;<span class="var-name">$parSet</span> = <span class="var-default">array()</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#selectSQL" title="details" class="method-name">selectSQL</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sql</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#setDB" title="details" class="method-name">setDB</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$dbParams</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$isReload</span> = <span class="var-default">false</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#sqlEncode" title="details" class="method-name">sqlEncode</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type">int</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">0</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#update" title="details" class="method-name">update</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$rowData</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$parSet</span> = <span class="var-default">array()</span>])
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#where" title="details" class="method-name">where</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$p</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#_afterDelete" title="details" class="method-name">_afterDelete</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#_afterInsert" title="details" class="method-name">_afterInsert</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#_afterUpdate" title="details" class="method-name">_afterUpdate</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#_beforeDelete" title="details" class="method-name">_beforeDelete</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#_beforeInsert" title="details" class="method-name">_beforeInsert</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#_beforeUpdate" title="details" class="method-name">_beforeUpdate</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#_delLinkData" title="details" class="method-name">_delLinkData</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$linkType</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$primaryKeyStr</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#_getLinkData" title="details" class="method-name">_getLinkData</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$rt</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$linkType</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$rt</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#_insertLinkData" title="details" class="method-name">_insertLinkData</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$linkType</span>, <span class="var-type"></span>&nbsp;<span class="var-name">&$row</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$primaryID</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$row</span>)
+									</div>
+																<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#_updateLinkData" title="details" class="method-name">_updateLinkData</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$linkType</span>, <span class="var-type"></span>&nbsp;<span class="var-name">&$row</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$primaryKeyStr</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$row</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$autoLink" id="$autoLink"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">bool</span>
+			<span class="var-name">$autoLink</span>
+			 = <span class="var-default"> false</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a120">120</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">是否在执行数据库中自动执行关联操作</p>
+<p class="description"><p>是否在执行数据库中自动执行关联操作 仅在select和del方法中有效</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../Example/Model/Model_Blog.html#var$autoLink">Model_Blog::$autoLink</a>
+							</li>
+					<li>
+				<a href="../Example/Model/Model_Category.html#var$autoLink">Model_Category::$autoLink</a>
+							</li>
+				</ul>
+		
+
+</div>
+<a name="var$belongsTo" id="$belongsTo"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$belongsTo</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a56">56</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">从属关联</p>
+<p class="description"><p>从属关联
+ <pre> 指定与本表有主从关系的其他数据表（本表为从，对方表为主）
+ 比较典型的例子为：
+ 在文章表中指定与分类表的从属关系
+ 包含键名有：
+ tableClass，指该数据表的类名
+ joinKey，指对方主键字段与本表关联的字段名
+ mappingName，指对方数据在本表中显示的别名</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../Example/Model/Model_Blog.html#var$belongsTo">Model_Blog::$belongsTo</a>
+							</li>
+				</ul>
+		
+
+</div>
+<a name="var$db" id="$db"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/PrivateVariable.png" />
+		<span class="var-title">
+			<span class="var-type">object</span>
+			<span class="var-name">$db</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a203">203</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">数据库连接对象</p>
+<p class="description"><p>数据库连接对象</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> private</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$dbParams" id="$dbParams"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$dbParams</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a130">130</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">数据表所在数据库的连接信息</p>
+<p class="description"><p>数据表所在数据库的连接信息
+ 主要用于数据分区时对表的存储位置进行单独定义</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../Example/Model/Model_Blog.html#var$dbParams">Model_Blog::$dbParams</a>
+							</li>
+				</ul>
+		
+
+</div>
+<a name="var$hasMany" id="$hasMany"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$hasMany</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a91">91</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">一对多关系</p>
+<p class="description"><p>一对多关系
+ <pre> 指定与本表有一对多关系的其他数据表
+ 比较典型的例子为：
+ 在用户表中指定与用户定单表的一对多关系
+ 包含键名有：
+ tableClass，指该数据表的类名
+ joinKey，指对方与本表主键字段关联的字段名
+ mappingName，指该表数据在本表中显示的别名</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../Example/Model/Model_Category.html#var$hasMany">Model_Category::$hasMany</a>
+							</li>
+				</ul>
+		
+
+</div>
+<a name="var$hasOne" id="$hasOne"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$hasOne</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a74">74</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">一对一关联</p>
+<p class="description"><p>一对一关联
+ <pre> 指定与本表有一对一关系的其他数据表
+ 比较典型的例子为：
+ 在用户表中指定与用户详细信息表的一对一关系
+ 包含键名有：
+ tableClass，指该数据表的类名
+ linkKey，指与对方关联的本表字段名，一般为本表主键。目前只在select有效
+ joinKey，指对方与linkKey字段关联的字段名
+ mappingName，指该表数据在本表中显示的别名</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$isCache" id="$isCache"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">bool</span>
+			<span class="var-name">$isCache</span>
+			 = <span class="var-default"> true</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a138">138</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">是否对查询开启缓存</p>
+<p class="description"><p>是否对查询开启缓存</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$manyToMany" id="$manyToMany"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$manyToMany</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a111">111</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">多对多关系</p>
+<p class="description"><p>多对多关系
+ <pre> 指定与本表有多对多关系的其他数据表
+ 比较典型的例子为：
+ 在用户表中指定与用户组表的多对多关系，
+ 两表中数据的关联关系，使用第三方表保存
+ 包含键名有：
+ tableClass，指关联目标表的类名
+ relateClass，指第三方表的类名
+ linkKey，指在第三方表中，保存目标表主键字段的关联字段名
+ joinKey，指在第三方表中，保存本表主键字段关联的字段名
+ mappingName，指目标表数据在本表中显示的别名</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$primaryKey" id="$primaryKey"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$primaryKey</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a38">38</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">主键字段名</p>
+<p class="description"><p>主键字段名</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../Example/Model/Model_Blog.html#var$primaryKey">Model_Blog::$primaryKey</a>
+							</li>
+					<li>
+				<a href="../Example/Model/Model_Category_ForBlog.html#var$primaryKey">Model_Category_ForBlog::$primaryKey</a>
+							</li>
+					<li>
+				<a href="../Example/Model/Model_Category.html#var$primaryKey">Model_Category::$primaryKey</a>
+							</li>
+				</ul>
+		
+
+</div>
+<a name="var$tableName" id="$tableName"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$tableName</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a31">31</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">数据表名</p>
+<p class="description"><p>数据表名</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../Example/Model/Model_Blog.html#var$tableName">Model_Blog::$tableName</a>
+							</li>
+					<li>
+				<a href="../Example/Model/Model_Category_ForBlog.html#var$tableName">Model_Category_ForBlog::$tableName</a>
+							</li>
+					<li>
+				<a href="../Example/Model/Model_Category.html#var$tableName">Model_Category::$tableName</a>
+							</li>
+				</ul>
+		
+
+</div>
+<a name="var$_cacheAnalytics" id="$_cacheAnalytics"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/PrivateVariable.png" />
+		<span class="var-title">
+			<span class="var-type">object</span>
+			<span class="var-name">$_cacheAnalytics</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a211">211</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">缓存分析对象</p>
+<p class="description"><p>缓存分析对象</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> private</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_field" id="$_field"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/PrivateVariable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$_field</span>
+			 = <span class="var-default"> '*'</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a146">146</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">显示字段名列表</p>
+<p class="description"><p>显示字段名列表</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> private</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_limit" id="$_limit"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/PrivateVariable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$_limit</span>
+			 = <span class="var-default"> ''</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a195">195</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">limit子句</p>
+<p class="description"><p>limit子句
+ <pre> 如传入数字，则代表指定返回的记录数
+ 如传入数组，array(offset, length)，
+ 则offset代表页数，length代表步长
+ 即limit offset * length, length;</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> private</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_order" id="$_order"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/PrivateVariable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$_order</span>
+			 = <span class="var-default"> ''</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a181">181</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">order子句</p>
+<p class="description"><p>order子句</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> private</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_other" id="$_other"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/PrivateVariable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$_other</span>
+			 = <span class="var-default"> ''</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a174">174</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">其他子句</p>
+<p class="description"><p>其他子句
+ 指跟随在where之后，order之前的自定义子句</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> private</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$_where" id="$_where"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/PrivateVariable.png" />
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$_where</span>
+			 = <span class="var-default"> ''</span>			(line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a165">165</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">查询条件</p>
+<p class="description"><p>查询条件
+ <pre> 数据库操作时的条件，可接受多种格式的数据</pre>
+ <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$clsTable</span><span class="src-sym">-&gt;</span><a href="../DB/DB_TableGateway.html#methodwhere">where</a><span class="src-sym">(</span><span class="src-num">23</span><span class="src-sym">)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="src-comm">//赋为数字，则以主键字段为查找字段</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$clsTable</span><span class="src-sym">-&gt;</span><a href="../DB/DB_TableGateway.html#methodwhere">where</a><span class="src-sym">(</span><span class="src-str">'name&nbsp;=&nbsp;\'dualface\''</span><span class="src-sym">)&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="src-comm">//赋为字符串，则直接作为查询条件</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$clsTable</span><span class="src-sym">-&gt;</span><a href="../DB/DB_TableGateway.html#methodwhere">where</a><span class="src-sym">(</span><span class="src-key">array</span><span class="src-sym">(</span><span class="src-str">'name&nbsp;&lt;&gt;&nbsp;\'dualface\''</span><span class="src-sym">,&nbsp;</span><span class="src-str">'sex'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'sex'</span><span class="src-sym">))</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$clsTable</span><span class="src-sym">-&gt;</span><a href="../DB/DB_TableGateway.html#methodwhere">where</a><span class="src-sym">(</span><span class="src-key">array</span><span class="src-sym">(</span><span class="src-str">'born&nbsp;=&nbsp;\'1977/10/24\''</span><span class="src-sym">,&nbsp;</span><span class="src-str">'13'</span><span class="src-sym">))</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$clsTable</span><span class="src-sym">-&gt;</span><a href="../DB/DB_TableGateway.html#methodwhere">where</a><span class="src-sym">(</span><span class="src-key">array</span><span class="src-sym">(</span><span class="src-str">'sex'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'sex'</span><span class="src-sym">))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="src-comm">//赋为数组，则单独解释各维，各维之间为&nbsp;AND&nbsp;关键字</span></div></li>
+</ol></div></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> private</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+														<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Constructor.png" />
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a214">214</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">DB_TableGateway</span>
+		<span class="method-name">
+			__construct
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodclear" id="clear"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/PrivateMethod.png" />
+		<span class="method-title">clear</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a1163">1163</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">清理属性</p>
+<p class="description"><p>清理属性</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> private</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			clear
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methoddel" id="del"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">del</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a666">666</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">删除数据</p>
+<p class="description"><p>删除数据
+ <pre> 删除数据表中的某行或多行数据。具体删除条件及行数以where和limit属性为依据
+ 返回已删除的行数。如值为0，则代表没有任何数据行被删除
+
+ 如需要自动删除关联表数据，则可指定$link参数
+
+ 可定义 _beforeDelete 方法，以便在更新数据表之前执行相关操作。但需注意在框架中
+ 类是可cache对象，因此需要注意定义的方法是否需要及时销毁
+
+ 如 link 参数不为空，则无论是否 autoLink 是否为 true ，均返回$link中指定的关联数据
+ 如 isExecute 参数为 false，则不返回数据数组，而返回解释相关属性后的T-SQL语句</pre>
+ <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$clsTab</span><span class="src-sym">-&gt;</span><a href="../DB/DB_TableGateway.html#methoddel">del</a><span class="src-sym">(</span><span class="src-key">array</span><span class="src-sym">(</span><span class="src-str">'link'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'hasOne,hasMany'</span><span class="src-sym">))</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$clsTab</span><span class="src-sym">-&gt;</span><a href="../DB/DB_TableGateway.html#methoddel">del</a><span class="src-sym">(</span><span class="src-key">array</span><span class="src-sym">(</span><span class="src-str">'isExecute'&nbsp;</span>=&gt;&nbsp;<span class="src-id">false</span><span class="src-sym">))</span><span class="src-sym">;</span></div></li>
+</ol></div></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			del
+		</span>
+					([<span class="var-type">array</span>&nbsp;<span class="var-name">$parSet</span> = <span class="var-default">array()</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$parSet</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodfield" id="field"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">field</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a1078">1078</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">设置查询的字段</p>
+<p class="description"><p>设置查询的字段
+ $clsTab-&gt;field('id, title');</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			field
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$p</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$p</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetSubSql" id="getSubSql"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getSubSql</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a1045">1045</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">获取组合后的 SQL 子句</p>
+<p class="description"><p>获取组合后的 SQL 子句
+ <pre> 可同时获取多种子句，条件以英文,号分隔</pre>
+ <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$clsTab</span><span class="src-sym">-&gt;</span><a href="../DB/DB_TableGateway.html#methodgetSubSql">getSubSql</a><span class="src-sym">(</span><span class="src-str">'WHERE'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$clsTab</span><span class="src-sym">-&gt;</span><a href="../DB/DB_TableGateway.html#methodgetSubSql">getSubSql</a><span class="src-sym">(</span><span class="src-str">'WHERE,OTHER'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+</ol></div></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getSubSql
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$codeList</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$codeList</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodinsert" id="insert"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">insert</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a424">424</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">插入数据</p>
+<p class="description"><p>插入数据
+ <pre> 根据传入的数据数组，更新相关的数据表。数组的键名对应数据表中的字段名
+ 返回以主键字段为键名的数据。如该键名值为0，则代表更新失败。
+
+ 如需要自动插入数据到关联表，则可指定 hasOne、hasMany、manyToMany 等键名的数据
+ 但本表数据必须为单行
+ belongsTo 关系不支持关联更新
+
+ 可定义 _beforeInsert 方法，以便在更新数据表之前执行相关操作。
+ 但需注意在框架中类是可cache对象，因此需要注意定义的方法是否需要及时销毁
+
+ 可定义 _afterInsert 方法，以便在更新数据表之后执行相关操作。
+
+ parSet 参数为数组格式，目前包含的设置为：isExecute = bool, isRplace = bool
+ 默认设置为：isExecute = true, isRplace = false
+
+ 如 isExecute 参数为 false，则不返回数据数组，而返回解释相关属性后的T-SQL语句
+ 如 isExecute 参数为 true，则使用 REPLACE INTO 语法，否则使用 INSERT INTO</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			insert
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$rowData</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$parSet</span> = <span class="var-default">array()</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$rowData</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$parSet</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodlimit" id="limit"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">limit</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a1148">1148</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">设置分页条件子句</p>
+<p class="description"><p>设置分页条件子句</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			limit
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$p</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$p</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodorder" id="order"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">order</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a1137">1137</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">设置排序条件子句</p>
+<p class="description"><p>设置排序条件子句</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			order
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$p</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$p</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodother" id="other"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">other</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a1126">1126</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">设置复合条件子句</p>
+<p class="description"><p>设置复合条件子句</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			other
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$p</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$p</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodselect" id="select"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">select</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a315">315</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">查询数据</p>
+<p class="description"><p>查询数据
+ <pre> 执行的查询条件及相关的显示及排序条件，以调用方法前的
+ where、limit、field、order、other等属性为准。而本方法执行后
+ 将自动清除以上属性。
+
+ 默认将直接返回符合条件的数据数组，并返回相关的关联数据（autoLink 为 true 的情况下）。
+
+ parSet 参数为数组格式，目前包含的设置为：link = string, isExecute = bool, isCount = bool
+ 默认设置为：link = null, isExecute = true, isCount = false
+
+ 如 link 参数不为空，则无论是否 autoLink 是否为 true ，均返回$link中指定的关联数据
+ 如 isExecute 参数为 false，则不返回数据数组，而返回解释相关属性后的T-SQL语句
+ 如需要同时返回符合条件的总记录数，则必须指定 isCount 参数为 true</pre>
+ <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-var">$clsTab</span><span class="src-sym">-&gt;</span><a href="../DB/DB_TableGateway.html#methodselect">select</a><span class="src-sym">(</span><span class="src-key">array</span><span class="src-sym">(</span><span class="src-str">'link'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'belongsTo'</span><span class="src-sym">))</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$clsTab</span><span class="src-sym">-&gt;</span><a href="../DB/DB_TableGateway.html#methodselect">select</a><span class="src-sym">(</span><span class="src-key">array</span><span class="src-sym">(</span><span class="src-str">'isExecute'&nbsp;</span>=&gt;&nbsp;<span class="src-id">true</span><span class="src-sym">))</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$clsTab</span><span class="src-sym">-&gt;</span><a href="../DB/DB_TableGateway.html#methodselect">select</a><span class="src-sym">(</span><span class="src-key">array</span><span class="src-sym">(</span><span class="src-str">'link'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'belongsTo'</span><span class="src-sym">,&nbsp;</span><span class="src-str">'isCount'&nbsp;</span>=&gt;&nbsp;<span class="src-id">true</span><span class="src-sym">))</span><span class="src-sym">;</span></div></li>
+</ol></div></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			select
+		</span>
+					([<span class="var-type">array</span>&nbsp;<span class="var-name">$parSet</span> = <span class="var-default">array()</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$parSet</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodselectSQL" id="selectSQL"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">selectSQL</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a269">269</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">执行自定义查询语句</p>
+<p class="description"><p>执行自定义查询语句
+ <pre> 执行自定义查询语句，作用相当于select方法
+ 只能'查询'，而不能'执行'</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			selectSQL
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sql</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sql</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetDB" id="setDB"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">setDB</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a239">239</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">设置DB类</p>
+<p class="description"><p>设置DB类
+ <pre> 传入包含有dbServer、dbPort、dbName、dbUser、dbPassword、dbType的数组
+ $isReload代表是否重载db类，默认为否。</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setDB
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$dbParams</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$isReload</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$dbParams</span>			</li>
+					<li>
+				<span class="var-type">bool</span>
+				<span class="var-name">$isReload</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsqlEncode" id="sqlEncode"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">sqlEncode</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a1025">1025</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">sql字符过滤</p>
+<p class="description"><p>sql字符过滤
+ 未完成</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			sqlEncode
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type">int</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">0</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$value</span>			</li>
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$type</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodupdate" id="update"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">update</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a540">540</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">更新数据</p>
+<p class="description"><p>更新数据
+ <pre> 更新数据表中的某行或多行数据。数组的键名对应数据表中的字段名
+ 返回已更新的行数。如值为0，则代表没有任何数据行被更新
+
+ 如需要自动更新关联表数据，则可指定 hasOne、hasMany、manyToMany 等键名的数据
+ 使用hasOne时，待更新本表数据必须为单行
+ belongsTo关系不支持关联更新
+
+ 可定义 _beforeUpdate 方法，以便在更新数据表之前执行相关操作。但需注意在框架中
+ 类是可cache对象，因此需要注意定义的方法是否需要及时销毁
+
+ 如$isExecute参数为false，则不返回数据数组，而返回解释相关属性后的T-SQL语句</pre></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			update
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$rowData</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$parSet</span> = <span class="var-default">array()</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$rowData</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$parSet</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodwhere" id="where"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">where</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a1089">1089</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">设置条件子句</p>
+<p class="description"><p>设置条件子句</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			where
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$p</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$p</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_afterDelete" id="_afterDelete"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">_afterDelete</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a1230">1230</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">删除操作后执行的方法</p>
+<p class="description"><p>删除操作后执行的方法
+ 提供给子类复写</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_afterDelete
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_afterInsert" id="_afterInsert"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">_afterInsert</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a1186">1186</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">插入操作后执行的方法</p>
+<p class="description"><p>插入操作后执行的方法
+ 提供给子类复写</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_afterInsert
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_afterUpdate" id="_afterUpdate"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">_afterUpdate</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a1208">1208</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">更新操作后执行的方法</p>
+<p class="description"><p>更新操作后执行的方法
+ 提供给子类复写</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_afterUpdate
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_beforeDelete" id="_beforeDelete"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">_beforeDelete</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a1219">1219</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">删除操作前执行的方法</p>
+<p class="description"><p>删除操作前执行的方法
+ 提供给子类复写</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_beforeDelete
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_beforeInsert" id="_beforeInsert"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">_beforeInsert</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a1175">1175</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">插入操作前执行的方法</p>
+<p class="description"><p>插入操作前执行的方法
+ 提供给子类复写</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_beforeInsert
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_beforeUpdate" id="_beforeUpdate"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">_beforeUpdate</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a1197">1197</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">更新操作前执行的方法</p>
+<p class="description"><p>更新操作前执行的方法
+ 提供给子类复写</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_beforeUpdate
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_delLinkData" id="_delLinkData"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">_delLinkData</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a739">739</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">供del方法使用，面向关联表操作的del方法</p>
+<p class="description"><p>供del方法使用，面向关联表操作的del方法</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			_delLinkData
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$linkType</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$primaryKeyStr</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$linkType</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$primaryKeyStr</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_getLinkData" id="_getLinkData"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">_getLinkData</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a878">878</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">供select方法使用，面向关联表操作的select方法</p>
+<p class="description"><p>供select方法使用，面向关联表操作的select方法</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_getLinkData
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$rt</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$linkType</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$rt</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$rt</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$linkType</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$rt</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_insertLinkData" id="_insertLinkData"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">_insertLinkData</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a828">828</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">供insert方法使用，面向关联表操作的insert方法</p>
+<p class="description"><p>供insert方法使用，面向关联表操作的insert方法</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			_insertLinkData
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$linkType</span>, <span class="var-type"></span>&nbsp;<span class="var-name">&$row</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$primaryID</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$row</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$linkType</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$row</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$primaryID</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$row</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_updateLinkData" id="_updateLinkData"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">_updateLinkData</span> (line <span class="line-number"><a href="../__filesource/fsource_DB__librarydbTableGateway.php.html#a781">781</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">供update方法使用，面向关联表操作的update方法</p>
+<p class="description"><p>供update方法使用，面向关联表操作的update方法</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			_updateLinkData
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$linkType</span>, <span class="var-type"></span>&nbsp;<span class="var-name">&$row</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$primaryKeyStr</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$row</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$linkType</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$row</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$primaryKeyStr</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$row</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 02 Mar 2010 07:30:49 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+	</p>
+	</div></body>
+</html>
