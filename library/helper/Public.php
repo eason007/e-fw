@@ -170,14 +170,14 @@ class helper_Public {
 			if($type == "delete") {
 				while (list ($key, $val) = @each ($outPut)){
 					if(!in_array ($key, $characterElements) and $key != '') {
-						$newQueryString .= "&".$key."=".urlencode(formatString($val,1));
+						$newQueryString .= "&".$key."=".urlencode($this->formatString($val,1));
 					}
 				}
 			}
 			elseif($type == "hold") {
 				while (list ($key, $val) = each ($outPut)) {
 					if(in_array ($key, $characterElements)) { 
-						$newQueryString .= "&".$key."=".urlencode(formatString($val,1));
+						$newQueryString .= "&".$key."=".urlencode($this->formatString($val,1));
 					}
 				}
 			}

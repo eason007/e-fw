@@ -31,7 +31,7 @@ define('E_FW_VAR', '_E_FW_CORE_');
  * @global array $GLOBALS
  */
 $GLOBALS[E_FW_VAR] = array(
-    'VERSION' 	=> '1.0.6.20100220',			//框架版本号
+    'VERSION' 	=> '1.0.7.20100226',			//框架版本号
 	'DSN' 		=> array(),						//数据库连接配置信息。dbServer/dbPort/dbName/dbUser/dbPassword/dbType
 	'FILE_PATH' => array(),
 	'LOAD_FILE_NAME'	=> array(),
@@ -77,6 +77,7 @@ class E_FW {
 	 * </p>
 	 * 
 	 * @return void
+	 * @access public
 	 */
 	public function run () {
 		setlocale(LC_TIME, E_FW::get_Config('TIME_FORMAT'));
