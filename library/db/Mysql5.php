@@ -77,11 +77,11 @@ class DB_Mysql5 {
 					$this->dbUser,
 					$this->dbPassword
 				);
+				
+				$this->query('SET NAMES \'utf8\';', 'None');
 
 				break;
 		}
-
-		$this->query('SET NAMES \'utf8\';', 'None');
 	}
 
 	/**
@@ -270,8 +270,13 @@ class DB_Driver_PDO {
 	) {
 		try
 		{
-			$this->dbConnect = new PDO('mysql:host='.$dbServer.';dbname='.$dbName, $dbUser, $dbPassword);
-			$this->dbConnect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$this->dbConnect = new PDO('mysql:host='.$dbServer.';dbname='.$dbName, $dbUser, $dbPassword,
+				array(
+					PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+					PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+					PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"
+				)	
+			);
 
 			return $this->dbConnect;
 		}
@@ -285,13 +290,11 @@ class DB_Driver_PDO {
 	public function query ($sSQL) {
 		$result = $this->dbConnect->query($sSQL);
 
-		$result->setFetchMode(PDO::FETCH_ASSOC);
-
 		return $result->fetchAll();
 	}
 
 	public function execute ($sSQL, $type) {
-		$result = $this->dbConnect->query($sSQL);
+		$result = $this->dbConnect->exec($sSQL);
 		
 		$rt = 0;
 		switch ($type) {
@@ -299,7 +302,7 @@ class DB_Driver_PDO {
 				$rt = $this->dbConnect->lastInsertId();
 				break;
 			case 'RowCount':
-				$rt = $result->rowCount();
+				$rt = $result;
 				break;
 			case 'None':
 				$rt = 1;
