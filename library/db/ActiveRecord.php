@@ -13,7 +13,7 @@
  * @package DB
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 1.0.1.20100302
+ * @version 1.0.1.20100305
  */
 
 class DB_ActiveRecord {
@@ -23,9 +23,9 @@ class DB_ActiveRecord {
 	
 	protected $_chgProps = array();
 	
-	static $_meta;
+	private static $_meta;
 	
-	static $_define;
+	private static $_define;
 	
 	function __construct($props) {
 		$define = (array) call_user_func(array(get_class($this), '_define'));
@@ -113,9 +113,9 @@ class DB_ActiveRecord {
 	 * 
 	 * @param string $class_name
 	 * @return array
-	 * @access static
+	 * @access private
 	 */
-	static function _defMeta ($class_name) {
+	private static function _defMeta ($class_name) {
 		$define = (array) call_user_func(array($class_name, '_define'));
 		
 		self::$_meta = E_FW::load_Class('db_TableGateway');
@@ -141,9 +141,9 @@ class DB_ActiveRecord {
 	 * @param string $class_name 数据 Model 名
 	 * @param array $args 查找的条件，与 TableGateway 的方法对应
 	 * @return mixed
-	 * @access static
+	 * @access public
 	 */
-	static function find ($class_name, $args) {
+	public static function find ($class_name, $args) {
 		$define = self::_defMeta($class_name);
 		
 		foreach ($args as $key => $value) {
@@ -186,9 +186,9 @@ class DB_ActiveRecord {
 	 * @param string $class_name 数据 Model 名
 	 * @param array $args 查找的条件，与 TableGateway 的方法对应
 	 * @return int
-	 * @access static
+	 * @access public
 	 */
-	static function destroyWhere ($class_name, $args) {
+	public static function destroyWhere ($class_name, $args) {
 		$define = self::_defMeta($class_name);
 		
 		foreach ($args as $key => $value) {
