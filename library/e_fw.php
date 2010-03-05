@@ -9,7 +9,7 @@
  * @package Core
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 1.0.7.20100226
+ * @version 1.1.0.20100305
  */
 
 /**
@@ -20,8 +20,6 @@
 global $_load_time;
 $_load_time = microtime();
 
-set_magic_quotes_runtime(0);
-
 define('DS', DIRECTORY_SEPARATOR);
 define('E_FW_VAR', '_E_FW_CORE_');
 
@@ -31,7 +29,7 @@ define('E_FW_VAR', '_E_FW_CORE_');
  * @global array $GLOBALS
  */
 $GLOBALS[E_FW_VAR] = array(
-    'VERSION' 	=> '1.0.7.20100226',			//框架版本号
+    'VERSION' 	=> '1.1.0.20100305',			//框架版本号
 	'DSN' 		=> array(),						//数据库连接配置信息。dbServer/dbPort/dbName/dbUser/dbPassword/dbType
 	'FILE_PATH' => array(),
 	'LOAD_FILE_NAME'	=> array(),
@@ -79,15 +77,15 @@ class E_FW {
 	 * @return void
 	 * @access public
 	 */
-	public function run () {
-		setlocale(LC_TIME, E_FW::get_Config('TIME_FORMAT'));
-		date_default_timezone_set(E_FW::get_Config('TIME_ZONE'));
-		header('Content-Type:text/html;charset='.E_FW::get_Config('CHARSET'));
+	public static function run () {
+		setlocale(LC_TIME, self::get_Config('TIME_FORMAT'));
+		date_default_timezone_set(self::get_Config('TIME_ZONE'));
+		header('Content-Type:text/html;charset='.self::get_Config('CHARSET'));
 
-		switch (E_FW::get_Config('URL_MODEL')){
+		switch (self::get_Config('URL_MODEL')){
 			case 0:
-				$controllerAccessor = E_FW::get_Config('CONTROLLER/controllerAccessor');
-				$actionAccessor		= E_FW::get_Config('CONTROLLER/actionAccessor');
+				$controllerAccessor = self::get_Config('CONTROLLER/controllerAccessor');
+				$actionAccessor		= self::get_Config('CONTROLLER/actionAccessor');
 
 				$r = array_change_key_case($_GET, CASE_LOWER);
 				$data = array('controller' => null, 'action' => null);
@@ -126,13 +124,13 @@ class E_FW {
 		}
 
 		if (!isset($controllerName)) {
-			$controllerName = E_FW::get_Config('CONTROLLER/defaultController');
+			$controllerName = self::get_Config('CONTROLLER/defaultController');
 		}
 		if (!isset($actionName)) {
-			$actionName = E_FW::get_Config('CONTROLLER/defaultAction');
+			$actionName = self::get_Config('CONTROLLER/defaultAction');
 		}
 
-		E_FW::execute_Action('Controller_'.$controllerName, $actionName);
+		self::execute_Action('Controller_'.$controllerName, $actionName);
 	}
 
 	
@@ -149,15 +147,16 @@ class E_FW {
 	 * @param string $actionName 方法名称
 	 * @param array $loadParam 加载类时的传递参数。可选
 	 * @return mixed
+	 * @access public
 	 */
-	public function execute_Action ($controllerName, $actionName, $loadParam = null) {
-		$actionPrefix = E_FW::get_Config('CONTROLLER/actionMethodPrefix');
+	public static function execute_Action ($controllerName, $actionName, $loadParam = null) {
+		$actionPrefix = self::get_Config('CONTROLLER/actionMethodPrefix');
 		if ($actionPrefix != '') {
 			$actionName = ucfirst($actionName);
 		}
-		$actionMethod = $actionPrefix.$actionName.E_FW::get_Config('CONTROLLER/actionMethodSuffix');
+		$actionMethod = $actionPrefix.$actionName.self::get_Config('CONTROLLER/actionMethodSuffix');
 
-		$controller = E_FW::load_Class($controllerName);
+		$controller = self::load_Class($controllerName);
 		if (!$controller) {
 			return false;
 		}
@@ -186,13 +185,14 @@ class E_FW {
 	 *
 	 * @param string $dir 目录地址
 	 * @return void
+	 * @access public
 	 */
-	public function import($dir)
+	public static function import($dir)
     {
-		if (array_search($dir, E_FW::get_Config('FILE_PATH'))) {
+		if (array_search($dir, self::get_Config('FILE_PATH'))) {
 			return false;
 		}
-		E_FW::set_Config(array('FILE_PATH' => array($dir)));
+		self::set_Config(array('FILE_PATH' => array($dir)));
     }
 
     
@@ -209,23 +209,24 @@ class E_FW {
      * @param bool $isLoad 是否马上实例化该类
      * @param array $loadParams 实例化参数
      * @return mixed
+     * @access public
      */
-	public function load_Class($className, $isLoad = true, $loadParams = null)
+	public static function load_Class($className, $isLoad = true, $loadParams = null)
     {
-    	$v = E_FW::get_Config('CLASS_OBJ/'.$className);
+    	$v = self::get_Config('CLASS_OBJ/'.$className);
     	
 		if ( (isset($v)) && (is_object($v)) && (!$isLoad) ){
 			return $v;
 		}
 
 		if (!class_exists($className, false)) {
-			E_FW::load_File($className);
+			self::load_File($className);
 		}
 
 		if (class_exists($className, false)) {
 			if ($isLoad){
 				$t = new $className($loadParams);
-				E_FW::set_Config(array('CLASS_OBJ' => array($className => $t)));
+				self::set_Config(array('CLASS_OBJ' => array($className => $t)));
 
 				return $t;
 			}
@@ -250,16 +251,17 @@ class E_FW {
      *
      * @param string $filename 文件名
      * @return void
+     * @access public
      */
-	public function load_File ($filename, $loadOnce = true) {
-		$path = E_FW::get_FilePath($filename);
+	public static function load_File ($filename, $loadOnce = true) {
+		$path = self::get_FilePath($filename);
 
 		if ($path != '') {
-			if ( (E_FW::get_Config('LOAD_FILE_NAME/'.strtolower($filename))) and ($loadOnce) ) {
+			if ( (self::get_Config('LOAD_FILE_NAME/'.strtolower($filename))) and ($loadOnce) ) {
 				return true;
 			}
 			
-			E_FW::set_Config(array('LOAD_FILE_NAME' => array(strtolower($filename) => $path)));
+			self::set_Config(array('LOAD_FILE_NAME' => array(strtolower($filename) => $path)));
 			return include($path);
 		}
 	}
@@ -293,19 +295,20 @@ class E_FW {
 	 *
 	 * @param string/array $params
 	 * @return void
+	 * @access public
 	 */
-	public function set_Config ($params) {
+	public static function set_Config ($params) {
 		if (is_string($params)){
-			$params = E_FW::get_FilePath($params);
+			$params = self::get_FilePath($params);
 			if (is_readable($params)){
 				$tmp = require($params);
-				E_FW::set_Config($tmp);
+				self::set_Config($tmp);
 			}
 		}
 		else if (is_array($params)){
 			foreach($params as $key => $val){
 				if (strstr($key, '/')){
-					$tmp = &E_FW::get_Config($key, true);
+					$tmp = &self::get_Config($key, true);
 				}
 				else{
 					if (!isset($GLOBALS[E_FW_VAR][$key])){
@@ -349,8 +352,9 @@ class E_FW {
 	 *
 	 * @param string $path
 	 * @return mixed
+	 * @access public
 	 */
-	public function get_Config ($path = null, $returnRoot = false) {
+	public static function get_Config ($path = null, $returnRoot = false) {
 		if (is_null($path)){
 			return $GLOBALS[E_FW_VAR];
 		}
@@ -381,9 +385,11 @@ class E_FW {
 	 * 获取当前设定的模版类
 	 *
 	 * @return object
+	 * @access public
+	 * @return object
 	 */
-	public function get_view() {
-		return E_FW::load_Class('templates_'.E_FW::get_Config('VIEW/class').'_Plus');
+	public static function get_view() {
+		return self::load_Class('templates_'.self::get_Config('VIEW/class').'_Plus');
 	}
 
 	
@@ -404,11 +410,12 @@ class E_FW {
 	 *
 	 * @param string $filename
 	 * @return string
+	 * @access private
 	 */
-	private function get_FilePath($filename)
+	private static function get_FilePath($filename)
     {
-		if (E_FW::get_Config('SEARCH_FILE_NAME/'.$filename)) {
-			return E_FW::get_Config('SEARCH_FILE_NAME/'.$filename);
+		if (self::get_Config('SEARCH_FILE_NAME/'.$filename)) {
+			return self::get_Config('SEARCH_FILE_NAME/'.$filename);
 		}
 
 		$id = $filename;
@@ -419,14 +426,14 @@ class E_FW {
 		}
 
 		if (is_file($filename)) {
-			E_FW::set_Config(array('SEARCH_FILE_NAME' => array($id => $filename)));
+			self::set_Config(array('SEARCH_FILE_NAME' => array($id => $filename)));
 			return $filename;
 		}
 		else{
-			foreach (E_FW::get_Config('FILE_PATH') as $classdir) {
+			foreach (self::get_Config('FILE_PATH') as $classdir) {
 				$path = $classdir.$filename;
 				if (is_file($path)) {
-					E_FW::set_Config(array('SEARCH_FILE_NAME' => array($id => $path)));
+					self::set_Config(array('SEARCH_FILE_NAME' => array($id => $path)));
 					return $path;
 				}
 			}
