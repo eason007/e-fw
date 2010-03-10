@@ -18,7 +18,7 @@
  * @package DB
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 1.2.5.20100301
+ * @version 1.2.6.20100310
  */
  
 class DB_TableGateway {
@@ -216,7 +216,7 @@ class DB_TableGateway {
 			$this->setDB(E_FW::get_Config('DSN'));
 		}
 		else{
-			$this->setDB($this->dbParams);
+			$this->setDB($this->dbParams, true);
 		}
 		
 		if ($this->isCache) {
@@ -243,12 +243,8 @@ class DB_TableGateway {
 			switch ($dbParams['dbType']) {
 				case 'Mysqli':
 				case 'PDO' :
-					$this->db = E_FW::load_Class('db_Mysql5', true, $dbParams);
+					$this->db = E_FW::load_Class('db_Mysql5', $isReload, $dbParams, !$isReload);
 					break;
-			}
-			
-			if (!$isReload){
-				$this->dbParams = $dbParams;
 			}
 		}
 	}
@@ -434,7 +430,7 @@ class DB_TableGateway {
 		$value 		= '';
 		$linkData 	= array();
 		$result		= array();
-
+		
 		foreach($rowData as $key => $val){
 			if (is_array($val)){
 				$linkData[$key] = $val;
@@ -460,7 +456,6 @@ class DB_TableGateway {
 		$sql.= ' ('.substr($field, 0, - 2).')';
 		$sql.= ' VALUES';
 		$sql.= ' ('.substr($value, 0, - 2).')';
-
 		$this->clear();
 
 		if (!$params['isExecute']) {
@@ -491,12 +486,12 @@ class DB_TableGateway {
 				
 				foreach($linkData as $key => $val){
 					if (!is_null($this->$key)){
-						$result[$key] = $this->_insertLinkData(trim($key), $val, $result[$this->primaryKey]);
+						$result[$key] = $this->_insertLinkData(trim($key), $val, $result['lastID']);
 	
 						if ($result[$key] == 0){
 							$this->db->rollBackT();
 	
-							$result[$this->primaryKey] = 0;
+							$result['lastID'] = 0;
 							
 							$isFound = true;
 	
@@ -833,7 +828,7 @@ class DB_TableGateway {
 			case 'hasOne':
 				$row[$linkSetting['joinKey']] = $primaryID;
 				$tmp = $linkClass->insert($row);
-				$linkRT['rowCount'] = $tmp[$linkClass->primaryKey];
+				$linkRT['rowCount'] = $tmp['lastID'];
 
 				break;
 
@@ -843,7 +838,7 @@ class DB_TableGateway {
 				foreach($row as $val){
 					$val[$linkSetting['joinKey']] = $primaryID;
 					$tmp = $linkClass->insert($val);
-					$linkRT['rowCount'] = $tmp[$linkClass->primaryKey];
+					$linkRT['rowCount'] = $tmp['lastID'];
 				}
 
 				break;
@@ -855,10 +850,15 @@ class DB_TableGateway {
 				foreach($row as $val){
 					$val[$linkSetting['joinKey']] = $primaryID;
 					$tmp = $linkClass->insert($val);
-					$linkRT['rowCount']+= $tmp[$linkClass->primaryKey];
+					$linkRT['rowCount']+= $tmp['lastID'];
 				}
 
 				break;
+			
+			case 'belongsTo':
+				$linkRT = array(
+					'rowCount' => 0
+				);
 		}
 
 		unset($linkClass);

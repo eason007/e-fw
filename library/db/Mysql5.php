@@ -9,7 +9,7 @@
  * @subpackage Driver
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 1.2.1.20091221
+ * @version 1.2.2.20100310
  */
 
 class DB_Mysql5 {
@@ -231,7 +231,7 @@ class DB_Driver_Mysqli {
 			$rt = 0;
 			switch ($type) {
 				case 'LastID':
-					$rt = $this->dbConnect->insert_id;
+					$rt = $this->dbConnect->insert_id ? $this->dbConnect->insert_id : $this->dbConnect->affected_rows;
 					break;
 				case 'RowCount':
 					$rt = $this->dbConnect->affected_rows;
@@ -254,7 +254,7 @@ class DB_Driver_Mysqli {
  * @subpackage Driver
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.1.2.20100226
+ * @version 1.1.3.20100310
  */
 class DB_Driver_PDO {
 	public $dbConnect= null;
@@ -288,18 +288,32 @@ class DB_Driver_PDO {
 	}
 
 	public function query ($sSQL) {
-		$result = $this->dbConnect->query($sSQL);
+		try{
+			$result = $this->dbConnect->query($sSQL);
+		}
+		catch (PDOException $e)
+		{
+			E_FW::load_Class('exception_DB');
+			throw new exception_DB('Query Error.');
+		}
 
 		return $result->fetchAll();
 	}
 
 	public function execute ($sSQL, $type) {
-		$result = $this->dbConnect->exec($sSQL);
+		try{
+			$result = $this->dbConnect->exec($sSQL);
+		}
+		catch (PDOException $e)
+		{
+			E_FW::load_Class('exception_DB');
+			throw new exception_DB('Execute Error.');
+		}
 		
 		$rt = 0;
 		switch ($type) {
 			case 'LastID':
-				$rt = $this->dbConnect->lastInsertId();
+				$rt = $this->dbConnect->lastInsertId() ? $this->dbConnect->lastInsertId() : $result;
 				break;
 			case 'RowCount':
 				$rt = $result;

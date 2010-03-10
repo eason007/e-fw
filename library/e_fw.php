@@ -9,7 +9,7 @@
  * @package Core
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 1.1.0.20100305
+ * @version 1.1.1.20100310
  */
 
 /**
@@ -29,7 +29,7 @@ define('E_FW_VAR', '_E_FW_CORE_');
  * @global array $GLOBALS
  */
 $GLOBALS[E_FW_VAR] = array(
-    'VERSION' 	=> '1.1.0.20100305',			//框架版本号
+    'VERSION' 	=> '1.1.1.20100310',			//框架版本号
 	'DSN' 		=> array(),						//数据库连接配置信息。dbServer/dbPort/dbName/dbUser/dbPassword/dbType
 	'FILE_PATH' => array(),
 	'LOAD_FILE_NAME'	=> array(),
@@ -211,7 +211,7 @@ class E_FW {
      * @return mixed
      * @access public
      */
-	public static function load_Class($className, $isLoad = true, $loadParams = null)
+	public static function load_Class($className, $isLoad = true, $loadParams = null, $isCache = TRUE)
     {
     	$v = self::get_Config('CLASS_OBJ/'.$className);
     	
@@ -224,15 +224,13 @@ class E_FW {
 		}
 
 		if (class_exists($className, false)) {
-			if ($isLoad){
-				$t = new $className($loadParams);
+			$t = new $className($loadParams);
+			
+			if ($isCache){
 				self::set_Config(array('CLASS_OBJ' => array($className => $t)));
+			}
 
-				return $t;
-			}
-			else {
-				return true;
-			}
+			return $t;
 		}
 		
 		return false;
