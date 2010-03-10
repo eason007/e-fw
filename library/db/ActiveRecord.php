@@ -13,7 +13,7 @@
  * @package DB
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 1.0.1.20100305
+ * @version 1.0.2.20100310
  */
 
 class DB_ActiveRecord {
@@ -28,7 +28,7 @@ class DB_ActiveRecord {
 	private static $_define;
 	
 	function __construct($props) {
-		$define = (array) call_user_func(array(get_class($this), '_define'));
+		$define = (array) self::_defMeta(get_class($this));
 		
 		if (isset($define['funcs'])){
 			$this->_funcs = $define['funcs'];

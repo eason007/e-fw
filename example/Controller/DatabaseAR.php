@@ -34,10 +34,11 @@ class Controller_DatabaseAR{
 	function actionSave () {
 		//insert
 		$blog = E_FW::load_Class('Model_BlogActiveRecord', true, array(
-			'id'			=> '10a',
+			'id'			=> '2',
 			'category_id' 	=> 4,
 			'title' 		=> 'a3b'
 		));
+		$blog->category_id = 11;
 		
 		var_dump($blog->save());
 		var_dump($blog);
