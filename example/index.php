@@ -29,7 +29,7 @@ $Config = array(
 		'dbName' 	=> 'test',									//数据库名
 		'dbUser' 	=> 'root',									//登陆用户名
 		'dbPassword'=> '',										//登陆密码
-		'dbType' 	=> 'PDO'									//DB类连接类型
+		'dbType' 	=> 'Mysql'									//DB类连接类型
 	),
 	'VIEW' => array(
 		'class' 		=> 'smarty',							//设置调用的模版类

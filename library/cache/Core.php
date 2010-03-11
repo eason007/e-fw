@@ -169,7 +169,7 @@ class Cache_Core {
 		
 		if ($this->type == 'memcache') {
 			if (!class_exists('Memcache', false)){
-				E_FW::load_Class('exception_Cache');
+				E_FW::load_File('exception_Cache');
 				throw new Exception_Cache('Cache Object Not Exists.');
 			}		
 			else{
@@ -181,7 +181,7 @@ class Cache_Core {
 			}
 			
 			if (!@$this->_memCache->getStats()){
-				E_FW::load_Class('exception_Cache');
+				E_FW::load_File('exception_Cache');
 				throw new Exception_Cache('Cache Service Not Exists.');
 			}
 		}

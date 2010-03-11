@@ -18,7 +18,7 @@
  * @package DB
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 1.2.6.20100310
+ * @version 1.2.7.20100311
  */
  
 class DB_TableGateway {
@@ -216,7 +216,7 @@ class DB_TableGateway {
 			$this->setDB(E_FW::get_Config('DSN'));
 		}
 		else{
-			$this->setDB($this->dbParams, true);
+			$this->setDB($this->dbParams);
 		}
 		
 		if ($this->isCache) {
@@ -229,23 +229,19 @@ class DB_TableGateway {
 	 * 
 	 * <pre>
 	 * 传入包含有dbServer、dbPort、dbName、dbUser、dbPassword、dbType的数组
-	 * $isReload代表是否重载db类，默认为否。
 	 * </pre>
 	 *
 	 * @param array $dbParams
-	 * @param bool $isReload
 	 * @access public
 	 */
-	public function setDB ($dbParams, $isReload = false) {
-		if ( (is_null($this->db)) or ($isReload) ) {
-			$this->db = null;
-			
-			switch ($dbParams['dbType']) {
-				case 'Mysqli':
-				case 'PDO' :
-					$this->db = E_FW::load_Class('db_Mysql5', $isReload, $dbParams, !$isReload);
-					break;
-			}
+	public function setDB ($dbParams) {
+		switch ($dbParams['dbType']) {
+			case 'Mysql':
+				E_FW::load_File('db_Mysql5');
+				
+				$this->db = DB_Mysql5::getInstance($dbParams);
+				
+				break;
 		}
 	}
 
@@ -469,7 +465,7 @@ class DB_TableGateway {
 		if (!empty($linkData)){
 			$this->db->beginT();
 		}
-
+		
 		$rt = $this->db->query($sql, 'LastID');
 		$result['lastID'] = $rt;
 

@@ -9,7 +9,7 @@
  * @subpackage Driver
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 1.2.2.20100310
+ * @version 1.3.1.20100311
  */
 
 class DB_Mysql5 {
@@ -22,6 +22,11 @@ class DB_Mysql5 {
 	 * @access private
 	 */
 	private $db = null;
+	
+	private static $_dbHash = null;
+	private static $_instance = null;
+	
+	private $_ConnectPond = null;
 	
 	/**
 	 * 查询SQL日志
@@ -39,10 +44,8 @@ class DB_Mysql5 {
 	 */
 	public $rowCount = 0;
 
-	function __construct ($dbParams) {
-		foreach ($dbParams as $key => $value) {
-			$this->$key = $value;
-		}
+	private function __construct ($dbParams) {
+		$this->_ConnectPond = $dbParams;
 	}
 	
 	function __destruct() {
@@ -58,30 +61,33 @@ class DB_Mysql5 {
 	 * @access private
 	 */
 	private function dbConnect () {
-		switch ($this->dbType) {
-			case 'Mysqli':
-				$this->db = new DB_Driver_Mysqli(
-					$this->dbServer,
-					$this->dbPort,
-					$this->dbName,
-					$this->dbUser,
-					$this->dbPassword
-				);
-
-				break;
-			case 'PDO':
+		switch ($this->_ConnectPond['dbType']) {
+			case 'Mysql':
 				$this->db = new DB_Driver_PDO(
-					$this->dbServer,
-					$this->dbPort,
-					$this->dbName,
-					$this->dbUser,
-					$this->dbPassword
+					$this->_ConnectPond['dbServer'],
+					$this->_ConnectPond['dbPort'],
+					$this->_ConnectPond['dbName'],
+					$this->_ConnectPond['dbUser'],
+					$this->_ConnectPond['dbPassword']
 				);
-				
-				$this->query('SET NAMES \'utf8\';', 'None');
 
 				break;
 		}
+	}
+	
+	public static function getInstance ($dbParams) {
+		$dbHash = md5(strtolower($dbParams['dbServer'].
+			$dbParams['dbPort'].
+			$dbParams['dbName'].
+			$dbParams['dbUser'].
+			$dbParams['dbPassword']));
+		
+		if ( (self::$_dbHash == null) or (self::$_dbHash != $dbHash) ) {
+			self::$_dbHash = $dbHash;
+			self::$_instance =  new DB_Mysql5($dbParams);
+		}
+		
+		return self::$_instance;
 	}
 
 	/**
@@ -130,11 +136,8 @@ class DB_Mysql5 {
 			$this->dbConnect();
 		}
 		
-		switch ($this->dbType) {
-			case 'Mysqli':
-				$this->db->dbConnect->autocommit(false);
-				break;
-			case 'PDO':
+		switch ($this->_ConnectPond['dbType']) {
+			case 'Mysql':
 				$this->db->dbConnect->beginTransaction();
 				break;
 		}
@@ -147,9 +150,8 @@ class DB_Mysql5 {
 	 * @return void
 	 */
 	public function rollBackT () {
-		switch ($this->dbType) {
-			case 'Mysqli':
-			case 'PDO':
+		switch ($this->_ConnectPond['dbType']) {
+			case 'Mysql':
 				$this->db->dbConnect->rollBack();
 				break;
 		}
@@ -162,89 +164,10 @@ class DB_Mysql5 {
 	 * @return void
 	 */
 	public function commitT () {
-		switch ($this->dbType) {
-			case 'Mysqli':
-			case 'PDO':
+		switch ($this->_ConnectPond['dbType']) {
+			case 'Mysql':
 				$this->db->dbConnect->commit();
 				break;
-		}
-	}
-}
-
-
-/**
- * @package DB
- * @subpackage Driver
- * @author eason007<eason007@163.com>
- * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.1.2.20100126
- */
-class DB_Driver_Mysqli {
-	public $dbConnect= null;
-	public $lastID 	 = 0;
-	public $rowCount = 0;
-
-	function __construct (
-		$dbServer,
-		$dbPort,
-		$dbName,
-		$dbUser,
-		$dbPassword
-	) {
-		$this->dbConnect = @new mysqli($dbServer, $dbUser, $dbPassword, $dbName, $dbPort);
-		if(mysqli_connect_errno()) {
-			E_FW::load_Class('exception_DB');
-			throw new exception_DB('Database Not Exists.');
-		}
-		else {
-			return $this->dbConnect;
-		}
-	}
-	
-	function __destruct() {
-		$this->dbConnect->close();
-	}
-
-	public function query ($sSQL) {
-		$flag = array();
-
-		$result = $this->dbConnect->query($sSQL);
-
-		if ($result){
-			while ($row = $result->fetch_assoc()) {
-				$flag[] = $row;
-			}
-
-			$result->close();
-
-			return $flag;
-		}
-		else{
-			return false;
-		}
-	}
-
-	public function execute ($sSQL, $type) {
-		$result = $this->dbConnect->query($sSQL);
-
-		if ($result){
-			$rt = 0;
-			switch ($type) {
-				case 'LastID':
-					$rt = $this->dbConnect->insert_id ? $this->dbConnect->insert_id : $this->dbConnect->affected_rows;
-					break;
-				case 'RowCount':
-					$rt = $this->dbConnect->affected_rows;
-					break;
-				case 'None':
-					$rt = 1;
-					break;
-			}
-			
-			return $rt;
-		}
-		else{
-			return 0;
 		}
 	}
 }
@@ -282,7 +205,7 @@ class DB_Driver_PDO {
 		}
 		catch (PDOException $e)
 		{
-			E_FW::load_Class('exception_DB');
+			E_FW::load_File('exception_DB');
 			throw new exception_DB('Database Not Exists.');
 		}
 	}
@@ -293,7 +216,7 @@ class DB_Driver_PDO {
 		}
 		catch (PDOException $e)
 		{
-			E_FW::load_Class('exception_DB');
+			E_FW::load_File('exception_DB');
 			throw new exception_DB('Query Error.');
 		}
 
@@ -306,7 +229,7 @@ class DB_Driver_PDO {
 		}
 		catch (PDOException $e)
 		{
-			E_FW::load_Class('exception_DB');
+			E_FW::load_File('exception_DB');
 			throw new exception_DB('Execute Error.');
 		}
 		

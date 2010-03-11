@@ -53,7 +53,7 @@ $GLOBALS[E_FW_VAR] = array(
 
 $GLOBALS[E_FW_VAR]['FILE_PATH'][] = dirname(__FILE__).DS;
 
-E_FW::load_Class('Exception_Core', false);
+E_FW::load_File('Exception_Core');
 
 /**
  * E_FW 类
@@ -208,14 +208,15 @@ class E_FW {
      * @param string $className 类名
      * @param bool $isLoad 是否马上实例化该类
      * @param array $loadParams 实例化参数
+     * @param bool $isCache 是否缓存
      * @return mixed
      * @access public
      */
-	public static function load_Class($className, $isLoad = true, $loadParams = null, $isCache = TRUE)
+	public static function load_Class($className, $isReLoad = FALSE, $loadParams = null, $isCache = TRUE)
     {
     	$v = self::get_Config('CLASS_OBJ/'.$className);
     	
-		if ( (isset($v)) && (is_object($v)) && (!$isLoad) ){
+		if ( (isset($v)) and (is_object($v)) and (!$isReLoad) ){
 			return $v;
 		}
 

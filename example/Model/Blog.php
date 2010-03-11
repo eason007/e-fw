@@ -37,7 +37,7 @@ class Model_Blog extends DB_TableGateway {
 		'dbName' 	=> 'test2',
 		'dbUser' 	=> 'root',
 		'dbPassword'=> '',
-		'dbType' 	=> 'PDO'
+		'dbType' 	=> 'Mysql'
 	);
 }
 
