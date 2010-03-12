@@ -52,6 +52,9 @@ class Controller_Category{
 					'title'			=> 'hello word!',
 					'content'		=> 'link push data',
 				)
+			),
+			'hasOne' => array(
+				'title' => '你bc'
 			)
 		);
 

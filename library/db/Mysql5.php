@@ -9,7 +9,7 @@
  * @subpackage Driver
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 1.3.1.20100311
+ * @version 1.3.1.20100312
  */
 
 class DB_Mysql5 {

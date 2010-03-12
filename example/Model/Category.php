@@ -23,12 +23,23 @@ class Model_Category extends DB_TableGateway {
 	var $tableName 	= 'e_fw_category';
 	var $primaryKey = 'id';
 	
-	var $autoLink = true;
+	var $autoLink 	= true;
 	
 	var $hasMany	= array(
 		'tableClass' 	=> 'Model_Blog',
 		'joinKey'		=> 'category_id',
 		'mappingName'	=> 'Blog'
 	);
+	
+	var $hasOne 		= array(
+		'tableClass' 	=> 'test',
+		'joinKey'		=> 'id',
+		'mappingName'	=> 'test'
+	);
+}
+
+class test extends DB_TableGateway {
+	var $tableName 	= 'test';
+	var $primaryKey = 'id';
 }
 ?>
