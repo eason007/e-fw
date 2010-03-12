@@ -17,16 +17,14 @@ class DB_Mysql5 {
 	 * Enter description here...
 	 *
 	 * @var object
-	 * @see DB_Driver_Mysqli
 	 * @see DB_Driver_PDO
 	 * @access private
 	 */
 	private $db = null;
 	
-	private static $_dbHash = null;
-	private static $_instance = null;
-	
 	private $_ConnectPond = null;
+	
+	private static $_dbHash = array();
 	
 	/**
 	 * 查询SQL日志
@@ -35,14 +33,6 @@ class DB_Mysql5 {
 	 * @access public
 	 */
 	public $sqlBox = array();
-
-	/**
-	 * Enter description here...
-	 *
-	 * @var int
-	 * @access public
-	 */
-	public $rowCount = 0;
 
 	private function __construct ($dbParams) {
 		$this->_ConnectPond = $dbParams;
@@ -76,18 +66,17 @@ class DB_Mysql5 {
 	}
 	
 	public static function getInstance ($dbParams) {
-		$dbHash = md5(strtolower($dbParams['dbServer'].
+		$hashTag = md5(strtolower($dbParams['dbServer'].
 			$dbParams['dbPort'].
 			$dbParams['dbName'].
 			$dbParams['dbUser'].
 			$dbParams['dbPassword']));
 		
-		if ( (self::$_dbHash == null) or (self::$_dbHash != $dbHash) ) {
-			self::$_dbHash = $dbHash;
-			self::$_instance =  new DB_Mysql5($dbParams);
+		if ( !array_key_exists($hashTag, self::$_dbHash) ) {
+			self::$_dbHash[$hashTag] = new DB_Mysql5($dbParams);
 		}
 		
-		return self::$_instance;
+		return self::$_dbHash[$hashTag];
 	}
 
 	/**
@@ -114,7 +103,15 @@ class DB_Mysql5 {
 
 		switch ($type) {
 			case 'LastID':
+				$this->db->execute($TSQL, $type);
+				return $this->db->lastID;
+				break;
+				
 			case 'RowCount':
+				$this->db->execute($TSQL, $type);
+				return $this->db->rowCount;
+				break;
+				
 			case 'None':
 				return $this->db->execute($TSQL, $type);
 				break;
@@ -233,20 +230,17 @@ class DB_Driver_PDO {
 			throw new exception_DB('Execute Error.');
 		}
 		
-		$rt = 0;
 		switch ($type) {
 			case 'LastID':
-				$rt = $this->dbConnect->lastInsertId() ? $this->dbConnect->lastInsertId() : $result;
+				$this->lastID = $this->dbConnect->lastInsertId();
 				break;
 			case 'RowCount':
-				$rt = $result;
+				$this->rowCount = $result;
 				break;
 			case 'None':
-				$rt = 1;
-				break;
 		}
 		
-		return $rt;
+		return $result;
 	}
 }
 ?>
