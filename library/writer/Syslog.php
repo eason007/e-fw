@@ -15,16 +15,17 @@
  * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
  * @version 1.0.0.20100314
  */
-class Writer_Db {
-    protected $_db = null;
-    protected $_mapping = null;
+class Writer_Syslog {
+    protected $_appName = 'E-FW_LOG';
+    
+    
 
     function __construct (array $params = array()) {
     	
     }
     
 	public function close () {
-   		
+   		closelog();
     }
     
     public function write ($value) {
