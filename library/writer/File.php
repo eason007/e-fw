@@ -10,7 +10,7 @@
  * 
  * </pre>
  * 
- * @package Log
+ * @package Writer
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
  * @version 1.0.0.20100314

@@ -174,7 +174,7 @@ class DB_Mysql5 {
  * @subpackage Driver
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2008 eason007<eason007@163.com>
- * @version 1.1.3.20100310
+ * @version 1.1.3.20100314
  */
 class DB_Driver_PDO {
 	public $dbConnect= null;
@@ -205,6 +205,10 @@ class DB_Driver_PDO {
 			E_FW::load_File('exception_DB');
 			throw new exception_DB('Database Not Exists.');
 		}
+	}
+	
+	function __destruct() {
+		$this->dbConnect = null;
 	}
 
 	public function query ($sSQL) {
