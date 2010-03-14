@@ -16,21 +16,63 @@
  * @version 1.0.0.20100313
  */
 class Log_Core {
-	const EMERG   = 0;  // Emergency: system is unusable
-    const ALERT   = 1;  // Alert: action must be taken immediately
-    const CRIT    = 2;  // Critical: critical conditions
-    const ERR     = 3;  // Error: error conditions
-    const WARN    = 4;  // Warning: warning conditions
-    const NOTICE  = 5;  // Notice: normal but significant condition
-    const INFO    = 6;  // Informational: informational messages
-    const DEBUG   = 7;  // Debug: debug messages
-    
+	protected $_write = array();
+	
     protected $_field = array();
     
+    protected $_level = array(
+    	'EMERG',		// Emergency: system is unusable
+    	'ALERT',		// Alert: action must be taken immediately
+    	'CRIT',			// Critical: critical conditions
+    	'ERR',			// Error: error conditions
+    	'WARN',			// Warning: warning conditions
+    	'NOTICE',		// Notice: normal but significant condition
+    	'INFO',			// Informational: informational messages
+    	'DEBUG'			// Debug: debug messages
+   	);
+   	
+   	public function __destruct() {
+   		foreach ($this->_write as $writer) {
+            $writer->close();
+        }
+   	}
+   	
+   	public function __call($method, $params) {
+   		$levelValue = array_search(strtoupper($method), $this->_level);
+   		
+   		if ($levelValue){
+   			return $this->log(array_shift($params), $levelValue);
+   		}
+   		else{
+   			return false;
+   		}
+   	}
+    
     public function log ($message, $level) {
-    	
+    	$event = array_merge(array(
+    		'timestamp'    => date('c'),
+			'message'      => $message,
+            'priority'     => $level,
+            'priorityName' => $this->_level[$level]),
+            $this->_field);
+        
+    	foreach ($this->_write as $writer) {
+            $writer->write($event);
+        }
     }
     
-    public function 
+    public function addLevel ($name, $value) {
+    	$name = strtoupper($name);
+    	
+    	$this->_level[$value] = $name;
+    }
+    
+    public function addField ($name, $value) {
+    	$this->_field = array_merge($this->_field, array($name => $value));
+    }
+    
+    public function addWriter ($objWriter) {
+    	$this->_write[] = $objWriter;
+    }
 }
 ?>

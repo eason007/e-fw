@@ -206,7 +206,7 @@ class E_FW {
      * </pre>
      *
      * @param string $className 类名
-     * @param bool $isLoad 是否马上实例化该类
+     * @param bool $isReLoad 是否重载
      * @param array $loadParams 实例化参数
      * @param bool $isCache 是否缓存
      * @return mixed
