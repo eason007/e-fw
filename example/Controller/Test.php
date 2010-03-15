@@ -30,6 +30,9 @@ class Controller_Test{
 	    		'pid' 		=> 'pid'
 	    	)
     	));
+    	$w4 = E_FW::load_Class('writer_Syslog', true, array(
+    		'application'	=> 'E_FW-DEMO'
+    	));
     	
     	$a = E_FW::load_Class('log_Core');
     	
@@ -37,7 +40,8 @@ class Controller_Test{
     	$a->addWriter($w);
     	$a->addWriter($w2);
     	$a->addWriter($w3);
-    	var_dump($a->info('123'));
+    	$a->addWriter($w4);
+    	var_dump($a->info('abc'));
     }
 }
 ?>
