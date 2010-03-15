@@ -26,6 +26,11 @@ class Writer_File {
         } else {
             $this->_stream = @fopen($streamOrUrl, 'a', false);
         }
+        
+        if (is_null($this->_stream)){
+        	E_FW::load_File('exception_Writer');
+			throw new Exception_Writer('File Can Not Open.');
+        }
     }
     
 	public function close () {

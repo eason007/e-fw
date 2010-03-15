@@ -23,6 +23,10 @@ class Writer_Db {
     	if (isset($params['className'])){
 			$this->_db = E_FW::load_Class($params['className']);
     	}
+    	else{
+    		E_FW::load_File('exception_Writer');
+			throw new Exception_Writer('Database Can Not Connect.');
+    	}
     	if (isset($params['mapping'])){
 			$this->_mapping = $params['mapping'];
     	}
