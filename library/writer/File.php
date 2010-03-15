@@ -29,7 +29,7 @@ class Writer_File {
         
         if (is_null($this->_stream)){
         	E_FW::load_File('exception_Writer');
-			throw new Exception_Writer('File Can Not Open.');
+			throw new Exception_Writer('File Not Exists.');
         }
     }
     
