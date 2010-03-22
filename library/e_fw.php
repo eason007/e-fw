@@ -161,22 +161,17 @@ class E_FW {
 			return false;
 		}
 
-		if (!method_exists($controller, $actionMethod)) {
-			return false;
+		if (method_exists($controller, '_beforeExecute')) {
+			$controller->_beforeExecute($actionMethod);
 		}
-		else{
-			if (method_exists($controller, '_beforeExecute')) {
-				$controller->_beforeExecute($actionMethod);
-			}
 
-			$ret = $controller->{$actionMethod}($loadParam);
+		$ret = $controller->{$actionMethod}($loadParam);
 
-			if (method_exists($controller, '_afterExecute')) {
-				$controller->_afterExecute($actionMethod);
-			}
-
-			return $ret;
+		if (method_exists($controller, '_afterExecute')) {
+			$controller->_afterExecute($actionMethod);
 		}
+
+		return $ret;
 	}
 
 	
