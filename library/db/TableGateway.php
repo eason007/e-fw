@@ -198,9 +198,9 @@ class DB_TableGateway {
 	 * 数据库连接对象
 	 *
 	 * @var object
-	 * @access private
+	 * @access protected
 	 */
-	private $db = null;
+	protected $db = null;
 	
 	/**
 	 * 缓存分析对象
