@@ -27,7 +27,7 @@ class Writer_File {
             $this->_stream = @fopen($streamOrUrl, 'a', false);
         }
         
-        if (is_null($this->_stream)){
+        if (!$this->_stream){
         	E_FW::load_File('exception_Writer');
 			throw new Exception_Writer('File Not Exists.');
         }
