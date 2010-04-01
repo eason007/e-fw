@@ -123,10 +123,10 @@ class E_FW {
 				break;
 		}
 
-		if (!isset($controllerName)) {
+		if (!$controllerName) {
 			$controllerName = self::get_Config('CONTROLLER/defaultController');
 		}
-		if (!isset($actionName)) {
+		if (!$actionName) {
 			$actionName = self::get_Config('CONTROLLER/defaultAction');
 		}
 
