@@ -107,16 +107,17 @@ class Cache_OutputAnalytics {
 		else{
 			$this->_cache->setCache($this->_cacheID, $data, array('expireTime' => $params['time']));
 		}
-		$this->_cacheID = null;
 		
 		if (!is_null($this->_tableID)) {
 			$tableCache = $this->_cache->getCache($this->_tableID);
 			if (!$tableCache) {
 				$tableCache = array();
 			}
-			$tableCache[md5(strtoupper($this->_cacheID))] = mb_strlen($data, 'UTF-8');
+			$tableCache[$this->_cacheID] = mb_strlen($data, 'UTF-8');
 			$this->_cache->setCache($this->_tableID, $tableCache);
+			
 			$this->_tableID = null;
+			$this->_cacheID = null;
 		}
 		
 		if ($params['flash']){
