@@ -434,12 +434,7 @@ class DB_TableGateway {
 			else{
 				$field.= '`'.$key.'`, ';
 
-				if (is_numeric($val)){
-					$value.= $val.', ';
-				}
-				else{
-					$value.= '\''.$this->sqlEncode($val).'\', ';
-				}
+				$value.= "'".$this->sqlEncode($val)."', ";
 			}
 		}
 
@@ -551,12 +546,7 @@ class DB_TableGateway {
 					continue;
 				}
 
-				if (is_numeric($val)){
-					$pk.= '`'.$key.'` = '.$val.', ';
-				}
-				else{
-					$pk.= '`'.$key.'` = \''.$this->sqlEncode($val).'\', ';
-				}
+				$pk.= '`'.$key."` = '".$this->sqlEncode($val)."', ";
 			}
 		}
 		$subSql 	= $this->getSubSql('WHERE,ORDER,LIMIT');
