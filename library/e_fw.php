@@ -53,7 +53,7 @@ $GLOBALS[E_FW_VAR] = array(
 
 $GLOBALS[E_FW_VAR]['FILE_PATH'][] = dirname(__FILE__).DS;
 
-E_FW::load_File('Exception_Core');
+E_FW::load_File('exception_Core');
 
 /**
  * E_FW 类
