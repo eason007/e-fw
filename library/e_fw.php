@@ -82,6 +82,12 @@ class E_FW {
 		date_default_timezone_set(self::get_Config('TIME_ZONE'));
 		header('Content-Type:text/html;charset='.self::get_Config('CHARSET'));
 
+		$request = self::analytics_request();
+
+		self::execute_Action('Controller_'.$request['controllerName'], $request['actionName']);
+	}
+
+	public static function analytics_request () {
 		switch (self::get_Config('URL_MODEL')){
 			case 0:
 				$controllerAccessor = self::get_Config('CONTROLLER/controllerAccessor');
@@ -130,9 +136,11 @@ class E_FW {
 			$actionName = self::get_Config('CONTROLLER/defaultAction');
 		}
 
-		self::execute_Action('Controller_'.$controllerName, $actionName);
+		return array(
+			'controllerName'=> $controllerName,
+			'actionName'	=> $actionName
+		);
 	}
-
 	
 	/**
 	 * 执行控制器调用
