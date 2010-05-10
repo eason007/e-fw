@@ -78,16 +78,16 @@ class E_FW {
 	 * @access public
 	 */
 	public static function run () {
-		setlocale(LC_TIME, self::get_Config('TIME_FORMAT'));
-		date_default_timezone_set(self::get_Config('TIME_ZONE'));
-		header('Content-Type:text/html;charset='.self::get_Config('CHARSET'));
-
 		$request = self::analytics_request();
 
 		self::execute_Action('Controller_'.$request['controllerName'], $request['actionName']);
 	}
 
 	public static function analytics_request () {
+		setlocale(LC_TIME, self::get_Config('TIME_FORMAT'));
+		date_default_timezone_set(self::get_Config('TIME_ZONE'));
+		header('Content-Type:text/html;charset='.self::get_Config('CHARSET'));
+
 		switch (self::get_Config('URL_MODEL')){
 			case 0:
 				$controllerAccessor = self::get_Config('CONTROLLER/controllerAccessor');
