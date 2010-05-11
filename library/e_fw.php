@@ -48,7 +48,8 @@ $GLOBALS[E_FW_VAR] = array(
 	'TIME_ZONE' => 'Asia/Shanghai',				//默认时区
 	'CHARSET'	=> 'utf-8',						//默认页面编码
 	'URL_MODEL' => 1,							//路由模式，0=URL Rewrite，1=PATHINFO
-	'DEBUG'		=> 1							//调试模式，0=否，1=是
+	'DEBUG'		=> 1,							//调试模式，0=否，1=是
+	'CONTENT-TYPE'	=> 'text/html'				//页面类型
 );
 
 $GLOBALS[E_FW_VAR]['FILE_PATH'][] = dirname(__FILE__).DS;
@@ -86,7 +87,7 @@ class E_FW {
 	public static function analytics_request () {
 		setlocale(LC_TIME, self::get_Config('TIME_FORMAT'));
 		date_default_timezone_set(self::get_Config('TIME_ZONE'));
-		header('Content-Type:text/html;charset='.self::get_Config('CHARSET'));
+		header('Content-Type:'.self::get_Config('CONTENT-TYPE').';charset='.self::get_Config('CHARSET'));
 
 		switch (self::get_Config('URL_MODEL')){
 			case 0:
