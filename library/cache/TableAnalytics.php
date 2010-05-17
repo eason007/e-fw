@@ -39,7 +39,9 @@ class Cache_TableAnalytics {
 	 * @return mixed
 	 */
 	public function chkCache ($tableName, $querySql) {
-		$queryCache = $this->_cache->getCache(md5(strtoupper($querySql)));
+		$_cacheID = md5(strtoupper($querySql));
+
+		$queryCache = $this->_cache->getCache($_cacheID);
 		
 		if ($queryCache) {
 			return $queryCache;
@@ -61,13 +63,15 @@ class Cache_TableAnalytics {
 	 * @return mixed $queryData 被缓存的数据
 	 */
 	public function setCache ($tableName, $querySql, &$queryData) {
-		$this->_cache->setCache(md5(strtoupper($querySql)), $queryData);
+		$_cacheID = md5(strtoupper($querySql));
+
+		$this->_cache->setCache($_cacheID, $queryData);
 		
 		$tableCache = $this->_cache->getCache($tableName);
 		if (!$tableCache) {
 			$tableCache = array();
 		}
-		$tableCache[md5(strtoupper($querySql))] = count($queryData);
+		$tableCache[$_cacheID] = count($queryData);
 		
 		$this->_cache->setCache($tableName, $tableCache);
 	}
