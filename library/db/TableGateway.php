@@ -206,9 +206,9 @@ class DB_TableGateway {
 	 * 缓存分析对象
 	 *
 	 * @var object
-	 * @access private
+	 * @access public
 	 */
-	private $_cacheAnalytics = null;
+	public $_cacheAnalytics = null;
 
 
 	function __construct() {
