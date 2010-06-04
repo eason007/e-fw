@@ -457,9 +457,7 @@ class DB_TableGateway {
             return false;
         }
 
-		if (!empty($linkData)){
-			$this->db->beginT();
-		}
+		$this->db->beginT();
 		
 		$rt = $this->db->query($sql, 'LastID');
 		$result['lastID'] = $rt;
@@ -472,9 +470,9 @@ class DB_TableGateway {
 				$this->_cacheAnalytics->delCache($this->tableName);
 			}
 
+			$isFound = false;
+
 			if (!empty($linkData)){
-				$isFound = false;
-				
 				foreach($linkData as $key => $val){
 					if (!is_null($this->$key)){
 						$result[$key] = $this->_insertLinkData(trim($key), $val, $result['lastID']);
@@ -490,10 +488,10 @@ class DB_TableGateway {
 						}
 					}
 				}
+			}
 
-				if (!$isFound){
-					$this->db->commitT();
-				}
+			if (!$isFound){
+				$this->db->commitT();
 			}
 		}
 
@@ -573,9 +571,7 @@ class DB_TableGateway {
             return false;
         }
         
-        if (!empty($linkData)){
-			$this->db->beginT();
-		}
+		$this->db->beginT();
 
 		$result['rowCount'] = $this->db->query($sql, 'RowCount');
 
@@ -586,13 +582,14 @@ class DB_TableGateway {
 				$this->_cacheAnalytics->delCache($this->tableName);
 			}
 			
+			$isFound = false;
+
 			if (!empty($linkData)){
 				$IDStr = '';
 				foreach($ID as $val){
 					$IDStr.= $val[$this->primaryKey].', ';
 				}
-				$isFound = false;
-	
+				
 				foreach($linkData as $key => $val){
 					if (!is_null($this->$key)){
 						$result[$key] = $this->_updateLinkData(trim($key), $val, $IDStr);
@@ -608,10 +605,10 @@ class DB_TableGateway {
 						}
 					}
 				}
-				
-				if (!$isFound){
-					$this->db->commitT();
-				}
+			}
+
+			if (!$isFound){
+				$this->db->commitT();
 			}
 		}
 
@@ -672,6 +669,8 @@ class DB_TableGateway {
             return false;
         }
 
+		$this->db->beginT();
+
 		$result['rowCount'] = $this->db->query($sql, 'RowCount');
 
 		if ($ID) {
@@ -703,6 +702,8 @@ class DB_TableGateway {
 					}
 					break;
 			}
+
+			$this->db->commitT();
 		}
 
 		return $result;
