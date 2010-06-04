@@ -1226,6 +1226,16 @@ class DB_TableGateway {
 	protected function _afterDelete () {
 		
 	}
+
+	protected function one () {
+		$rt = $this->select();
+		if ($rt){
+			return $rt[0];
+		}
+		else{
+			return array();
+		}
+	}
 }
 
 ?>
