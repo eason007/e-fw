@@ -434,7 +434,12 @@ class DB_TableGateway {
 			else{
 				$field.= '`'.$key.'`, ';
 
-				$value.= "'".$this->sqlEncode($val)."', ";
+				if (strstr($val, 'FN:')){
+					$value.= str_replace('FN:', '', $val).", ";
+				}
+				else{
+					$value.= "'".$this->sqlEncode($val)."', ";
+				}
 			}
 		}
 
@@ -545,7 +550,12 @@ class DB_TableGateway {
 					continue;
 				}
 
-				$pk.= '`'.$key."` = '".$this->sqlEncode($val)."', ";
+				if (strstr($val, 'FN:')){
+					$pk.= '`'.$key."` = ".str_replace('FN:', '', $val).", ";
+				}
+				else{
+					$pk.= '`'.$key."` = '".$this->sqlEncode($val)."', ";
+				}
 			}
 		}
 		$subSql 	= $this->getSubSql('WHERE,ORDER,LIMIT');
