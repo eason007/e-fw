@@ -416,7 +416,8 @@ class DB_TableGateway {
 	public function insert ($rowData, $parSet = array()){
 		$params = array(
 			'isExecute'	=> true,
-			'isRplace'	=> false
+			'isRplace'	=> false,
+			'isTransact'=> true
 		);
 		foreach ($parSet as $key => $value) {
 			$params[$key] = $value;
@@ -458,10 +459,14 @@ class DB_TableGateway {
 			return $sql;
 		}
 
-		$this->db->beginT();
+		if ($params['isTransact']){
+			$this->db->beginT();
+		}
 		
 		if (!$this->_beforeInsert($rowData)) {
-			$this->db->rollBackT();
+			if ($params['isTransact']){
+				$this->db->rollBackT();
+			}
             return false;
         }
 		
@@ -496,7 +501,7 @@ class DB_TableGateway {
 				}
 			}
 
-			if (!$isFound){
+			if (!$isFound && $params['isTransact']){
 				$this->db->commitT();
 			}
 		}
@@ -530,7 +535,8 @@ class DB_TableGateway {
 	public function update ($rowData, $parSet = array()) {
 		$params = array(
 			'isExecute'	=> true,
-			'isRplace'	=> false
+			'isRplace'	=> false,
+			'isTransact'=> true
 		);
 		foreach ($parSet as $key => $value) {
 			$params[$key] = $value;
@@ -578,10 +584,14 @@ class DB_TableGateway {
 			return $sql;
 		}
         
-		$this->db->beginT();
+		if ($params['isTransact']){
+			$this->db->beginT();
+		}
 
 		if (!$this->_beforeUpdate($rowData)) {
-			$this->db->rollBackT();
+			if ($params['isTransact']){
+				$this->db->rollBackT();
+			}
             return false;
         }
 
@@ -619,7 +629,7 @@ class DB_TableGateway {
 				}
 			}
 
-			if (!$isFound){
+			if (!$isFound && $params['isTransact']){
 				$this->db->commitT();
 			}
 		}
@@ -1241,7 +1251,7 @@ class DB_TableGateway {
 		
 	}
 
-	protected function one () {
+	public function one () {
 		$rt = $this->select();
 		if ($rt){
 			return $rt[0];
