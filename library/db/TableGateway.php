@@ -1068,7 +1068,7 @@ class DB_TableGateway {
 	public function field ($p) {
 		$this->_field = $p;
 
-		return this;
+		return $this;
 	}
 
 	/**
@@ -1107,7 +1107,7 @@ class DB_TableGateway {
 
 		$this->_where = ' WHERE 1=1'.$rt;
 
-		return this;
+		return $this;
 	}
 
 	/**
@@ -1120,7 +1120,7 @@ class DB_TableGateway {
 	public function other ($p) {
 		$this->_other = $p;
 
-		return this;
+		return $this;
 	}
 
 	/**
@@ -1133,7 +1133,7 @@ class DB_TableGateway {
 	public function order ($p) {
 		$this->_order = ' ORDER BY '.$p;
 
-		return this;
+		return $this;
 	}
 
 	/**
@@ -1151,7 +1151,7 @@ class DB_TableGateway {
 			$this->_limit = ' LIMIT '.$p;
 		}
 
-		return this;
+		return $this;
 	}
 
 	/**
@@ -1237,7 +1237,7 @@ class DB_TableGateway {
 			return $rt[0];
 		}
 		else{
-			return array();
+			return false;
 		}
 	}
 }
