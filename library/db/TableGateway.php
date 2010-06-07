@@ -452,12 +452,13 @@ class DB_TableGateway {
 		if (!$params['isExecute']) {
 			return $sql;
 		}
-		
-		if (!$this->_beforeInsert($rowData)) {
-            return false;
-        }
 
 		$this->db->beginT();
+		
+		if (!$this->_beforeInsert($rowData)) {
+			$this->db->rollBackT();
+            return false;
+        }
 		
 		$rt = $this->db->query($sql, 'LastID');
 		$result['lastID'] = $rt;
@@ -566,12 +567,13 @@ class DB_TableGateway {
 		else{
 			return $sql;
 		}
-		
-		if (!$this->_beforeUpdate($rowData)) {
-            return false;
-        }
         
 		$this->db->beginT();
+
+		if (!$this->_beforeUpdate($rowData)) {
+			$this->db->rollBackT();
+            return false;
+        }
 
 		$result['rowCount'] = $this->db->query($sql, 'RowCount');
 
@@ -664,12 +666,13 @@ class DB_TableGateway {
 		else{
 			return $sql;
 		}
-		
-		if (!$this->_beforeDelete()) {
-            return false;
-        }
 
 		$this->db->beginT();
+
+		if (!$this->_beforeDelete()) {
+			$this->db->rollBackT();
+            return false;
+        }
 
 		$result['rowCount'] = $this->db->query($sql, 'RowCount');
 
