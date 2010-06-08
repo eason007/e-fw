@@ -559,6 +559,9 @@ class DB_TableGateway {
 				if (strstr($val, 'FN:')){
 					$pk.= '`'.$key."` = ".str_replace('FN:', '', $val).", ";
 				}
+				else if (strstr($val, 'OP:')){
+					$pk.= '`'.$key."` = `".$key."`".str_replace('OP:', '', $val).", ";
+				}
 				else{
 					$pk.= '`'.$key."` = '".$this->sqlEncode($val)."', ";
 				}
