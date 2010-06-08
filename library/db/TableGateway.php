@@ -668,8 +668,9 @@ class DB_TableGateway {
 	 */
 	public function del ($parSet = array()) {
 		$params = array(
-			'link'		=> null ,
-			'isExecute'	=> true
+			'link'		=> null,
+			'isExecute'	=> true,
+			'isTransact'=> true
 		);
 		foreach ($parSet as $key => $value) {
 			$params[$key] = $value;
@@ -690,10 +691,14 @@ class DB_TableGateway {
 			return $sql;
 		}
 
-		$this->db->beginT();
+		if ($params['isTransact']){
+			$this->db->beginT();
+		}
 
 		if (!$this->_beforeDelete()) {
-			$this->db->rollBackT();
+			if ($params['isTransact']){
+				$this->db->rollBackT();
+			}
             return false;
         }
 
@@ -729,7 +734,9 @@ class DB_TableGateway {
 					break;
 			}
 
-			$this->db->commitT();
+			if ($params['isTransact']){
+				$this->db->commitT();
+			}
 		}
 
 		return $result;
