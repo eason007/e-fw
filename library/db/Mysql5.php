@@ -203,7 +203,7 @@ class DB_Driver_PDO {
 		catch (PDOException $e)
 		{
 			E_FW::load_File('exception_DB');
-			throw new exception_DB('Database Not Exists.');
+			throw new exception_DB('Database Not Exists.', 101);
 		}
 	}
 	
@@ -218,7 +218,7 @@ class DB_Driver_PDO {
 		catch (PDOException $e)
 		{
 			E_FW::load_File('exception_DB');
-			throw new exception_DB('Query Error.');
+			throw new exception_DB('Query Error.', 102);
 		}
 
 		return $result->fetchAll();
@@ -231,7 +231,7 @@ class DB_Driver_PDO {
 		catch (PDOException $e)
 		{
 			E_FW::load_File('exception_DB');
-			throw new exception_DB('Execute Error.');
+			throw new exception_DB('Execute Error.', 103);
 		}
 		
 		switch ($type) {
