@@ -1261,8 +1261,8 @@ class DB_TableGateway {
 		
 	}
 
-	public function one () {
-		$rt = $this->select();
+	public function one ($set = array()) {
+		$rt = $this->select($set);
 		if ($rt){
 			return $rt[0];
 		}
