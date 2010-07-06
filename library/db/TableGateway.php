@@ -472,6 +472,7 @@ class DB_TableGateway {
 		
 		$rt = $this->db->query($sql, 'LastID');
 		$result['lastID'] = $rt;
+		$isFound = false;
 
 		if ($rt > 0){
 			$rowData[$this->primaryKey] = $rt;
@@ -480,8 +481,6 @@ class DB_TableGateway {
 			if ($this->isCache) {
 				$this->_cacheAnalytics->delCache($this->tableName);
 			}
-
-			$isFound = false;
 
 			if (!empty($linkData)){
 				foreach($linkData as $key => $val){
@@ -500,10 +499,10 @@ class DB_TableGateway {
 					}
 				}
 			}
+		}
 
-			if (!$isFound && $params['isTransact']){
-				$this->db->commitT();
-			}
+		if (!$isFound && $params['isTransact']){
+			$this->db->commitT();
 		}
 
 		return $result;
@@ -599,6 +598,7 @@ class DB_TableGateway {
         }
 
 		$result['rowCount'] = $this->db->query($sql, 'RowCount');
+		$isFound = false;
 
 		if ($result['rowCount'] > 0){
 			$this->_afterUpdate($rowData);
@@ -606,8 +606,6 @@ class DB_TableGateway {
 			if ($this->isCache) {
 				$this->_cacheAnalytics->delCache($this->tableName);
 			}
-			
-			$isFound = false;
 
 			if (!empty($linkData)){
 				$IDStr = '';
@@ -631,10 +629,10 @@ class DB_TableGateway {
 					}
 				}
 			}
-
-			if (!$isFound && $params['isTransact']){
-				$this->db->commitT();
-			}
+		}
+		
+		if (!$isFound && $params['isTransact']){
+			$this->db->commitT();
 		}
 
 		return $result;
@@ -733,10 +731,10 @@ class DB_TableGateway {
 					}
 					break;
 			}
+		}
 
-			if ($params['isTransact']){
-				$this->db->commitT();
-			}
+		if ($params['isTransact']){
+			$this->db->commitT();
 		}
 
 		return $result;
