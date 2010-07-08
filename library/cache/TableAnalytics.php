@@ -41,7 +41,14 @@ class Cache_TableAnalytics {
 	public function chkCache ($tableName, $querySql) {
 		$_cacheID = md5(strtoupper($querySql));
 
-		$queryCache = $this->_cache->getCache($_cacheID);
+		$tableCache = $this->_cache->getCache($tableName);
+
+		if ($tableCache && array_key_exists($_cacheID, $tableCache)){
+			$queryCache = $this->_cache->getCache($_cacheID);
+		}
+		else{
+			$queryCache = false;
+		}
 		
 		if ($queryCache) {
 			return $queryCache;
@@ -86,14 +93,6 @@ class Cache_TableAnalytics {
 	 * @return void
 	 */
 	public function delCache ($tableName) {
-		$tableCache = $this->_cache->getCache($tableName);
-		
-		if ($tableCache) {
-			foreach ($tableCache as $key => $value) {
-				$this->_cache->delCache($key);
-			}
-		}
-		
 		$this->_cache->delCache($tableName);
 	}
 }
