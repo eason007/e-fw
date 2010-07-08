@@ -56,7 +56,15 @@ class Cache_OutputAnalytics {
 	 */
 	public function start ($cacheID, $tableID = NULL) {
 		$t = md5(strtoupper($cacheID));
-		$queryCache = $this->_cache->getCache($t);
+
+		$tableCache = $this->_cache->getCache($tableID);
+
+		if ($tableCache && array_key_exists($t, $tableCache)){
+			$queryCache = $this->_cache->getCache($t);
+		}
+		else{
+			$queryCache = false;
+		}
 		
 		if ($queryCache) {
 			echo $queryCache;
