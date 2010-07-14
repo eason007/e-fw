@@ -1260,7 +1260,9 @@ class DB_TableGateway {
 	}
 
 	public function one ($set = array()) {
-		$rt = $this->select($set);
+		$rt = $this
+				->limit(1)
+				->select($set);
 		if ($rt){
 			return $rt[0];
 		}
