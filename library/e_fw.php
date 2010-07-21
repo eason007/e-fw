@@ -85,10 +85,6 @@ class E_FW {
 	}
 
 	public static function analytics_request () {
-		setlocale(LC_TIME, self::get_Config('TIME_FORMAT'));
-		date_default_timezone_set(self::get_Config('TIME_ZONE'));
-		header('Content-Type:'.self::get_Config('CONTENT-TYPE').';charset='.self::get_Config('CHARSET'));
-
 		switch (self::get_Config('URL_MODEL')){
 			case 0:
 				$controllerAccessor = self::get_Config('CONTROLLER/controllerAccessor');
@@ -159,6 +155,10 @@ class E_FW {
 	 * @access public
 	 */
 	public static function execute_Action ($controllerName, $actionName, $loadParam = null) {
+		setlocale(LC_TIME, self::get_Config('TIME_FORMAT'));
+		date_default_timezone_set(self::get_Config('TIME_ZONE'));
+		header('Content-Type:'.self::get_Config('CONTENT-TYPE').';charset='.self::get_Config('CHARSET'));
+
 		$actionPrefix = self::get_Config('CONTROLLER/actionMethodPrefix');
 		if ($actionPrefix != '') {
 			$actionName = ucfirst($actionName);
