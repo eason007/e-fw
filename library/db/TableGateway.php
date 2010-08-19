@@ -760,7 +760,8 @@ class DB_TableGateway {
 				$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
 
 				$rt = $linkClass->del(array(
-					'link' => ''
+					'link' => '',
+					'isTransact' => false
 				));
 				
 				break;
@@ -771,7 +772,8 @@ class DB_TableGateway {
 				$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
 
 				$rt = $linkClass->del(array(
-					'link' => ''	
+					'link' => '',
+					'isTransact' => false
 				));
 				break;
 		}
