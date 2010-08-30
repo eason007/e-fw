@@ -309,7 +309,8 @@ class DB_TableGateway {
 			'link'		=> null,
 			'isExecute'	=> true,
 			'isCount'	=> false,
-			'isCache'	=> true
+			'isCache'	=> true,
+			'tag'		=> null
 		);
 		foreach ($parSet as $key => $value) {
 			$params[$key] = $value;
@@ -334,12 +335,13 @@ class DB_TableGateway {
 		}
 		
 		if ($this->isCache && $params['isCache']) {
-			$result = $this->_cacheAnalytics->chkCache($this->tableName, $sql);
+			$tag = is_null($params['tag']) ? $sql : $params['tag']
+			$result = $this->_cacheAnalytics->chkCache($this->tableName, $tag);
 			
 			if (!$result) {
 				$result = $this->db->query($sql);
 				
-				$this->_cacheAnalytics->setCache($this->tableName, $sql, $result);
+				$this->_cacheAnalytics->setCache($this->tableName, $tag, $result);
 			}
 		}
 		else {
