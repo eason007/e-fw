@@ -308,7 +308,8 @@ class DB_TableGateway {
 		$params = array(
 			'link'		=> null,
 			'isExecute'	=> true,
-			'isCount'	=> false
+			'isCount'	=> false,
+			'isCache'	=> true
 		);
 		foreach ($parSet as $key => $value) {
 			$params[$key] = $value;
@@ -332,7 +333,7 @@ class DB_TableGateway {
 			return $sql;
 		}
 		
-		if ($this->isCache) {
+		if ($this->isCache && $params['isCache']) {
 			$result = $this->_cacheAnalytics->chkCache($this->tableName, $sql);
 			
 			if (!$result) {
