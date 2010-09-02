@@ -335,7 +335,7 @@ class DB_TableGateway {
 		}
 		
 		if ($this->isCache && $params['isCache']) {
-			$tag = is_null($params['tag']) ? $sql : $params['tag']
+			$tag = is_null($params['tag']) ? $sql : $params['tag'];
 			$result = $this->_cacheAnalytics->chkCache($this->tableName, $tag);
 			
 			if (!$result) {
