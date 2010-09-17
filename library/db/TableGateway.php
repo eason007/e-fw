@@ -850,7 +850,7 @@ class DB_TableGateway {
 		switch ($linkType) {
 			case 'hasOne':
 				$row[$linkSetting['joinKey']] = $primaryID;
-				$tmp = $linkClass->insert($row);
+				$tmp = $linkClass->insert($row, array('isTransact' => false));
 				$linkRT['rowCount'] = $tmp['lastID'];
 
 				break;
@@ -860,7 +860,7 @@ class DB_TableGateway {
 				
 				foreach($row as $val){
 					$val[$linkSetting['joinKey']] = $primaryID;
-					$tmp = $linkClass->insert($val);
+					$tmp = $linkClass->insert($val, array('isTransact' => false));
 					$linkRT['rowCount'] = $tmp['lastID'];
 				}
 
@@ -872,7 +872,7 @@ class DB_TableGateway {
 				
 				foreach($row as $val){
 					$val[$linkSetting['joinKey']] = $primaryID;
-					$tmp = $linkClass->insert($val);
+					$tmp = $linkClass->insert($val, array('isTransact' => false));
 					$linkRT['rowCount']+= $tmp['lastID'];
 				}
 
