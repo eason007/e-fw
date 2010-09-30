@@ -186,6 +186,13 @@ class Cache_Core {
 			}
 		}
 	}
+
+	function __destruct() {
+		if ($this->type == 'memcache') {
+			$this->_memCache->close();
+			$this->_memCache = null;
+		}
+	}
 	
 	
 	/**
