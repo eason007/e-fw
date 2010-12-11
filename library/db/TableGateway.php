@@ -316,7 +316,6 @@ class DB_TableGateway {
 			$params[$key] = $value;
 		}
 
-
 		$sql = 'SELECT '.$this->_field;
 		if ($this->_field != '*') {
 			$sql.= ','.$this->primaryKey;
@@ -339,6 +338,7 @@ class DB_TableGateway {
 			$result = $this->_cacheAnalytics->chkCache($this->tableName, $tag);
 			
 			if (!$result) {
+				echo 'no-cache<br>';
 				$result = $this->db->query($sql);
 				
 				$this->_cacheAnalytics->setCache($this->tableName, $tag, $result);
@@ -383,6 +383,11 @@ class DB_TableGateway {
 			$result = $temp;
 			unset($temp);
 		}
+		
+		$this->_cacheAnalytics->cacheSet(array(
+			'pkey'	=> 0,
+			'field' => '*'
+		));
 
 		return $result;
 	}
@@ -507,6 +512,11 @@ class DB_TableGateway {
 		if (!$isFound && $params['isTransact']){
 			$this->db->commitT();
 		}
+		
+		$this->_cacheAnalytics->cacheSet(array(
+			'pkey'	=> 0,
+			'field' => '*'
+		));
 
 		return $result;
 	}
@@ -577,13 +587,15 @@ class DB_TableGateway {
 		$sql.= ' SET '.substr($pk, 0, - 2);
 		$sql.= $subSql;
 
-		if ( ($params['isExecute']) or (!empty($linkData)) ) {
-			$this->field($this->primaryKey);
-			$this->_where = $countSql;
-
-			$ID	= $this->select(array(
-				'link' => ''
-			));
+		if ($params['isExecute']) {
+			if (count($linkData)) {
+				$this->field($this->primaryKey);
+				$this->_where = $countSql;
+	
+				$ID	= $this->select(array(
+					'link' => ''
+				));
+			}
 		}
 		else{
 			return $sql;
@@ -637,6 +649,11 @@ class DB_TableGateway {
 		if (!$isFound && $params['isTransact']){
 			$this->db->commitT();
 		}
+		
+		$this->_cacheAnalytics->cacheSet(array(
+			'pkey'	=> 0,
+			'field' => '*'
+		));
 
 		return $result;
 	}
@@ -739,6 +756,11 @@ class DB_TableGateway {
 		if ($params['isTransact']){
 			$this->db->commitT();
 		}
+		
+		$this->_cacheAnalytics->cacheSet(array(
+			'pkey'	=> 0,
+			'field' => '*'
+		));
 
 		return $result;
 	}
@@ -990,11 +1012,12 @@ class DB_TableGateway {
 				//首先查询第三方表的关系数据
 				$relateClass = E_FW::load_Class($linkSetting['relateClass']);
 
-				$relateClass->field($linkSetting['linkKey'].', '.$linkSetting['joinKey']);
-				$relateClass->where($linkSetting['joinKey'].' IN ('.$IDStr.')');
-				$relateData = $relateClass->select(array(
-					'link'	=> ''
-				));
+				$relateData = $relateClass
+									->field($linkSetting['linkKey'].', '.$linkSetting['joinKey'])
+									->where($linkSetting['joinKey'].' IN ('.$IDStr.')')
+									->select(array(
+										'link'	=> ''
+									));
 				unset($relateClass);
 				
 				foreach($relateData as $val){
@@ -1003,10 +1026,11 @@ class DB_TableGateway {
 				$IDStr = implode(',', $ID);
 				
 				//根据第三方的关系数据查找目标表的记录
-				$linkClass->where($linkClass->primaryKey.' IN ('.$IDStr.')');
-				$linkData = $linkClass->select(array(
-					'link'	=> ''
-				));
+				$linkData = $linkClass
+									->where($linkClass->primaryKey.' IN ('.$IDStr.')')
+									->select(array(
+										'link'	=> ''
+									));
 				
 				//将目标记录组合到关系数据数组中
 				foreach($relateData as $key => $val){
@@ -1119,6 +1143,12 @@ class DB_TableGateway {
 				if (is_numeric($key)){
 					if (is_numeric($val)){
 						$rt.= ' AND `'.$this->primaryKey.'` = '.$val;
+						
+						$this->_cacheAnalytics->cacheSet(array(
+							'pkey'	=> $val,
+							'field' => $this->_field
+						));
+						$this->field('*');
 					}
 					else{
 						$rt.= ' AND '.$val;
@@ -1132,6 +1162,12 @@ class DB_TableGateway {
 		else{
 			if (is_numeric($p)){
 				$rt = ' AND `'.$this->primaryKey.'` = '.$p;
+				
+				$this->_cacheAnalytics->cacheSet(array(
+					'pkey'	=> $p,
+					'field' => $this->_field
+				));
+				$this->field('*');
 			}
 			else if (strlen($p) > 0){
 				$rt = ' AND '.$this->sqlEncode($p);

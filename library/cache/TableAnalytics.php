@@ -26,6 +26,9 @@ class Cache_TableAnalytics {
 	 */
 	private $_cache = null;
 	
+	private $_pk = 0;
+	private $_field = '*';
+	
 	function __construct() {
 		$this->_cache = E_FW::load_Class('cache_Core');
 	}
@@ -39,15 +42,51 @@ class Cache_TableAnalytics {
 	 * @return mixed
 	 */
 	public function chkCache ($tableName, $querySql) {
-		$_cacheID = md5(strtoupper($querySql));
-
-		$tableCache = $this->_cache->getCache($tableName);
-
-		if ($tableCache && array_key_exists($_cacheID, $tableCache)){
-			$queryCache = $this->_cache->getCache($_cacheID);
+		echo $this->_pk.'|'.$this->_field.'<br>';
+		if ($this->_pk) {
+			//行级缓存
+			$_cacheID = md5(strtoupper($tableName.'.'.$this->_pk));
+			$_cacheID = strtoupper($tableName.'.'.$this->_pk);
+			
+			$tmp = $this->_cache->getCache($_cacheID);
+			
+			if ($tmp) {
+				if ($this->_field != '*') {
+					//分析字段
+					$fields = explode(',', $this->_field);
+					$queryCache = array();
+					
+					foreach($tmp as $key => $val){
+						$t = array();
+						foreach($fields as $k => $v){
+							if (array_key_exists(trim($v), $val)){
+								$t[$v] = $val[$v];
+							}
+						}
+						$queryCache[$key] = $t;
+					}
+				}
+				else{
+					$queryCache = $tmp;
+				}
+			}
+			else{
+				$queryCache = false;
+			}
 		}
-		else{
-			$queryCache = false;
+		else {
+			//表级缓存
+			$_cacheID = md5(strtoupper($querySql));
+			$_cacheID = strtoupper($querySql);
+			
+			$tableCache = $this->_cache->getCache($tableName);
+	
+			if ($tableCache && array_key_exists($_cacheID, $tableCache)){
+				$queryCache = $this->_cache->getCache($_cacheID);
+			}
+			else{
+				$queryCache = false;
+			}
 		}
 		
 		if ($queryCache) {
@@ -70,17 +109,28 @@ class Cache_TableAnalytics {
 	 * @return mixed $queryData 被缓存的数据
 	 */
 	public function setCache ($tableName, $querySql, &$queryData) {
-		$_cacheID = md5(strtoupper($querySql));
-
-		$this->_cache->setCache($_cacheID, $queryData);
-		
-		$tableCache = $this->_cache->getCache($tableName);
-		if (!$tableCache) {
-			$tableCache = array();
+		if ($this->_pk) {
+			//行级缓存
+			$_cacheID = md5(strtoupper($tableName.'.'.$this->_pk));
+			$_cacheID = strtoupper($tableName.'.'.$this->_pk);
+			
+			$this->_cache->setCache($_cacheID, $queryData);
 		}
-		$tableCache[$_cacheID] = count($queryData);
-		
-		$this->_cache->setCache($tableName, $tableCache);
+		else{
+			//表级缓存
+			$_cacheID = md5(strtoupper($querySql));
+			$_cacheID = strtoupper($querySql);
+	
+			$this->_cache->setCache($_cacheID, $queryData);
+			
+			$tableCache = $this->_cache->getCache($tableName);
+			if (!$tableCache) {
+				$tableCache = array();
+			}
+			$tableCache[$_cacheID] = count($queryData);
+			
+			$this->_cache->setCache($tableName, $tableCache);
+		}
 	}
 	
 	/**
@@ -93,7 +143,20 @@ class Cache_TableAnalytics {
 	 * @return void
 	 */
 	public function delCache ($tableName) {
+		echo $this->_pk;
+		if ($this->_pk){
+			$_cacheID = md5(strtoupper($tableName.'.'.$this->_pk));
+			$_cacheID = strtoupper($tableName.'.'.$this->_pk);
+			
+			$this->_cache->delCache($_cacheID);
+		}
+		
 		$this->_cache->delCache($tableName);
+	}
+	
+	public function cacheSet ($set) {
+		$this->_pk = $set['pkey'];
+		$this->_field = $set['field'];
 	}
 }
 

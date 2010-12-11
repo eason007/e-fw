@@ -24,7 +24,7 @@ E_FW::import(dirname(__FILE__).DS);
 //定义系统配置
 $Config = array(
 	'DSN' => array(
-		'dbServer' 	=> 'localhost',								//数据库地址
+		'dbServer' 	=> '127.0.0.1',								//数据库地址
 		'dbPort' 	=> '3306',									//数据库端口
 		'dbName' 	=> 'test',									//数据库名
 		'dbUser' 	=> 'root',									//登陆用户名
@@ -39,6 +39,11 @@ $Config = array(
 	),
 	'CONTROLLER' => array(
 		'defaultController' => 'Index'							//设置默认控制器名
+	),
+	'CACHE' => array(
+		'type' => 'memcache',
+		'isSerialize' => true,
+		'prefix' => 'test.'
 	)
 );
 

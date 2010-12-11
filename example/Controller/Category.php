@@ -33,12 +33,53 @@ class Controller_Category{
     	
     	
 		//数据库操作
-		$this->_ModelCategory->order = 'id desc';
-		$this->_ModelCategory->limit = 30;
-		$news = $this->_ModelCategory->select(array(
-			'link' => 'hasMany'
-		));
+		echo '1>';
+		$news = $this->_ModelCategory
+								->select(array(
+									'link' => ''
+								));
+		//print_r($news);
 		
+		echo '2>';
+		$news = $this->_ModelCategory
+								->select(array(
+									'link' => ''
+								));
+		//print_r($news);
+		
+		echo '3>';
+		$news = $this->_ModelCategory
+								->where(1)
+								->one(array(
+									'link' => ''
+								));
+		print_r($news);
+		
+		echo '<br>4>';
+		$news = $this->_ModelCategory
+								->field('title, blog')
+								->where(1)
+								->one(array(
+									'link' => ''
+								));
+		print_r($news);
+		
+		echo '<br>5>';
+		$news = $this->_ModelCategory
+								->field('title, blog')
+								->where(4)
+								->one(array(
+									'link' => ''
+								));
+		print_r($news);
+								
+		echo '<br>6>';
+		$news = $this->_ModelCategory
+								->field('title, blog')
+								->where(1)
+								->one(array(
+									'link' => ''
+								));
 		print_r($news);
     }
 
@@ -64,20 +105,13 @@ class Controller_Category{
 	}
 	
 	function actionUpdate () {
-		$update = array(
-			'id' 	=> '1',
-			'title'	=> '你好bc',
-			'hasMany' => array(
-				array(
-					'id'	=> 1,
-					'category_title' => '你bc'
-				)
-			)
-		);
-
 		$this->_ModelCategory = E_FW::load_Class('Model_Category');
 
-		print_r($this->_ModelCategory->update($update));
+		$this->_ModelCategory
+							->where(4)
+							->update(array(
+								'title' => '4321'
+							));
 	}
 	
 	function actionDelete () {
@@ -86,6 +120,14 @@ class Controller_Category{
 		$this->_ModelCategory->where(43);
 
 		print_r($this->_ModelCategory->del());
+	}
+	
+	function actionTest () {
+		$this->actionIndex();
+		echo '<br>====================<br>';
+		$this->actionUpdate();
+		echo '<br>====================<br>';
+		$this->actionIndex();
 	}
 }
 ?>
