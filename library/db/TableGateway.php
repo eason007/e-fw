@@ -554,9 +554,11 @@ class DB_TableGateway {
 			$params[$key] = $value;
 		}
 
-		$pk		= '';
-		$linkData = array();
+		$pk			= '';
+		$linkData 	= array();
+		$rowSet 	= array();
 
+		//插入数据格式化
 		foreach($rowData as $key => $val){
 			if (is_array($val)){
 				$linkData[$key] = $val;
@@ -576,28 +578,18 @@ class DB_TableGateway {
 				}
 				else{
 					$pk.= '`'.$key."` = '".$this->sqlEncode($val)."', ";
+					$rowSet[$key] = $val;
 				}
 			}
 		}
-		$subSql 	= $this->getSubSql('WHERE,ORDER,LIMIT');
-		$countSql 	= $this->getSubSql('WHERE');
+		$subSql = $this->getSubSql('WHERE,ORDER,LIMIT');
 		$this->clear();
 
 		$sql = 'UPDATE `'.$this->tableName.'`';
 		$sql.= ' SET '.substr($pk, 0, - 2);
 		$sql.= $subSql;
 
-		if ($params['isExecute']) {
-			if (count($linkData)) {
-				$this->field($this->primaryKey);
-				$this->_where = $countSql;
-	
-				$ID	= $this->select(array(
-					'link' => ''
-				));
-			}
-		}
-		else{
+		if (!$params['isExecute']) {
 			return $sql;
 		}
         
@@ -623,14 +615,9 @@ class DB_TableGateway {
 			}
 
 			if (!empty($linkData)){
-				$IDStr = '';
-				foreach($ID as $val){
-					$IDStr.= $val[$this->primaryKey].', ';
-				}
-				
 				foreach($linkData as $key => $val){
 					if (!is_null($this->$key)){
-						$result[$key] = $this->_updateLinkData(trim($key), $val, $IDStr);
+						$result[$key] = $this->_updateLinkData(trim($key), $val, $rowSet);
 						
 						if ($result[$key] == 0){
 							$this->db->rollBackT();
@@ -818,14 +805,17 @@ class DB_TableGateway {
 	 * @return array
 	 * @access protected
 	 */
-	protected function _updateLinkData ($linkType, &$row, $primaryKeyStr) {
+	protected function _updateLinkData ($linkType, &$row, $rowStr) {
 		$linkSetting = $this->$linkType;
 		$linkClass	 = E_FW::load_Class($linkSetting['tableClass']);
 
 		switch ($linkType) {
 			case 'hasOne':
-				$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
-				$linkRT = $linkClass->update($row);
+				$linkRT = $linkClass
+								->where(array(
+									$linkSetting['joinKey'] => $rowStr[$this->primaryKey]
+								))
+								->update($row);
 
 				break;
 
@@ -835,14 +825,18 @@ class DB_TableGateway {
 				foreach($row as $val){
 					if (is_array($val)){
 						if (!empty($val[$linkClass->primaryKey])){
-							$linkClass->where($val[$linkClass->primaryKey]);
-							$tmp = $linkClass->update($val);
+							$tmp = $linkClass
+										->where($val[$linkClass->primaryKey])
+										->update($val);
 							$linkRT['rowCount']+= $tmp['rowCount'];
 						}
 					}
 					else{
-						$linkClass->where('`'.$linkSetting['joinKey'].'` IN ('.$primaryKeyStr.'0)');
-						$tmp = $linkClass->update($row);
+						$tmp = $linkClass
+									->where(array(
+										$linkSetting['joinKey'] => $rowStr[$this->primaryKey]
+									))
+									->update($row);
 						$linkRT['rowCount']+= $tmp['rowCount'];
 					}
 				}
