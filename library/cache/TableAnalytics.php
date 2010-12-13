@@ -142,13 +142,11 @@ class Cache_TableAnalytics {
 			case 3:
 			case 2:
 				$_groupID = strtolower($tableName.'.'.$this->cacheLevel.'.'.$this->cacheTag);
-				break;
-			
-			case 1:
-				$_groupID = strtolower($tableName);
+				$this->_cache->delCache($_groupID);
 				break;
 		}
 		
+		$_groupID = strtolower($tableName);
 		$this->_cache->delCache($_groupID);
 	}
 	
