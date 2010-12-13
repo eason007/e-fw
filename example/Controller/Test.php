@@ -43,5 +43,22 @@ class Controller_Test{
     	$a->addWriter($w4);
     	var_dump($a->info('abc'));
     }
+    
+    function actionTest () {
+    	$options = array(
+		    //'namespace' => 'Application_',
+		    'servers'   => array(
+		       array('host' => '127.0.0.1', 'port' => 6379)
+		    )
+		);
+		
+		E_FW::load_File('helper_Rediska_Rediska');
+		$rediska = new Rediska($options);
+		
+		$key = new Rediska_Key('mykey');
+		//$key->setValue('value');
+		
+		echo $key->getValue();
+    }
 }
 ?>
