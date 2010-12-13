@@ -400,7 +400,7 @@ class DB_TableGateway {
 		
 		$this->_cacheAnalytics->cacheSet(array(
 			'level'	=> $this->isCache,
-			'tag' 	=> $this->cacheField
+			'tag' 	=> ''
 		));
 
 		return $result;
@@ -529,7 +529,7 @@ class DB_TableGateway {
 		
 		$this->_cacheAnalytics->cacheSet(array(
 			'level'	=> $this->isCache,
-			'tag' 	=> $this->cacheField
+			'tag' 	=> ''
 		));
 
 		return $result;
@@ -653,7 +653,7 @@ class DB_TableGateway {
 		
 		$this->_cacheAnalytics->cacheSet(array(
 			'level'	=> $this->isCache,
-			'tag' 	=> $this->cacheField
+			'tag' 	=> ''
 		));
 
 		return $result;
@@ -760,7 +760,7 @@ class DB_TableGateway {
 		
 		$this->_cacheAnalytics->cacheSet(array(
 			'level'	=> $this->isCache,
-			'tag' 	=> $this->cacheField
+			'tag' 	=> ''
 		));
 
 		return $result;
