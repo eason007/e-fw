@@ -128,14 +128,6 @@ class DB_TableGateway {
 	 * @access public
 	 */
 	public $dbParams = null;
-	
-	/**
-	 * 是否对查询开启缓存
-	 *
-	 * @var bool
-	 * @access public
-	 */
-	public $isCache = true;
 
 	/**
 	 * 显示字段名列表
@@ -209,7 +201,27 @@ class DB_TableGateway {
 	 * @access public
 	 */
 	public $_cacheAnalytics = null;
-
+	/**
+	 * 数据缓存方式
+	 * 
+	 * 0=不缓存
+	 * 1=表级缓存
+	 * 2=块级缓存
+	 * 3=行级缓存
+	 *
+	 * @var int
+	 * @access public
+	 */
+	public $isCache = 0;
+	/**
+	 * 缓存字段名
+	 * 
+	 * 只在块级缓存下生效
+	 * 
+	 * @var string
+	 * @access public
+	 */
+	public $cacheField = '';
 
 	function __construct() {
 		if (is_null($this->dbParams)){
@@ -220,7 +232,9 @@ class DB_TableGateway {
 		}
 		
 		if ($this->isCache) {
-			$this->_cacheAnalytics = E_FW::load_Class('cache_TableAnalytics');
+			$this->_cacheAnalytics = E_FW::load_Class('cache_TableAnalytics', true);
+			
+			$this->_cacheAnalytics->cacheLevel = $this->isCache;
 		}
 	}
 
@@ -385,8 +399,8 @@ class DB_TableGateway {
 		}
 		
 		$this->_cacheAnalytics->cacheSet(array(
-			'pkey'	=> 0,
-			'field' => '*'
+			'level'	=> $this->isCache,
+			'tag' 	=> $this->cacheField
 		));
 
 		return $result;
@@ -514,8 +528,8 @@ class DB_TableGateway {
 		}
 		
 		$this->_cacheAnalytics->cacheSet(array(
-			'pkey'	=> 0,
-			'field' => '*'
+			'level'	=> $this->isCache,
+			'tag' 	=> $this->cacheField
 		));
 
 		return $result;
@@ -638,8 +652,8 @@ class DB_TableGateway {
 		}
 		
 		$this->_cacheAnalytics->cacheSet(array(
-			'pkey'	=> 0,
-			'field' => '*'
+			'level'	=> $this->isCache,
+			'tag' 	=> $this->cacheField
 		));
 
 		return $result;
@@ -745,8 +759,8 @@ class DB_TableGateway {
 		}
 		
 		$this->_cacheAnalytics->cacheSet(array(
-			'pkey'	=> 0,
-			'field' => '*'
+			'level'	=> $this->isCache,
+			'tag' 	=> $this->cacheField
 		));
 
 		return $result;
@@ -1138,11 +1152,9 @@ class DB_TableGateway {
 					if (is_numeric($val)){
 						$rt.= ' AND `'.$this->primaryKey.'` = '.$val;
 						
-						$this->_cacheAnalytics->cacheSet(array(
-							'pkey'	=> $val,
-							'field' => $this->_field
-						));
-						$this->field('*');
+						if ($this->isCache == 3) {
+							$this->_cacheAnalytics->cacheTag = $val;
+						}
 					}
 					else{
 						$rt.= ' AND '.$val;
@@ -1150,6 +1162,10 @@ class DB_TableGateway {
 				}
 				else{
 					$rt.= ' AND `'.$key.'` = \''.$val.'\'';
+					
+					if ($this->isCache == 2 and $this->cacheField == $key) {
+						$this->_cacheAnalytics->cacheTag = $val;
+					}
 				}
 			}
 		}
@@ -1157,11 +1173,9 @@ class DB_TableGateway {
 			if (is_numeric($p)){
 				$rt = ' AND `'.$this->primaryKey.'` = '.$p;
 				
-				$this->_cacheAnalytics->cacheSet(array(
-					'pkey'	=> $p,
-					'field' => $this->_field
-				));
-				$this->field('*');
+				if ($this->isCache == 3) {
+					$this->_cacheAnalytics->cacheTag = $p;
+				}
 			}
 			else if (strlen($p) > 0){
 				$rt = ' AND '.$this->sqlEncode($p);

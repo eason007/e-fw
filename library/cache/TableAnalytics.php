@@ -26,8 +26,20 @@ class Cache_TableAnalytics {
 	 */
 	private $_cache = null;
 	
-	private $_pk = 0;
-	private $_field = '*';
+	/**
+	 * 缓存级别
+	 * 
+	 * 与 DB_TableGateway 的 isCache 对应
+	 * 
+	 * @var string
+	 */
+	public $cacheLevel = 1;
+	/**
+	 * 缓存标识
+	 * 
+	 * @var string
+	 */
+	public $cacheTag = '';
 	
 	function __construct() {
 		$this->_cache = E_FW::load_Class('cache_Core');
@@ -42,59 +54,35 @@ class Cache_TableAnalytics {
 	 * @return mixed
 	 */
 	public function chkCache ($tableName, $querySql) {
-		echo $this->_pk.'|'.$this->_field.'<br>';
-		if ($this->_pk) {
-			//行级缓存
-			$_cacheID = md5(strtoupper($tableName.'.'.$this->_pk));
-			$_cacheID = strtoupper($tableName.'.'.$this->_pk);
-			
-			$tmp = $this->_cache->getCache($_cacheID);
-			
-			if ($tmp) {
-				if ($this->_field != '*') {
-					//分析字段
-					$fields = explode(',', $this->_field);
-					$queryCache = array();
-					
-					foreach($tmp as $key => $val){
-						$t = array();
-						foreach($fields as $k => $v){
-							if (array_key_exists(trim($v), $val)){
-								$t[$v] = $val[$v];
-							}
-						}
-						$queryCache[$key] = $t;
-					}
-				}
-				else{
-					$queryCache = $tmp;
-				}
-			}
-			else{
-				$queryCache = false;
-			}
+		echo $this->cacheLevel.'>';
+		if ($this->cacheLevel > 1 and empty($this->cacheTag)) {
+			$this->cacheLevel = 1;
 		}
-		else {
-			//表级缓存
-			$_cacheID = md5(strtoupper($querySql));
-			$_cacheID = strtoupper($querySql);
-			
-			$tableCache = $this->_cache->getCache($tableName);
-	
-			if ($tableCache && array_key_exists($_cacheID, $tableCache)){
-				$queryCache = $this->_cache->getCache($_cacheID);
-			}
-			else{
-				$queryCache = false;
-			}
-		}
+		echo $this->cacheLevel.'>'.$this->cacheTag.'<br>';
 		
-		if ($queryCache) {
-			return $queryCache;
+		switch ($this->cacheLevel) {
+			case 3:
+			case 2:
+				$_groupID = strtolower($tableName.'.'.$this->cacheLevel.'.'.$this->cacheTag);
+				break;
+			
+			case 1:
+				$_groupID = strtolower($tableName);
+				break;
+		}
+		echo $_groupID.'<br>';
+		$tableCache = $this->_cache->getCache($_groupID);
+		
+		$_cacheID = md5(strtoupper($querySql));
+		echo $_cacheID.'<br>';
+		if ($tableCache && array_key_exists($_cacheID, $tableCache)){
+			$queryCache = $this->_cache->getCache($_cacheID);
 		}
 		else{
-			return false;
+			$queryCache = false;
 		}
+		
+		return $queryCache;
 	}
 	
 	/**
@@ -109,28 +97,29 @@ class Cache_TableAnalytics {
 	 * @return mixed $queryData 被缓存的数据
 	 */
 	public function setCache ($tableName, $querySql, &$queryData) {
-		if ($this->_pk) {
-			//行级缓存
-			$_cacheID = md5(strtoupper($tableName.'.'.$this->_pk));
-			$_cacheID = strtoupper($tableName.'.'.$this->_pk);
-			
-			$this->_cache->setCache($_cacheID, $queryData);
+		if ($this->cacheLevel > 1 and empty($this->cacheTag)) {
+			$this->cacheLevel = 1;
 		}
-		else{
-			//表级缓存
-			$_cacheID = md5(strtoupper($querySql));
-			$_cacheID = strtoupper($querySql);
-	
-			$this->_cache->setCache($_cacheID, $queryData);
+		
+		$_cacheID = md5(strtoupper($querySql));
+		$this->_cache->setCache($_cacheID, $queryData);
+		
+		switch ($this->cacheLevel) {
+			case 3:
+			case 2:
+				$_groupID = strtolower($tableName.'.'.$this->cacheLevel.'.'.$this->cacheTag);
+				break;
 			
-			$tableCache = $this->_cache->getCache($tableName);
-			if (!$tableCache) {
-				$tableCache = array();
-			}
-			$tableCache[$_cacheID] = count($queryData);
-			
-			$this->_cache->setCache($tableName, $tableCache);
+			case 1:
+				$_groupID = strtolower($tableName);
+				break;
 		}
+		$tableCache = $this->_cache->getCache($_groupID);
+		if (!$tableCache) {
+			$tableCache = array();
+		}
+		$tableCache[$_cacheID] = count($queryData);
+		$this->_cache->setCache($_groupID, $tableCache);
 	}
 	
 	/**
@@ -143,20 +132,29 @@ class Cache_TableAnalytics {
 	 * @return void
 	 */
 	public function delCache ($tableName) {
-		echo $this->_pk;
-		if ($this->_pk){
-			$_cacheID = md5(strtoupper($tableName.'.'.$this->_pk));
-			$_cacheID = strtoupper($tableName.'.'.$this->_pk);
+		echo $this->cacheLevel.'>';
+		if ($this->cacheLevel > 1 and empty($this->cacheTag)) {
+			$this->cacheLevel = 1;
+		}
+		echo $this->cacheLevel.'>'.$this->cacheTag.'<br>';
+		
+		switch ($this->cacheLevel) {
+			case 3:
+			case 2:
+				$_groupID = strtolower($tableName.'.'.$this->cacheLevel.'.'.$this->cacheTag);
+				break;
 			
-			$this->_cache->delCache($_cacheID);
+			case 1:
+				$_groupID = strtolower($tableName);
+				break;
 		}
 		
-		$this->_cache->delCache($tableName);
+		$this->_cache->delCache($_groupID);
 	}
 	
 	public function cacheSet ($set) {
-		$this->_pk = $set['pkey'];
-		$this->_field = $set['field'];
+		$this->cacheLevel = $set['level'];
+		$this->cacheTag = $set['tag'];
 	}
 }
 
