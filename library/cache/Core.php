@@ -131,6 +131,7 @@ class Cache_Core {
 	public $prefix = '';
 	
 	private $_memCache = null;
+	private $_rediska = null;
 	
 	/**
 	 * 类的初始化
@@ -167,23 +168,44 @@ class Cache_Core {
 		
 		$this->type = strtolower($this->type);
 		
-		if ($this->type == 'memcache') {
-			if (!class_exists('Memcache', false)){
-				E_FW::load_File('exception_Cache');
-				throw new Exception_Cache('Cache Object Not Exists.');
-			}		
-			else{
-				$this->_memCache = new Memcache;
-			}
-			
-			foreach ($this->cacheParams['Memcache'] as $value) {
-				$this->_memCache->addServer($value['host'], $value['port']);
-			}
-			
-			if (!@$this->_memCache->getStats()){
-				E_FW::load_File('exception_Cache');
-				throw new Exception_Cache('Cache Service Not Exists.');
-			}
+		switch ($this->type){
+			case 'memcache':
+				if (!class_exists('Memcache', false)){
+					E_FW::load_File('exception_Cache');
+					throw new Exception_Cache('Cache Object Not Exists.');
+				}		
+				else{
+					$this->_memCache = new Memcache;
+				}
+				
+				foreach ($this->cacheParams['Memcache'] as $value) {
+					$this->_memCache->addServer($value['host'], $value['port']);
+				}
+				
+				if (!@$this->_memCache->getStats()){
+					E_FW::load_File('exception_Cache');
+					throw new Exception_Cache('Cache Service Not Exists.');
+				}
+				
+				break;
+				
+			case 'rediska':
+				$options = array(
+				    'namespace' => $this->prefix,
+				    'servers'   => array()
+				);
+				
+				foreach ($this->cacheParams['Rediska'] as $value) {
+					$options['servers'][] = array(
+						'host' => $value['host'],
+						'port' => $value['port']
+					);
+				}
+				
+				E_FW::load_File('helper_Rediska_Rediska');
+				$this->_rediska = new Rediska($options);
+				
+				break;
 		}
 	}
 
@@ -244,6 +266,11 @@ class Cache_Core {
 				return $this->_memCache->get($cacheID);
 				break;
 				
+			case 'rediska':
+				$key = new Rediska_Key($cacheID);
+				return $key->getValue();
+				break;
+				
 			default:
 		}
 	}
@@ -297,6 +324,12 @@ class Cache_Core {
 				$this->_memCache->set($cacheID, $cacheData, 0, $params['expireTime']);
 				break;
 				
+			case 'rediska':
+				$key = new Rediska_Key($cacheID);
+				$key->setExpire($params['expireTime']);
+				return $key->setValue($cacheData);
+				break;
+				
 			default:
 		}
 	}
@@ -321,6 +354,11 @@ class Cache_Core {
 				
 			case 'memcache':
 				return $this->_memCache->delete($cacheID);
+				break;
+				
+			case 'rediska':
+				$key = new Rediska_Key($cacheID);
+				return $key->delete();
 				break;
 				
 			default:
