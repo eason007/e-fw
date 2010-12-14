@@ -212,7 +212,7 @@ class DB_TableGateway {
 	 * @var int
 	 * @access public
 	 */
-	public $isCache = 0;
+	public $isCache = 1;
 	/**
 	 * 缓存字段名
 	 * 
