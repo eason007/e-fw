@@ -455,6 +455,10 @@ class DB_TableGateway {
 				$linkData[$key] = $val;
 			}
 			else{
+				if ($this->isCache == 2 and $this->cacheField == $key) {
+					$this->_cacheAnalytics->cacheTag = $val;
+				}
+
 				$field.= '`'.$key.'`, ';
 
 				if (strstr($val, 'FN:')){
