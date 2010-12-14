@@ -396,10 +396,12 @@ class DB_TableGateway {
 			unset($temp);
 		}
 		
-		$this->_cacheAnalytics->cacheSet(array(
-			'level'	=> $this->isCache,
-			'tag' 	=> ''
-		));
+		if ($this->isCache) {
+			$this->_cacheAnalytics->cacheSet(array(
+				'level'	=> $this->isCache,
+				'tag' 	=> ''
+			));
+		}
 
 		return $result;
 	}
@@ -525,10 +527,12 @@ class DB_TableGateway {
 			$this->db->commitT();
 		}
 		
-		$this->_cacheAnalytics->cacheSet(array(
-			'level'	=> $this->isCache,
-			'tag' 	=> ''
-		));
+		if ($this->isCache) {
+			$this->_cacheAnalytics->cacheSet(array(
+				'level'	=> $this->isCache,
+				'tag' 	=> ''
+			));
+		}
 
 		return $result;
 	}
@@ -649,10 +653,12 @@ class DB_TableGateway {
 			$this->db->commitT();
 		}
 		
-		$this->_cacheAnalytics->cacheSet(array(
-			'level'	=> $this->isCache,
-			'tag' 	=> ''
-		));
+		if ($this->isCache) {
+			$this->_cacheAnalytics->cacheSet(array(
+				'level'	=> $this->isCache,
+				'tag' 	=> ''
+			));
+		}
 
 		return $result;
 	}
@@ -755,10 +761,12 @@ class DB_TableGateway {
 			$this->db->commitT();
 		}
 		
-		$this->_cacheAnalytics->cacheSet(array(
-			'level'	=> $this->isCache,
-			'tag' 	=> ''
-		));
+		if ($this->isCache) {
+			$this->_cacheAnalytics->cacheSet(array(
+				'level'	=> $this->isCache,
+				'tag' 	=> ''
+			));
+		}
 
 		return $result;
 	}

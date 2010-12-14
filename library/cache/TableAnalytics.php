@@ -153,9 +153,10 @@ class Cache_TableAnalytics {
 			case 2:
 				$_groupID = strtolower($tableName.'.'.$this->cacheLevel.'.'.$this->cacheTag);
 				$this->_cache->delCache($_groupID);
+
+				$this->debuger->addField('group-id', $_groupID);
 				break;
 		}
-		$this->debuger->addField('group-id', $_groupID);
 		$this->debuger->addField('table', $tableName);
 		$this->debuger->info($querySql);
 		
