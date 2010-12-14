@@ -43,6 +43,9 @@ class Cache_TableAnalytics {
 	
 	function __construct() {
 		$this->_cache = E_FW::load_Class('cache_Core');
+
+		$this->debuger = E_FW::load_Class('log_Core');
+		$this->debuger->addWriter(E_FW::load_Class('writer_File', true, './sql_log.txt'));
 	}
 	
 	/**
@@ -54,11 +57,13 @@ class Cache_TableAnalytics {
 	 * @return mixed
 	 */
 	public function chkCache ($tableName, $querySql) {
-		echo $this->cacheLevel.'>';
+		$this->debuger->addField('type', 'check');
+		$this->debuger->addField('in-level', $this->cacheLevel);
 		if ($this->cacheLevel > 1 and empty($this->cacheTag)) {
 			$this->cacheLevel = 1;
 		}
-		echo $this->cacheLevel.'>'.$this->cacheTag.'<br>';
+		$this->debuger->addField('out-level', $this->cacheLevel);
+		$this->debuger->addField('cache-tag', $this->cacheTag);
 		
 		switch ($this->cacheLevel) {
 			case 3:
@@ -70,17 +75,20 @@ class Cache_TableAnalytics {
 				$_groupID = strtolower($tableName);
 				break;
 		}
-		echo $_groupID.'<br>';
+		$this->debuger->addField('group-id', $_groupID);
 		$tableCache = $this->_cache->getCache($_groupID);
 		
 		$_cacheID = md5(strtoupper($querySql));
-		echo $_cacheID.'<br>';
+		$this->debuger->addField('cache-id', $_cacheID);
 		if ($tableCache && array_key_exists($_cacheID, $tableCache)){
 			$queryCache = $this->_cache->getCache($_cacheID);
 		}
 		else{
 			$queryCache = false;
 		}
+		$this->debuger->addField('result', count($queryCache));
+		$this->debuger->addField('table', $tableName);
+		$this->debuger->info($querySql);
 		
 		return $queryCache;
 	}
@@ -131,12 +139,14 @@ class Cache_TableAnalytics {
 	 * @param string $tableName 当前打开的数据表名
 	 * @return void
 	 */
-	public function delCache ($tableName) {
-		echo $this->cacheLevel.'>';
+	public function delCache ($tableName, $querySql = '') {
+		$this->debuger->addField('type', 'del');
+		$this->debuger->addField('in-level', $this->cacheLevel);
 		if ($this->cacheLevel > 1 and empty($this->cacheTag)) {
 			$this->cacheLevel = 1;
 		}
-		echo $this->cacheLevel.'>'.$this->cacheTag.'<br>';
+		$this->debuger->addField('out-level', $this->cacheLevel);
+		$this->debuger->addField('cache-tag', $this->cacheTag);
 		
 		switch ($this->cacheLevel) {
 			case 3:
@@ -145,9 +155,11 @@ class Cache_TableAnalytics {
 				$this->_cache->delCache($_groupID);
 				break;
 		}
+		$this->debuger->addField('group-id', $_groupID);
+		$this->debuger->addField('table', $tableName);
+		$this->debuger->info($querySql);
 		
-		$_groupID = strtolower($tableName);
-		$this->_cache->delCache($_groupID);
+		$this->_cache->delCache(strtolower($tableName));
 	}
 	
 	public function cacheSet ($set) {

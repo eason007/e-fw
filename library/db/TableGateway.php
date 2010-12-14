@@ -352,7 +352,6 @@ class DB_TableGateway {
 			$result = $this->_cacheAnalytics->chkCache($this->tableName, $tag);
 			
 			if (!$result) {
-				echo 'no-cache<br>';
 				$result = $this->db->query($sql);
 				
 				$this->_cacheAnalytics->setCache($this->tableName, $tag, $result);
@@ -364,13 +363,12 @@ class DB_TableGateway {
 		
 		if ($result) {
 			switch (true) {
+				//默认自动连接
 				case ( $this->autoLink and $params['link'] === null):
+					$params['link'] = 'belongsTo,hasOne,hasMany,manyToMany';
+				//手动设定连接
 				case ( $this->autoLink and strlen($params['link']) > 0):
 				case ( !$this->autoLink and strlen($params['link']) > 0):
-					if (is_null($params['link'])) {
-						$params['link'] = 'belongsTo,hasOne,hasMany,manyToMany';
-					}
-
 					$linkValue = explode(',', $params['link']);
 
 					foreach($linkValue as $val){
@@ -501,7 +499,7 @@ class DB_TableGateway {
 			$this->_afterInsert($rowData);
 			
 			if ($this->isCache) {
-				$this->_cacheAnalytics->delCache($this->tableName);
+				$this->_cacheAnalytics->delCache($this->tableName, $sql);
 			}
 
 			if (!empty($linkData)){
@@ -625,7 +623,7 @@ class DB_TableGateway {
 			$this->_afterUpdate($rowData);
 			
 			if ($this->isCache) {
-				$this->_cacheAnalytics->delCache($this->tableName);
+				$this->_cacheAnalytics->delCache($this->tableName, $sql);
 			}
 
 			if (!empty($linkData)){
@@ -695,6 +693,9 @@ class DB_TableGateway {
 			$params[$key] = $value;
 		}
 
+		if ( $this->autoLink and $params['link'] === null) {
+			$params['link'] = 'hasOne,hasMany,manyToMany';
+		}
 
 		$subSql = $this->getSubSql('WHERE,ORDER,LIMIT');
 
@@ -702,9 +703,13 @@ class DB_TableGateway {
 		$sql.= $subSql;
 
 		if ($params['isExecute']){
-			$ID	= $this->select(array(
-				'link' => false
-			));
+			if (strlen($params['link']) > 0) {
+				$ID	= $this
+						->field('*')
+						->select(array(
+							'link' => ''
+						));
+			}
 		}
 		else{
 			return $sql;
@@ -723,34 +728,26 @@ class DB_TableGateway {
 
 		$result['rowCount'] = $this->db->query($sql, 'RowCount');
 
-		if ($ID) {
-			$this->_afterDelete($ID);
+		if ($result['rowCount']) {
+			$this->_afterDelete();
 			
 			if ($this->isCache) {
-				$this->_cacheAnalytics->delCache($this->tableName);
+				$this->_cacheAnalytics->delCache($this->tableName, $sql);
 			}
 
-			switch (true) {
-				case ( $this->autoLink and $params['link'] === null):
-				case ( $this->autoLink and strlen($params['link']) > 0):
-				case ( !$this->autoLink and strlen($params['link']) > 0):
-					if (is_null($params['link'])) {
-						$params['link'] = 'hasOne,hasMany,manyToMany';
-					}
+			if (strlen($params['link']) > 0) {
+				$linkValue  = explode(',', $params['link']);
+				$IDStr		= '';
 
-					$linkValue  = explode(',', $params['link']);
-					$IDStr		= '';
+				foreach($ID as $val){
+					$IDStr.= $val[$this->primaryKey].', ';
+				}
 
-					foreach($ID as $val){
-						$IDStr.= $val[$this->primaryKey].', ';
+				foreach($linkValue as $val){
+					if (!is_null($this->$val)){
+						$result[$val] = $this->_delLinkData(trim($val), $IDStr);
 					}
-
-					foreach($linkValue as $val){
-						if (!is_null($this->$val)){
-							$result[$val] = $this->_delLinkData(trim($val), $IDStr);
-						}
-					}
-					break;
+				}
 			}
 		}
 
@@ -929,6 +926,10 @@ class DB_TableGateway {
 	 * @access protected
 	 */
 	protected function _getLinkData (&$rt, $linkType) {
+		if (!count($rt)){
+			return ;
+		}
+
 		$linkSetting = $this->$linkType;
 
 		$linkClass = E_FW::load_Class($linkSetting['tableClass']);
