@@ -285,6 +285,13 @@ class DB_TableGateway {
 		else {
 			$result = $this->db->query($sql);
 		}
+
+		if ($this->isCache) {
+			$this->_cacheAnalytics->cacheSet(array(
+				'level'	=> $this->isCache,
+				'tag' 	=> ''
+			));
+		}
 		
 		return $result;
 	}
