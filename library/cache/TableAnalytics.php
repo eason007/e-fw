@@ -42,7 +42,8 @@ class Cache_TableAnalytics {
 	public $cacheTag = '';
 	
 	function __construct() {
-		$this->_cache = E_FW::load_Class('cache_Core');
+		E_FW::load_File('cache_Core');
+		$this->_cache = Cache_Core::getInstance(E_FW::get_Config('CACHE'));
 
 		$this->debuger = E_FW::load_Class('log_Core');
 		$this->debuger->addWriter(E_FW::load_Class('writer_File', true, './sql_log.txt'));
@@ -76,12 +77,12 @@ class Cache_TableAnalytics {
 				break;
 		}
 		$this->debuger->addField('group-id', $_groupID);
-		$tableCache = $this->_cache->getCache($_groupID);
+		$tableCache = $this->_cache->fetch($_groupID);
 		
 		$_cacheID = md5(strtoupper($querySql));
 		$this->debuger->addField('cache-id', $_cacheID);
 		if ($tableCache && array_key_exists($_cacheID, $tableCache)){
-			$queryCache = $this->_cache->getCache($_cacheID);
+			$queryCache = $this->_cache->fetch($_cacheID);
 		}
 		else{
 			$queryCache = false;
@@ -110,7 +111,7 @@ class Cache_TableAnalytics {
 		}
 		
 		$_cacheID = md5(strtoupper($querySql));
-		$this->_cache->setCache($_cacheID, $queryData);
+		$this->_cache->store($_cacheID, $queryData);
 		
 		switch ($this->cacheLevel) {
 			case 3:
@@ -122,12 +123,12 @@ class Cache_TableAnalytics {
 				$_groupID = strtolower($tableName);
 				break;
 		}
-		$tableCache = $this->_cache->getCache($_groupID);
+		$tableCache = $this->_cache->fetch($_groupID);
 		if (!$tableCache) {
 			$tableCache = array();
 		}
 		$tableCache[$_cacheID] = count($queryData);
-		$this->_cache->setCache($_groupID, $tableCache);
+		$this->_cache->store($_groupID, $tableCache);
 	}
 	
 	/**
@@ -152,7 +153,7 @@ class Cache_TableAnalytics {
 			case 3:
 			case 2:
 				$_groupID = strtolower($tableName.'.'.$this->cacheLevel.'.'.$this->cacheTag);
-				$this->_cache->delCache($_groupID);
+				$this->_cache->delete($_groupID);
 
 				$this->debuger->addField('group-id', $_groupID);
 				break;
@@ -160,7 +161,7 @@ class Cache_TableAnalytics {
 		$this->debuger->addField('table', $tableName);
 		$this->debuger->info($querySql);
 		
-		$this->_cache->delCache(strtolower($tableName));
+		$this->_cache->delete(strtolower($tableName));
 	}
 	
 	public function cacheSet ($set) {

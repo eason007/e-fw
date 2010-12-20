@@ -38,7 +38,8 @@ class Cache_OutputAnalytics {
 	private $_tableID = null;
 	
 	function __construct() {
-		$this->_cache = E_FW::load_Class('cache_Core');
+		E_FW::load_File('cache_Core');
+		$this->_cache = Cache_Core::getInstance(E_FW::get_Config('CACHE'));
 	}
 	
 	/**
@@ -57,10 +58,10 @@ class Cache_OutputAnalytics {
 	public function start ($cacheID, $tableID = NULL) {
 		$t = md5(strtoupper($cacheID));
 
-		$tableCache = $this->_cache->getCache($tableID);
+		$tableCache = $this->_cache->fetch($tableID);
 
 		if ($tableCache && array_key_exists($t, $tableCache)){
-			$queryCache = $this->_cache->getCache($t);
+			$queryCache = $this->_cache->fetch($t);
 		}
 		else{
 			$queryCache = false;
@@ -110,19 +111,19 @@ class Cache_OutputAnalytics {
 		ob_end_clean();
 		
 		if (is_null($params['time'])){
-			$this->_cache->setCache($this->_cacheID, $data);
+			$this->_cache->store($this->_cacheID, $data);
 		}
 		else{
-			$this->_cache->setCache($this->_cacheID, $data, array('expireTime' => $params['time']));
+			$this->_cache->store($this->_cacheID, $data, array('expireTime' => $params['time']));
 		}
 		
 		if (!is_null($this->_tableID)) {
-			$tableCache = $this->_cache->getCache($this->_tableID);
+			$tableCache = $this->_cache->fetch($this->_tableID);
 			if (!$tableCache) {
 				$tableCache = array();
 			}
 			$tableCache[$this->_cacheID] = mb_strlen($data, 'UTF-8');
-			$this->_cache->setCache($this->_tableID, $tableCache);
+			$this->_cache->store($this->_tableID, $tableCache);
 			
 			$this->_tableID = null;
 			$this->_cacheID = null;
@@ -143,7 +144,7 @@ class Cache_OutputAnalytics {
 	 * @access public
 	 */
 	public function clear ($cacheID) {
-		$this->_cache->delCache(md5(strtoupper($cacheID)));
+		$this->_cache->delete(md5(strtoupper($cacheID)));
 	}
 }
 
