@@ -7,16 +7,58 @@
  * 缓存类
  * 
  * <pre>
- * 提供缓存服务，目前支持文件及memcache两种方式
+ * 提供缓存服务，支持文件、memcache、rediska
  * memcache使用memcache扩展实现
  * </pre>
  * 
  * @package Cache
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 2.0.5.20100226
+ * @version 3.0.1.20101220
  */
-class Cache_Core {
+abstract class Cache_Abstract {
+	/**
+	 * 读取
+	 * 
+	 * Enter description here ...
+	 * @param unknown_type $key
+	 */
+	abstract public function fetch($key); 
+	
+	/**
+	 * 写
+	 * 
+	 * Enter description here ...
+	 * @param unknown_type $key
+	 * @param unknown_type $value
+	 */
+	abstract public function store($key, $value);
+	
+	/**
+	 * 删除
+	 * 
+	 * Enter description here ...
+	 * @param unknown_type $key
+	 */
+	abstract public function delete($key);  
+}
+
+final class Cache_Core {
+	private static $_selfHash = array();
+	
+	public static function getInstance ($setParams) {
+		$hashTag = md5(strtolower($setParams['type'].$setParams['prefix']));
+		
+		if ( !array_key_exists($hashTag, self::$_selfHash) ) {
+			$className = 'Core_'.ucfirst($setParams['type']);
+			self::$_selfHash[$hashTag] = new $className($setParams['detail']);
+		}
+		
+		return self::$_selfHash[$hashTag];
+	}
+}
+
+class Cache_Driver_File {
 	/**
 	 * 缓存配置
 	 * 
