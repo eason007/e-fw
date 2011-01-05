@@ -260,7 +260,7 @@ class Cache_Driver_Memcache extends Cache_Abstract {
 	}
 	
 	public function delete($key) {
-		$this->_memCache->delete($key);
+		$this->_memCache->delete($this->prefix.$key);
 	}
 }
 
