@@ -46,7 +46,7 @@ class Cache_TableAnalytics {
 		$this->_cache = Cache_Core::getInstance(E_FW::get_Config('CACHE'));
 
 		$this->debuger = E_FW::load_Class('log_Core');
-		$this->debuger->addWriter(E_FW::load_Class('writer_File', true, './sql_log.txt'));
+		$this->debuger->addWriter(E_FW::load_Class('writer_File', true, './'.date('Ymd', time()).'.txt'));
 	}
 	
 	/**

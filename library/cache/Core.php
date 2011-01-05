@@ -17,9 +17,9 @@
  * @version 3.0.1.20101220
  */
 abstract class Cache_Abstract {
-	private $expireTime;
-	private $isSerialize;
-	private $prefix;
+	protected $expireTime = 3600;
+	protected $isSerialize;
+	protected $prefix;
 	
 	/**
 	 * 读取
@@ -54,10 +54,10 @@ final class Cache_Core {
 		$hashTag = md5(strtolower($setParams['type'].$setParams['prefix']));
 		
 		if ( !array_key_exists($hashTag, self::$_selfHash) ) {
-			$className = 'Core_Driver_'.ucfirst($setParams['type']);
+			$className = 'Cache_Driver_'.ucfirst($setParams['type']);
 			self::$_selfHash[$hashTag] = new $className($setParams['detail']);
 		}
-		
+
 		self::$_selfHash[$hashTag]->prefix = $setParams['prefix'];
 		
 		return self::$_selfHash[$hashTag];
@@ -254,9 +254,9 @@ class Cache_Driver_Memcache extends Cache_Abstract {
 			$params[$key] = $value;
 		}
 		
-		$cacheID = $this->prefix.$cacheID;
+		$cacheID = $this->prefix.$key;
 		
-		$this->_memCache->set($key, $value, 0, $params['expireTime']);
+		$this->_memCache->set($cacheID, $value, 0, $params['expireTime']);
 	}
 	
 	public function delete($key) {
@@ -269,8 +269,7 @@ class Cache_Driver_Rediska extends Cache_Abstract {
 	
 	function __construct($Params) {
 		$options = array(
-		    'namespace' => $this->prefix,
-		    'servers'   => array()
+		    'servers' => array()
 		);
 		
 		foreach ($Params as $value) {
@@ -288,7 +287,7 @@ class Cache_Driver_Rediska extends Cache_Abstract {
 		$this->_rediska = null;
 	}
 	
-	public function fetch($key, $unserialize) {
+	public function fetch($key, $unserialize = false) {
 		$cacheID = $this->prefix.$key;
 		
 		$key = new Rediska_Key($cacheID);
@@ -304,12 +303,14 @@ class Cache_Driver_Rediska extends Cache_Abstract {
 			$params[$key] = $value;
 		}
 		
-		$cacheID = $this->prefix.$cacheID;
+		$cacheID = $this->prefix.$key;
 		
 		$key = new Rediska_Key($cacheID);
 		$key->setExpire($params['expireTime']);
 		
-		return $key->setValue($value);
+		$t = $key->setValue($value);
+		//var_dump($t);
+		return $t;
 	}
 	
 	public function delete($key) {
