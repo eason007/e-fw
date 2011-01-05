@@ -19,7 +19,7 @@
 abstract class Cache_Abstract {
 	protected $expireTime = 3600;
 	protected $isSerialize;
-	protected $prefix;
+	public $prefix;
 	
 	/**
 	 * 读取
@@ -314,7 +314,7 @@ class Cache_Driver_Rediska extends Cache_Abstract {
 	}
 	
 	public function delete($key) {
-		$key = new Rediska_Key($key);
+		$key = new Rediska_Key($this->prefix.$key);
 		return $key->delete();
 	}
 }
