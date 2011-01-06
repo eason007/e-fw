@@ -13,8 +13,8 @@
  * 
  * @package Cache
  * @author eason007<eason007@163.com>
- * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 3.0.1.20101220
+ * @copyright Copyright (c) 2007-2011 eason007<eason007@163.com>
+ * @version 4.0.2.20110105
  */
 abstract class Cache_Abstract {
 	protected $expireTime = 3600;
