@@ -10,8 +10,8 @@
  * 
  * @package Cache
  * @author eason007<eason007@163.com>
- * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 1.0.3.20100208
+ * @copyright Copyright (c) 2007-2011 eason007<eason007@163.com>
+ * @version 1.0.4.20101221
  */
  
 class Cache_OutputAnalytics {

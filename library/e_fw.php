@@ -8,8 +8,8 @@
  * 
  * @package Core
  * @author eason007<eason007@163.com>
- * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 1.1.1.20100310
+ * @copyright Copyright (c) 2007-2011 eason007<eason007@163.com>
+ * @version 1.1.2.20110106
  */
 
 /**
@@ -220,7 +220,7 @@ class E_FW {
     {
     	$v = self::get_Config('CLASS_OBJ/'.$className);
     	
-		if ( (isset($v)) and (is_object($v)) and (!$isReLoad) ){
+		if ( isset($v) and is_object($v) and !$isReLoad ){
 			return $v;
 		}
 
@@ -260,11 +260,12 @@ class E_FW {
 		$path = self::get_FilePath($filename);
 
 		if ($path != '') {
-			if ( (self::get_Config('LOAD_FILE_NAME/'.strtolower($filename))) and ($loadOnce) ) {
+			$filename = strtolower($filename);
+			if ( self::get_Config('LOAD_FILE_NAME/'.$filename) and $loadOnce ) {
 				return true;
 			}
 			
-			self::set_Config(array('LOAD_FILE_NAME' => array(strtolower($filename) => $path)));
+			self::set_Config(array('LOAD_FILE_NAME' => array($filename => $path)));
 			return include($path);
 		}
 	}
@@ -304,11 +305,11 @@ class E_FW {
 		if (is_string($params)){
 			$params = self::get_FilePath($params);
 			if (is_readable($params)){
-				$tmp = require($params);
-				self::set_Config($tmp);
+				$params = require($params);
 			}
 		}
-		else if (is_array($params)){
+		
+		if (is_array($params)){
 			foreach($params as $key => $val){
 				if (strstr($key, '/')){
 					$tmp = &self::get_Config($key, true);
@@ -320,7 +321,7 @@ class E_FW {
 					$tmp = &$GLOBALS[E_FW_VAR][$key];
 				}
 				
-				if ( (is_array($val)) and (is_array($tmp)) ){
+				if ( is_array($val) and is_array($tmp) ){
 					$tmp = array_merge($tmp, $val);
 				}
 				else{
@@ -353,7 +354,8 @@ class E_FW {
 	 * get_Config('DSN/name');	//仅获取 DSN 结点下的 name
 	 * </code>
 	 *
-	 * @param string $path
+	 * @param string $path 路径
+	 * @param bool $returnRoot 如果查找失败，是否返回上层目录，默认是false
 	 * @return mixed
 	 * @access public
 	 */
@@ -417,8 +419,8 @@ class E_FW {
 	 */
 	private static function get_FilePath($filename)
     {
-		if (self::get_Config('SEARCH_FILE_NAME/'.$filename)) {
-			return self::get_Config('SEARCH_FILE_NAME/'.$filename);
+		if ($loaded = self::get_Config('SEARCH_FILE_NAME/'.$filename)) {
+			return $loaded;
 		}
 
 		$id = $filename;
