@@ -14,7 +14,7 @@
  * @package Cache
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2011 eason007<eason007@163.com>
- * @version 4.0.2.20110105
+ * @version 3.0.2.20110113
  */
 abstract class Cache_Abstract {
 	protected $expireTime = 3600;
@@ -245,7 +245,7 @@ class Cache_Driver_Memcache extends Cache_Abstract {
 		return $this->_memCache->get($cacheID);
 	}
 	
-	public function store($key, $value, $parSet = array ()) {
+	public function store($cacheID, $cacheData, $parSet = array ()) {
 		$params = array(
 			'expireTime'=> $this->expireTime,
 			'serialize'	=> false
@@ -254,9 +254,9 @@ class Cache_Driver_Memcache extends Cache_Abstract {
 			$params[$key] = $value;
 		}
 		
-		$cacheID = $this->prefix.$key;
-		
-		$this->_memCache->set($cacheID, $value, 0, $params['expireTime']);
+		$cacheID = $this->prefix.$cacheID;
+
+		return $this->_memCache->set($cacheID, $cacheData, 0, $params['expireTime']);
 	}
 	
 	public function delete($key) {
@@ -294,7 +294,7 @@ class Cache_Driver_Rediska extends Cache_Abstract {
 		return $key->getValue();
 	}
 	
-	public function store($key, $value, $parSet = array ()) {
+	public function store($cacheID, $cacheData, $parSet = array ()) {
 		$params = array(
 			'expireTime'=> $this->expireTime,
 			'serialize'	=> false
@@ -303,14 +303,12 @@ class Cache_Driver_Rediska extends Cache_Abstract {
 			$params[$key] = $value;
 		}
 		
-		$cacheID = $this->prefix.$key;
+		$cacheID = $this->prefix.$cacheID;
 		
 		$key = new Rediska_Key($cacheID);
 		$key->setExpire($params['expireTime']);
 		
-		$t = $key->setValue($value);
-		//var_dump($t);
-		return $t;
+		return $key->setValue($cacheData);
 	}
 	
 	public function delete($key) {
