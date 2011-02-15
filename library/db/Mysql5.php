@@ -195,15 +195,29 @@ class DB_Driver_PDO {
 					PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 					PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 					PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"
-				)	
+				)
 			);
+
+			$this->errCount = 0;
 
 			return $this->dbConnect;
 		}
 		catch (PDOException $e)
 		{
-			E_FW::load_File('exception_DB');
-			throw new exception_DB('Database Not Exists.', 101);
+			if ($this->errCount < 3) {
+				$this->errCount++;
+
+				$this->__construct($dbServer,
+					$dbPort,
+					$dbName,
+					$dbUser,
+					$dbPassword
+				);
+			}
+			else {
+				E_FW::load_File('exception_DB');
+				throw new exception_DB('Database Not Exists.'.$this->errCount++.'>>', 101);
+			}
 		}
 	}
 	
