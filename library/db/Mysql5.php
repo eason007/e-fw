@@ -180,6 +180,7 @@ class DB_Driver_PDO {
 	public $dbConnect= null;
 	public $lastID 	 = 0;
 	public $rowCount = 0;
+	private $errCount = 1;
 
 	function __construct (
 		$dbServer,
