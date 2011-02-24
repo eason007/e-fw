@@ -721,10 +721,12 @@ class DB_TableGateway {
 
 		if ($params['isExecute']){
 			if (strlen($params['link']) > 0) {
-				$arg = array(
-					'level'	=> $this->_cacheAnalytics->cacheLevel,
-					'tag' 	=> $this->_cacheAnalytics->cacheTag
-				);
+				if ($this->isCache) {
+					$arg = array(
+						'level'	=> $this->_cacheAnalytics->cacheLevel,
+						'tag' 	=> $this->_cacheAnalytics->cacheTag
+					);
+				}
 				
 				$ID	= $this
 						->select(array(
