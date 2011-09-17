@@ -8,8 +8,8 @@
  * @package DB
  * @subpackage Driver
  * @author eason007<eason007@163.com>
- * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 1.3.1.20100312
+ * @copyright Copyright (c) 2007-2011 eason007<eason007@163.com>
+ * @version 1.3.2.20110428
  */
 
 class DB_Mysql5 {
@@ -20,11 +20,13 @@ class DB_Mysql5 {
 	 * @see DB_Driver_PDO
 	 * @access private
 	 */
-	private $db = null;
+	private $db = NULL;
 	
-	private $_ConnectPond = null;
+	private $_ConnectPond = NULL;
 	
 	private static $_dbHash = array();
+	
+	private $onTransact = FALSE;
 	
 	/**
 	 * 查询SQL日志
@@ -133,9 +135,14 @@ class DB_Mysql5 {
 			$this->dbConnect();
 		}
 		
+		if ($this->onTransact) {
+			return ;
+		}
+		
 		switch ($this->_ConnectPond['dbType']) {
 			case 'Mysql':
 				$this->db->dbConnect->beginTransaction();
+				$this->onTransact = true;
 				break;
 		}
 	}
@@ -152,6 +159,8 @@ class DB_Mysql5 {
 				$this->db->dbConnect->rollBack();
 				break;
 		}
+		
+		$this->onTransact = false;
 	}
 
 	/**
@@ -166,6 +175,8 @@ class DB_Mysql5 {
 				$this->db->dbConnect->commit();
 				break;
 		}
+		
+		$this->onTransact = false;
 	}
 }
 
@@ -216,8 +227,7 @@ class DB_Driver_PDO {
 				);
 			}
 			else {
-				E_FW::load_File('exception_DB');
-				throw new exception_DB('Database Not Exists.'.$this->errCount++.'>>', 101);
+				throw new exception_Game('Database Not Exists.'.$this->errCount++.'>>', 11);
 			}
 		}
 	}
@@ -232,8 +242,7 @@ class DB_Driver_PDO {
 		}
 		catch (PDOException $e)
 		{
-			E_FW::load_File('exception_DB');
-			throw new exception_DB('Query Error.', 102);
+			throw new exception_Game('Query Error.', 12);
 		}
 
 		return $result->fetchAll();
@@ -245,8 +254,7 @@ class DB_Driver_PDO {
 		}
 		catch (PDOException $e)
 		{
-			E_FW::load_File('exception_DB');
-			throw new exception_DB('Execute Error.', 103);
+			throw new exception_Game('Execute Error.', 13);
 		}
 		
 		switch ($type) {

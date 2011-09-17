@@ -14,7 +14,7 @@
  * @package Cache
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2011 eason007<eason007@163.com>
- * @version 2.0.3.20110105
+ * @version 2.0.4.20110428
  */
  
 class Cache_TableAnalytics {
@@ -33,13 +33,7 @@ class Cache_TableAnalytics {
 	 * 
 	 * @var string
 	 */
-	public $cacheLevel = 1;
-	/**
-	 * 缓存标识
-	 * 
-	 * @var string
-	 */
-	public $cacheTag = '';
+	public $level = '1';
 	
 	function __construct() {
 		E_FW::load_File('cache_Core');
@@ -55,24 +49,10 @@ class Cache_TableAnalytics {
 	 * @return mixed
 	 */
 	public function chkCache ($tableName, $querySql) {
-		if ($this->cacheLevel > 1 and empty($this->cacheTag)) {
-			$this->cacheLevel = 1;
-		}
-		
-		switch ($this->cacheLevel) {
-			case 3:
-			case 2:
-				$_groupID = strtolower($tableName.'.'.$this->cacheLevel.'.'.$this->cacheTag);
-				break;
-			
-			case 1:
-				$_groupID = strtolower($tableName);
-				break;
-		}
-		$tableCache = $this->_cache->fetch($_groupID);
+		$tableCache = $this->_cache->fetch(strtolower($tableName));
 		
 		$_cacheID = md5(strtoupper($querySql));
-		if ($tableCache && array_key_exists($_cacheID, $tableCache)){
+		if ($tableCache and isset($tableCache[$this->level]) and array_key_exists($_cacheID, $tableCache[$this->level])){
 			$queryCache = $this->_cache->fetch($_cacheID);
 		}
 		else{
@@ -87,6 +67,12 @@ class Cache_TableAnalytics {
 	 * 
 	 * 缓存的键名为 md5($querySql) 的密文，同时将会记录到该数据表名下
 	 * 以便有其他 update 操作后，能将与该表有关的所有缓存清理
+	 * 
+	 * 存储格式：
+	 * tableCache = array (
+	 * 	1 => array(cacheID => int, x => int),
+	 *  $this->level => array(cacheID => int, x => int)
+	 * )
 	 *
 	 * @access public
 	 * @param string $tableName 当前打开的数据表名
@@ -94,29 +80,19 @@ class Cache_TableAnalytics {
 	 * @return mixed $queryData 被缓存的数据
 	 */
 	public function setCache ($tableName, $querySql, &$queryData) {
-		if ($this->cacheLevel > 1 and empty($this->cacheTag)) {
-			$this->cacheLevel = 1;
-		}
-		
 		$_cacheID = md5(strtoupper($querySql));
 		$this->_cache->store($_cacheID, $queryData);
 		
-		switch ($this->cacheLevel) {
-			case 3:
-			case 2:
-				$_groupID = strtolower($tableName.'.'.$this->cacheLevel.'.'.$this->cacheTag);
-				break;
-			
-			case 1:
-				$_groupID = strtolower($tableName);
-				break;
-		}
-		$tableCache = $this->_cache->fetch($_groupID);
+		$tableName = strtolower($tableName);
+		$tableCache = $this->_cache->fetch($tableName);
 		if (!$tableCache) {
 			$tableCache = array();
 		}
-		$tableCache[$_cacheID] = count($queryData);
-		$this->_cache->store($_groupID, $tableCache);
+		if (!isset($tableCache[$this->level])) {
+			$tableCache[$this->level] = array();
+		}
+		$tableCache[$this->level][$_cacheID] = count($queryData);
+		$this->_cache->store($tableName, $tableCache);
 	}
 	
 	/**
@@ -129,25 +105,19 @@ class Cache_TableAnalytics {
 	 * @return void
 	 */
 	public function delCache ($tableName, $querySql = '') {
-		if ($this->cacheLevel > 1 and empty($this->cacheTag)) {
-			$this->cacheLevel = 1;
-		}
+		$tableName = strtolower($tableName);
 		
-		switch ($this->cacheLevel) {
-			case 3:
-			case 2:
-				$_groupID = strtolower($tableName.'.'.$this->cacheLevel.'.'.$this->cacheTag);
-				$this->_cache->delete($_groupID);
-
-				break;
+		if (substr($this->level, 0, 1) != '1') {
+			$tableCache = $this->_cache->fetch($tableName);
+			if (is_array($tableCache)) {
+				unset($tableCache[$this->level]);
+				unset($tableCache['1']);
+			}
+			$this->_cache->store($tableName, $tableCache);
 		}
-		
-		$this->_cache->delete(strtolower($tableName));
-	}
-	
-	public function cacheSet ($set) {
-		$this->cacheLevel = $set['level'];
-		$this->cacheTag = $set['tag'];
+		else{
+			$this->_cache->delete($tableName);
+		}
 	}
 }
 

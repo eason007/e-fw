@@ -1,4 +1,6 @@
 <?php
+E_FW::load_File('exception_DB');
+
 /**
  * @package DB
  */
@@ -12,13 +14,13 @@
  * CRUD的基本操作；(v1.0)
  * 基本的关联操作；(v1.0)
  * 数据分布式存储；(v1.1)
- * 查询的自缓存；(v1.2)
+ * 前置读缓存；(v1.2)
  * </pre>
  * 
  * @package DB
  * @author eason007<eason007@163.com>
- * @copyright Copyright (c) 2007-2010 eason007<eason007@163.com>
- * @version 1.2.7.20100311
+ * @copyright Copyright (c) 2007-2011 eason007<eason007@163.com>
+ * @version 1.2.10.20110428
  */
  
 class DB_TableGateway {
@@ -26,16 +28,66 @@ class DB_TableGateway {
 	 * 数据表名
 	 *
 	 * @var string
-	 * @access public
+	 * @access protected
 	 */
-	public $tableName = null;
+	protected $tableName = NULL;
 	/**
 	 * 主键字段名
 	 *
 	 * @var string
-	 * @access public 
+	 * @access protected 
 	 */
-	public $primaryKey = null;
+	protected $primaryKey = NULL;
+	
+	/**
+	 * 是否在执行数据库中自动执行关联操作
+	 * 仅在select和del方法中有效
+	 *
+	 * @var bool
+	 * @access protected
+	 */
+	protected $isLink = FALSE;
+	
+	/**
+	 * 是否支持事务
+	 * 
+	 * Enter description here ...
+	 * @var bool
+	 * @access protected
+	 */
+	protected $isTransact = FALSE;
+	
+	/**
+	 * 数据库连接信息
+	 * 
+	 * 可对某个表进行单独定义，为空时则读取全局配置
+	 *
+	 * @var array
+	 * @access protected
+	 */
+	protected $dbParams = NULL;
+	
+	/**
+	 * 数据读缓存方式
+	 * 
+	 * 0=不缓存
+	 * 1=表级缓存
+	 * 2=块级缓存
+	 * 3=行级缓存
+	 *
+	 * @var int
+	 * @access protected
+	 */
+	protected $isCache = 1;
+	/**
+	 * 缓存字段名
+	 * 
+	 * 只在块级缓存下生效
+	 * 
+	 * @var string
+	 * @access protected
+	 */
+	protected $cacheField = '';
 
 	/**
 	 * 从属关联
@@ -51,9 +103,9 @@ class DB_TableGateway {
 	 * </pre>
 	 *
 	 * @var array
-	 * @access public
+	 * @access protected
 	 */
-	public $belongsTo = null;
+	public $belongsTo = NULL;
 	/**
 	 * 一对一关联
 	 * 
@@ -69,9 +121,9 @@ class DB_TableGateway {
 	 * </pre>
 	 *
 	 * @var array
-	 * @access public
+	 * @access protected
 	 */
-	public $hasOne = null;
+	public $hasOne = NULL;
 	/**
 	 * 一对多关系
 	 * 
@@ -86,9 +138,9 @@ class DB_TableGateway {
 	 * </pre>
 	 *
 	 * @var array
-	 * @access public
+	 * @access protected
 	 */
-	public $hasMany = null;
+	public $hasMany = NULL;
 	/**
 	 * 多对多关系
 	 * 
@@ -106,28 +158,9 @@ class DB_TableGateway {
 	 * </pre>
 	 *
 	 * @var array
-	 * @access public
+	 * @access protected
 	 */
-	public $manyToMany = null;
-
-	/**
-	 * 是否在执行数据库中自动执行关联操作
-	 * 仅在select和del方法中有效
-	 *
-	 * @var bool
-	 * @access public
-	 */
-	public $autoLink = false;
-	
-	/**
-	 * 数据表所在数据库的连接信息
-	 * 
-	 * 主要用于数据分区时对表的存储位置进行单独定义
-	 *
-	 * @var array
-	 * @access public
-	 */
-	public $dbParams = null;
+	public $manyToMany = NULL;
 
 	/**
 	 * 显示字段名列表
@@ -185,6 +218,14 @@ class DB_TableGateway {
 	 * @access private
 	 */
 	private $_limit = '';
+	
+	/**
+	 * 缓存分析对象
+	 *
+	 * @var object
+	 * @access private
+	 */
+	private $_cacheAnalytics = NULL;
 
 	/**
 	 * 数据库连接对象
@@ -192,50 +233,19 @@ class DB_TableGateway {
 	 * @var object
 	 * @access protected
 	 */
-	protected $db = null;
-	
-	/**
-	 * 缓存分析对象
-	 *
-	 * @var object
-	 * @access public
-	 */
-	public $_cacheAnalytics = null;
-	/**
-	 * 数据缓存方式
-	 * 
-	 * 0=不缓存
-	 * 1=表级缓存
-	 * 2=块级缓存
-	 * 3=行级缓存
-	 *
-	 * @var int
-	 * @access public
-	 */
-	public $isCache = 1;
-	/**
-	 * 缓存字段名
-	 * 
-	 * 只在块级缓存下生效
-	 * 
-	 * @var string
-	 * @access public
-	 */
-	public $cacheField = '';
+	protected $db = NULL;
 
 	function __construct() {
 		if (is_null($this->dbParams)){
-			$this->setDB(E_FW::get_Config('DSN'));
+			$this->dbParams = E_FW::get_Config('DSN');
 		}
-		else{
-			$this->setDB($this->dbParams);
+			
+		//如果开启缓存，则延迟连接数据库
+		if ($this->isCache) {
+			$this->_cacheAnalytics = E_FW::load_Class('cache_TableAnalytics');
 		}
 		
-		if ($this->isCache) {
-			$this->_cacheAnalytics = E_FW::load_Class('cache_TableAnalytics', true);
-			
-			$this->_cacheAnalytics->cacheLevel = $this->isCache;
-		}
+		$this->setDB();
 	}
 
 	/**
@@ -248,7 +258,14 @@ class DB_TableGateway {
 	 * @param array $dbParams
 	 * @access public
 	 */
-	public function setDB ($dbParams) {
+	public function setDB ($dbParams = NULL) {
+		if (!is_null($this->db)) {
+			return ;
+		}
+		if (is_null($dbParams)) {
+			$dbParams = $this->dbParams;
+		}
+		
 		switch ($dbParams['dbType']) {
 			case 'Mysql':
 				E_FW::load_File('db_Mysql5');
@@ -258,7 +275,34 @@ class DB_TableGateway {
 				break;
 		}
 	}
-
+	
+	public function query ($sql, $type = '', $cacheTag = '') {
+		if ($this->isCache) {
+			if ($type == '') {
+				if ($cacheTag == '') {$cacheTag = $sql;}
+				
+				$result = $this->_cacheAnalytics->chkCache($this->tableName, $cacheTag);
+				
+				if (!$result) {
+					$result = $this->db->query($sql);
+					
+					$this->_cacheAnalytics->setCache($this->tableName, $cacheTag, $result);
+				}
+			}
+			else{
+				$result = $this->db->query($sql, $type);
+				
+				$this->_cacheAnalytics->delCache($this->tableName);
+			}
+			
+			$this->_cacheAnalytics->level = 1;
+		}
+		else{
+			$result = $this->db->query($sql, $type);
+		}
+		
+		return $result;
+	}
 
 	/**
 	 * 执行自定义查询语句
@@ -273,29 +317,8 @@ class DB_TableGateway {
 	 * @access public
 	 */
 	public function selectSQL ($sql) {
-		if ($this->isCache) {
-			$result = $this->_cacheAnalytics->chkCache($this->tableName, $sql);
-			
-			if (!$result) {
-				$result = $this->db->query($sql);
-				
-				$this->_cacheAnalytics->setCache($this->tableName, $sql, $result);
-			}
-		}
-		else {
-			$result = $this->db->query($sql);
-		}
-
-		if ($this->isCache) {
-			$this->_cacheAnalytics->cacheSet(array(
-				'level'	=> $this->isCache,
-				'tag' 	=> ''
-			));
-		}
-		
-		return $result;
+		return $this->query($sql);
 	}
-
 
 	/**
 	 * 查询数据
@@ -305,12 +328,12 @@ class DB_TableGateway {
 	 * where、limit、field、order、other等属性为准。而本方法执行后
 	 * 将自动清除以上属性。
 	 * 
-	 * 默认将直接返回符合条件的数据数组，并返回相关的关联数据（autoLink 为 true 的情况下）。
+	 * 默认将直接返回符合条件的数据数组，并返回相关的关联数据（$this->isLink 为 true 的情况下）。
 	 * 
 	 * parSet 参数为数组格式，目前包含的设置为：link = string, isExecute = bool, isCount = bool
 	 * 默认设置为：link = null, isExecute = true, isCount = false
 	 *
-	 * 如 link 参数不为空，则无论是否 autoLink 是否为 true ，均返回$link中指定的关联数据
+	 * 如 link 参数不为空，则无论是否 $this->isLink 是否为 true ，均返回$link中指定的关联数据
 	 * 如 isExecute 参数为 false，则不返回数据数组，而返回解释相关属性后的T-SQL语句
 	 * 如需要同时返回符合条件的总记录数，则必须指定 isCount 参数为 true
 	 * </pre>
@@ -330,13 +353,14 @@ class DB_TableGateway {
 			'link'		=> null,
 			'isExecute'	=> true,
 			'isCount'	=> false,
-			'isCache'	=> true,
-			'tag'		=> null
+			'isCache'	=> $this->isCache,
+			'tag'		=> ''
 		);
 		foreach ($parSet as $key => $value) {
 			$params[$key] = $value;
 		}
 
+		//组合查询语句
 		$sql = 'SELECT '.$this->_field;
 		if ($this->_field != '*') {
 			$sql.= ','.$this->primaryKey;
@@ -344,38 +368,30 @@ class DB_TableGateway {
 		$sql.= ' FROM `'.$this->tableName.'` AS MT';
 		$sql.= $this->getSubSql('WHERE,OTHER,ORDER,LIMIT');
 		
+		//组合统计语句
 		$c_sql = 'SELECT COUNT('.$this->primaryKey.') AS RCount';
 		$c_sql.= ' FROM `'.$this->tableName.'` AS MT';
 		$c_sql.= $this->getSubSql('WHERE,OTHER,ORDER');
 
+		//清理条件设定
 		$this->clear();
 
 		if (!$params['isExecute']) {
 			return $sql;
 		}
 		
-		if ($this->isCache && $params['isCache']) {
-			$tag = is_null($params['tag']) ? $sql : $params['tag'];
-			$result = $this->_cacheAnalytics->chkCache($this->tableName, $tag);
-			
-			if (!$result) {
-				$result = $this->db->query($sql);
-				
-				$this->_cacheAnalytics->setCache($this->tableName, $tag, $result);
-			}
-		}
-		else {
-			$result = $this->db->query($sql);
-		}
+		//获取查询结果
+		$result = $this->query($sql, '', $params['tag']);
 		
 		if ($result) {
+			//获取关联数据
 			switch (true) {
 				//默认自动连接
-				case ( $this->autoLink and $params['link'] === null):
+				case ( $this->isLink and $params['link'] === null):
 					$params['link'] = 'belongsTo,hasOne,hasMany,manyToMany';
 				//手动设定连接
-				case ( $this->autoLink and strlen($params['link']) > 0):
-				case ( !$this->autoLink and strlen($params['link']) > 0):
+				case ( $this->isLink and strlen($params['link']) > 0):
+				case ( !$this->isLink and strlen($params['link']) > 0):
 					$linkValue = explode(',', $params['link']);
 
 					foreach($linkValue as $val){
@@ -388,10 +404,11 @@ class DB_TableGateway {
 		}
 
 		if ($params['isCount']){
+			//需要获取统计结果
 			$temp['result'] = $result;
 			unset($result);
 
-			$tmp = $this->db->query($c_sql);
+			$tmp = $this->query($c_sql);
 			if ($tmp){
 				$temp['resultCount'] = $tmp[0]['RCount'];
 			}
@@ -401,13 +418,6 @@ class DB_TableGateway {
 
 			$result = $temp;
 			unset($temp);
-		}
-		
-		if ($this->isCache) {
-			$this->_cacheAnalytics->cacheSet(array(
-				'level'	=> $this->isCache,
-				'tag' 	=> ''
-			));
 		}
 
 		return $result;
@@ -430,11 +440,12 @@ class DB_TableGateway {
 	 * 
 	 * 可定义 _afterInsert 方法，以便在更新数据表之后执行相关操作。
 	 * 
-	 * parSet 参数为数组格式，目前包含的设置为：isExecute = bool, isRplace = bool
-	 * 默认设置为：isExecute = true, isRplace = false
+	 * parSet 参数为数组格式，目前包含的设置为：isExecute = bool, isRplace = bool, isTransact = bool
+	 * 默认设置为：isExecute = true, isRplace = false, isTransact = true
 	 *
 	 * 如 isExecute 参数为 false，则不返回数据数组，而返回解释相关属性后的T-SQL语句
-	 * 如 isExecute 参数为 true，则使用 REPLACE INTO 语法，否则使用 INSERT INTO
+	 * 如 isRplace 参数为 true，则使用 REPLACE INTO 语法，否则使用 INSERT INTO
+	 * 如 isTransact 参数为 true，则使用事务
 	 * </pre>
 	 * 
 	 * @param array $rowData
@@ -462,11 +473,11 @@ class DB_TableGateway {
 				$linkData[$key] = $val;
 			}
 			else{
-				if ($this->isCache == 2 and $this->cacheField == $key) {
-					$this->_cacheAnalytics->cacheTag = $val;
-				}
-
 				$field.= '`'.$key.'`, ';
+				
+				if ($this->isCache == 2 and $this->cacheField == $key) {
+					$this->_cacheAnalytics->level = $this->isCache.$val;
+				}
 
 				if (strstr($val, 'FN:')){
 					$value.= str_replace('FN:', '', $val).", ";
@@ -491,10 +502,8 @@ class DB_TableGateway {
 		if (!$params['isExecute']) {
 			return $sql;
 		}
-
-		if ($params['isTransact']){
-			$this->db->beginT();
-		}
+		
+		$this->db->beginT();
 		
 		if (!$this->_beforeInsert($rowData)) {
 			if ($params['isTransact']){
@@ -502,18 +511,14 @@ class DB_TableGateway {
 			}
             return false;
         }
-		
-		$rt = $this->db->query($sql, 'LastID');
+        
+		$rt = $this->query($sql, 'LastID');
 		$result['lastID'] = $rt;
 		$isFound = false;
 
 		if ($rt > 0){
 			$rowData[$this->primaryKey] = $rt;
 			$this->_afterInsert($rowData);
-			
-			if ($this->isCache) {
-				$this->_cacheAnalytics->delCache($this->tableName, $sql);
-			}
 
 			if (!empty($linkData)){
 				foreach($linkData as $key => $val){
@@ -536,13 +541,6 @@ class DB_TableGateway {
 
 		if (!$isFound && $params['isTransact']){
 			$this->db->commitT();
-		}
-		
-		if ($this->isCache) {
-			$this->_cacheAnalytics->cacheSet(array(
-				'level'	=> $this->isCache,
-				'tag' 	=> ''
-			));
 		}
 
 		return $result;
@@ -619,10 +617,8 @@ class DB_TableGateway {
 		if (!$params['isExecute']) {
 			return $sql;
 		}
-        
-		if ($params['isTransact']){
-			$this->db->beginT();
-		}
+
+		$this->db->beginT();
 
 		if (!$this->_beforeUpdate($rowData)) {
 			if ($params['isTransact']){
@@ -630,16 +626,12 @@ class DB_TableGateway {
 			}
             return false;
         }
-
-		$result['rowCount'] = $this->db->query($sql, 'RowCount');
+        
+		$result['rowCount'] = $this->query($sql, 'RowCount');
 		$isFound = false;
 
 		if ($result['rowCount'] > 0){
 			$this->_afterUpdate($rowData);
-			
-			if ($this->isCache) {
-				$this->_cacheAnalytics->delCache($this->tableName, $sql);
-			}
 
 			if (!empty($linkData)){
 				foreach($linkData as $key => $val){
@@ -663,13 +655,6 @@ class DB_TableGateway {
 		if (!$isFound && $params['isTransact']){
 			$this->db->commitT();
 		}
-		
-		if ($this->isCache) {
-			$this->_cacheAnalytics->cacheSet(array(
-				'level'	=> $this->isCache,
-				'tag' 	=> ''
-			));
-		}
 
 		return $result;
 	}
@@ -687,7 +672,7 @@ class DB_TableGateway {
 	 * 可定义 _beforeDelete 方法，以便在更新数据表之前执行相关操作。但需注意在框架中
 	 * 类是可cache对象，因此需要注意定义的方法是否需要及时销毁
 	 * 
-	 * 如 link 参数不为空，则无论是否 autoLink 是否为 true ，均返回$link中指定的关联数据
+	 * 如 link 参数不为空，则无论是否 $this->isLink 是否为 true ，均返回$link中指定的关联数据
 	 * 如 isExecute 参数为 false，则不返回数据数组，而返回解释相关属性后的T-SQL语句
 	 * </pre>
 	 * 
@@ -710,7 +695,7 @@ class DB_TableGateway {
 			$params[$key] = $value;
 		}
 
-		if ( $this->autoLink and $params['link'] === null) {
+		if ( $this->isLink and $params['link'] === null) {
 			$params['link'] = 'hasOne,hasMany,manyToMany';
 		}
 
@@ -721,30 +706,16 @@ class DB_TableGateway {
 
 		if ($params['isExecute']){
 			if (strlen($params['link']) > 0) {
-				if ($this->isCache) {
-					$arg = array(
-						'level'	=> $this->_cacheAnalytics->cacheLevel,
-						'tag' 	=> $this->_cacheAnalytics->cacheTag
-					);
-				}
-				
-				$ID	= $this
-						->select(array(
-							'link' => ''
-						));
-						
-				if ($this->isCache) {
-					$this->_cacheAnalytics->cacheSet($arg);
-				}
+				$ID	= $this->select(array(
+					'link' => ''
+				));
 			}
 		}
 		else{
 			return $sql;
 		}
 
-		if ($params['isTransact']){
-			$this->db->beginT();
-		}
+		$this->db->beginT();
 
 		if (!$this->_beforeDelete()) {
 			if ($params['isTransact']){
@@ -752,15 +723,11 @@ class DB_TableGateway {
 			}
             return false;
         }
-
-		$result['rowCount'] = $this->db->query($sql, 'RowCount');
+        
+		$result['rowCount'] = $this->query($sql, 'RowCount');
 
 		if ($result['rowCount']) {
 			$this->_afterDelete();
-			
-			if ($this->isCache) {
-				$this->_cacheAnalytics->delCache($this->tableName, $sql);
-			}
 
 			if (strlen($params['link']) > 0) {
 				$linkValue  = explode(',', $params['link']);
@@ -780,13 +747,6 @@ class DB_TableGateway {
 
 		if ($params['isTransact']){
 			$this->db->commitT();
-		}
-		
-		if ($this->isCache) {
-			$this->_cacheAnalytics->cacheSet(array(
-				'level'	=> $this->isCache,
-				'tag' 	=> ''
-			));
 		}
 
 		return $result;
@@ -1137,10 +1097,10 @@ class DB_TableGateway {
 					$rt.= $this->_where;
 					break;
 				case 'OTHER':
-					$rt.= $this->_other;
+					$rt.= ' '.$this->_other;
 					break;
 				case 'ORDER':
-					$rt.= $this->_order;
+					$rt.= ' '.$this->_order;
 					break;
 				case 'LIMIT':
 					$rt.= $this->_limit;
@@ -1183,7 +1143,7 @@ class DB_TableGateway {
 						$rt.= ' AND `'.$this->primaryKey.'` = '.$val;
 						
 						if ($this->isCache == 3) {
-							$this->_cacheAnalytics->cacheTag = $val;
+							$this->_cacheAnalytics->level = $this->isCache.$val;
 						}
 					}
 					else{
@@ -1194,7 +1154,7 @@ class DB_TableGateway {
 					$rt.= ' AND `'.$key.'` = \''.$val.'\'';
 					
 					if ($this->isCache == 2 and $this->cacheField == $key) {
-						$this->_cacheAnalytics->cacheTag = $val;
+						$this->_cacheAnalytics->level = $this->isCache.$val;
 					}
 				}
 			}
@@ -1204,7 +1164,7 @@ class DB_TableGateway {
 				$rt = ' AND `'.$this->primaryKey.'` = '.$p;
 				
 				if ($this->isCache == 3) {
-					$this->_cacheAnalytics->cacheTag = $p;
+					$this->_cacheAnalytics->level = $this->isCache.$p;
 				}
 			}
 			else if (strlen($p) > 0){
@@ -1348,6 +1308,16 @@ class DB_TableGateway {
 		else{
 			return false;
 		}
+	}
+
+	public function flashCache ($level = '', $pt = '') {
+		if ($pt) {
+			$this->_cacheAnalytics->level = $this->isCache.$pt;
+		}
+		if ($level) {
+			$this->_cacheAnalytics->level = $level;
+		}
+		$this->_cacheAnalytics->delCache($this->tableName);
 	}
 }
 

@@ -14,7 +14,7 @@
  * @package Cache
  * @author eason007<eason007@163.com>
  * @copyright Copyright (c) 2007-2011 eason007<eason007@163.com>
- * @version 3.0.2.20110113
+ * @version 3.0.3.20110428
  */
 abstract class Cache_Abstract {
 	protected $expireTime = 3600;
@@ -55,10 +55,10 @@ final class Cache_Core {
 		
 		if ( !array_key_exists($hashTag, self::$_selfHash) ) {
 			$className = 'Cache_Driver_'.ucfirst($setParams['type']);
+			
 			self::$_selfHash[$hashTag] = new $className($setParams['detail']);
+			self::$_selfHash[$hashTag]->prefix = $setParams['prefix'];
 		}
-
-		self::$_selfHash[$hashTag]->prefix = $setParams['prefix'];
 		
 		return self::$_selfHash[$hashTag];
 	}
@@ -98,12 +98,10 @@ class Cache_Driver_File extends Cache_Abstract {
 	 * @param bool $unserialize 是否反序列化
 	 * @return mixed
 	 */
-	public function fetch ($cacheID, $unserialize = false) {
-		$cacheID = $this->prefix.$cacheID;
-		
+	public function fetch ($key, $unserialize = false) {
 		clearstatcache();
 		
-		$cacheFile = $this->_getHashPath($cacheID);
+		$cacheFile = $this->_getHashPath($this->prefix.$key);
 		
 		if (!file_exists($cacheFile)){
 			return false;
@@ -139,22 +137,20 @@ class Cache_Driver_File extends Cache_Abstract {
 	 * @param mixed $cacheData 缓存内容
 	 * @param array $parSet 
 	 */
-	public function store ($cacheID, $cacheData, $parSet = array()){
+	public function store ($key, $cacheData, $parSet = array()){
 		$params = array(
 			'expireTime'=> $this->expireTime,
 			'serialize'	=> false
 		);
-		foreach ($parSet as $key => $value) {
-			$params[$key] = $value;
+		foreach ($parSet as $k => $v) {
+			$params[$k] = $v;
 		}
-		
-		$cacheID = $this->prefix.$cacheID;
 		
 		if ( ($this->isSerialize) or ($params['serialize']) ){
 			$cacheData = serialize($cacheData);
 		}
 		
-		$cacheFile = $this->_getHashPath($cacheID, false);
+		$cacheFile = $this->_getHashPath($this->prefix.$key, false);
 		@file_put_contents($cacheFile, $cacheData);
 		
 		@touch($cacheFile, time() + $params['expireTime']);
@@ -167,10 +163,8 @@ class Cache_Driver_File extends Cache_Abstract {
 	 * @param string $cacheID 缓存标记名
 	 * @return void
 	 */
-	public function delete ($cacheID) {
-		$cacheID = $this->prefix.$cacheID;
-		
-		$cacheFile = $this->_getHashPath($cacheID);
+	public function delete ($key) {
+		$cacheFile = $this->_getHashPath($this->prefix.$key);
 		@unlink($cacheFile);
 	}
 	
@@ -241,22 +235,29 @@ class Cache_Driver_Memcache extends Cache_Abstract {
 	}
 	
 	public function fetch($key, $unserialize = false) {
-		$cacheID = $this->prefix.$key;
-		return $this->_memCache->get($cacheID);
+		$value = $this->_memCache->get($this->prefix.$key);
+		
+		if ( ($this->isSerialize) or ($unserialize) ){
+			$value = unserialize($value);
+		}
+		
+		return $value;
 	}
 	
-	public function store($cacheID, $cacheData, $parSet = array ()) {
+	public function store($key, $cacheData, $parSet = array ()) {
 		$params = array(
 			'expireTime'=> $this->expireTime,
 			'serialize'	=> false
 		);
-		foreach ($parSet as $key => $value) {
-			$params[$key] = $value;
+		foreach ($parSet as $k => $v) {
+			$params[$k] = $v;
 		}
 		
-		$cacheID = $this->prefix.$cacheID;
-
-		return $this->_memCache->set($cacheID, $cacheData, 0, $params['expireTime']);
+		if ( ($this->isSerialize) or ($params['serialize']) ){
+			$cacheData = serialize($cacheData);
+		}
+		
+		return $this->_memCache->set($this->prefix.$key, $cacheData, 0, $params['expireTime']);
 	}
 	
 	public function delete($key) {
@@ -291,22 +292,30 @@ class Cache_Driver_Rediska extends Cache_Abstract {
 		$cacheID = $this->prefix.$key;
 		
 		$key = new Rediska_Key($cacheID);
-		return $key->getValue();
+		$value = $key->getValue();
+		
+		if ( ($this->isSerialize) or ($unserialize) ){
+			$value = unserialize($value);
+		}
+		
+		return $value;
 	}
 	
-	public function store($cacheID, $cacheData, $parSet = array ()) {
+	public function store($key, $cacheData, $parSet = array ()) {
 		$params = array(
 			'expireTime'=> $this->expireTime,
 			'serialize'	=> false
 		);
-		foreach ($parSet as $key => $value) {
-			$params[$key] = $value;
+		foreach ($parSet as $k => $v) {
+			$params[$k] = $v;
 		}
 		
-		$cacheID = $this->prefix.$cacheID;
-		
-		$key = new Rediska_Key($cacheID);
+		$key = new Rediska_Key($this->prefix.$key);
 		$key->setExpire($params['expireTime']);
+		
+		if ( ($this->isSerialize) or ($params['serialize']) ){
+			$cacheData = serialize($cacheData);
+		}
 		
 		return $key->setValue($cacheData);
 	}
@@ -314,6 +323,44 @@ class Cache_Driver_Rediska extends Cache_Abstract {
 	public function delete($key) {
 		$key = new Rediska_Key($this->prefix.$key);
 		return $key->delete();
+	}
+}
+
+class Cache_Driver_Apc extends Cache_Abstract {
+	function __construct($Params) {
+	}
+	
+	function __destruct() {
+	}
+	
+	public function fetch($key, $unserialize = false) {
+		$value = apc_fetch($this->prefix.$key);
+		
+		if ( ($this->isSerialize) or ($unserialize) ){
+			$value = unserialize($value);
+		}
+		
+		return $value;
+	}
+	
+	public function store($key, $cacheData, $parSet = array ()) {
+		$params = array(
+			'expireTime'=> $this->expireTime,
+			'serialize'	=> false
+		);
+		foreach ($parSet as $k => $v) {
+			$params[$k] = $v;
+		}
+		
+		if ( ($this->isSerialize) or ($params['serialize']) ){
+			$cacheData = serialize($cacheData);
+		}
+		
+		return apc_store($this->prefix.$key, $cacheData, $params['expireTime']);
+	}
+	
+	public function delete($key) {
+		return apc_delete($this->prefix.$key);
 	}
 }
 ?>
