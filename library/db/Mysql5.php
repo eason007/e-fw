@@ -202,7 +202,7 @@ class DB_Driver_PDO {
 	) {
 		try
 		{
-			$this->dbConnect = new PDO('mysql:host='.$dbServer.';dbname='.$dbName, $dbUser, $dbPassword,
+			$this->dbConnect = @new PDO('mysql:host='.$dbServer.';dbname='.$dbName.';port='.$dbPort, $dbUser, $dbPassword,
 				array(
 					PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 					PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
