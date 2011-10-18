@@ -1,6 +1,4 @@
 <?php
-E_FW::load_File('exception_DB');
-
 /**
  * @package DB
  */

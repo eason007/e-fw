@@ -154,13 +154,15 @@ class DB_Mysql5 {
 	 * @return void
 	 */
 	public function rollBackT () {
-		switch ($this->_ConnectPond['dbType']) {
-			case 'Mysql':
-				$this->db->dbConnect->rollBack();
-				break;
+		if ($this->onTransact) {
+			switch ($this->_ConnectPond['dbType']) {
+				case 'Mysql':
+					$this->db->dbConnect->rollBack();
+					break;
+			}
+			
+			$this->onTransact = false;
 		}
-		
-		$this->onTransact = false;
 	}
 
 	/**
@@ -170,13 +172,15 @@ class DB_Mysql5 {
 	 * @return void
 	 */
 	public function commitT () {
-		switch ($this->_ConnectPond['dbType']) {
-			case 'Mysql':
-				$this->db->dbConnect->commit();
-				break;
+		if ($this->onTransact) {
+			switch ($this->_ConnectPond['dbType']) {
+				case 'Mysql':
+					$this->db->dbConnect->commit();
+					break;
+			}
+			
+			$this->onTransact = false;
 		}
-		
-		$this->onTransact = false;
 	}
 }
 
@@ -214,7 +218,7 @@ class DB_Driver_PDO {
 
 			return $this->dbConnect;
 		}
-		catch (PDOException $e)
+		catch (Exception $e)
 		{
 			if ($this->errCount < 3) {
 				$this->errCount++;
@@ -227,7 +231,7 @@ class DB_Driver_PDO {
 				);
 			}
 			else {
-				throw new exception_Game('Database Not Exists.'.$this->errCount++.'>>', 11);
+				throw new Exception('Database Not Connect', 11);
 			}
 		}
 	}
@@ -240,9 +244,9 @@ class DB_Driver_PDO {
 		try{
 			$result = $this->dbConnect->query($sSQL);
 		}
-		catch (PDOException $e)
+		catch (Exception $e)
 		{
-			throw new exception_Game('Query Error.', 12);
+			throw new Exception('Query Error.-=>'.$sSQL, 12);
 		}
 
 		return $result->fetchAll();
@@ -252,9 +256,9 @@ class DB_Driver_PDO {
 		try{
 			$result = $this->dbConnect->exec($sSQL);
 		}
-		catch (PDOException $e)
+		catch (Exception $e)
 		{
-			throw new exception_Game('Execute Error.', 13);
+			throw new Exception('Execute Error.-=>'.$sSQL, 13);
 		}
 		
 		switch ($type) {
