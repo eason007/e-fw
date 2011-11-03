@@ -242,7 +242,14 @@ class DB_Mongo {
 	 * @access public
 	 */
 	public function field ($p) {
-		$this->_field = $p;
+		$this->_field = explode(',', $p);
+		
+		function trim_key(&$value)
+		{
+			$value = trim($value);
+		}
+		array_walk($this->_field, 'trim_key');
+		$this->_field = array_fill_keys($this->_field, 1);
 		
 		return $this;
 	}
