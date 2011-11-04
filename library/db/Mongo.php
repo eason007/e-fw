@@ -177,7 +177,9 @@ class DB_Mongo {
 			$result = $result->sort($this->_order);
 		}
 		if ($this->_limit) {
-			$result = $result->limit($this->_limit);
+			$result = $result
+							->skip($this->_limit['offset'] * $this->_limit['length'])
+							->limit($this->_limit['length']);
 		}
 		
 		if ($params['isCount']){
